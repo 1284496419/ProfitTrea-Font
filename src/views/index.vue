@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import topbar from '@/components/Topbar.vue'
+import topbar from '@/components/topbar.vue'
 export default {
   name: 'index',
   components: {

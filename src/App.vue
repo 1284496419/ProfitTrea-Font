@@ -2,7 +2,7 @@
   <div id="app">
     <!-- 登录页背景图片  -->
     <div class="login-img">
-      <img src="../static/images/profittrea.jpg" alt="图片正在加载" />
+      <img src="../static/images/profittrea.jpg" alt="图片正在加载中……" />
     </div>
   </div>
 </template>

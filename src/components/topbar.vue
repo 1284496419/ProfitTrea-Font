@@ -74,6 +74,7 @@ export default {
   margin-left: 400px;
   margin-top: 30px;
   width: 20px;
+  border: none;
 }
 #person{
   margin-left: 30px;

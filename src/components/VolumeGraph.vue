@@ -1,0 +1,19 @@
+<template>
+  <div id="volume-graph">
+    <el-row>
+      <el-col :span="12"><div class="grid-content bg-purple"></div></el-col>
+      <el-col :span="12"><div class="grid-content bg-purple-light"></div></el-col>
+    </el-row>
+  </div>
+</template>
+
+<script>
+</script>
+
+<style scoped>
+.el-row{
+  background-color: #CD3333;
+  opacity: 75%;
+  height: 300px;
+}
+</style>

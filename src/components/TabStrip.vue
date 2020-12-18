@@ -38,23 +38,18 @@ export default {
 
 <style scoped>
 .el-menu{
-  /* 阴影颜色 水平偏移量  垂直偏移量  模糊距离 阴影尺寸 */
-  box-shadow:#CD3333 34px -8px 80px 80px;
   margin-top: 20px;
-  opacity: 55%;
+  opacity: 70%;
+  /* background-color: rgba(205, 51, 51, -100%); */
   width: 83.3%;
 }
 .el-menu-item{
-  border-top-color: black;
   font-weight: 300;
   width: 150px;
   text-align: center;
 }
 #t-market{
   margin-left: 80px;
-}
-.el-row{
-  /* box-shadow:#CD3333 34px -8px 99px 99px; */
 }
 .el-row .el-col{
   height: 500px;

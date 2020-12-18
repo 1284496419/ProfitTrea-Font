@@ -12,8 +12,6 @@
 
 <style scoped>
 .el-row{
-  background-color: #CD3333;
-  opacity: 75%;
-  height: 300px;
+  height: 574px;
 }
 </style>

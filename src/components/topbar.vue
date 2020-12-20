@@ -16,7 +16,7 @@
     <el-menu-item index="3">服务</el-menu-item>
     <i class="el-icon-search" id="search"></i>
     <i class="el-icon-user-solid" id="person"></i>
-    <el-button id="login">登录</el-button>
+    <el-button id="login" @click="login">登录</el-button>
   </el-menu>
 </template>
 
@@ -37,6 +37,9 @@ export default {
   methods: {
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
+    },
+    login () {
+      this.$router.push({ path: '/login' })
     }
   }
 }

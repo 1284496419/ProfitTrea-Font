@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Index from '../views/index.vue'
 import Login from '../views/login.vue'
 import Error from '../views/error.vue'
+import Transaction from '../views/transaction.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,6 +29,11 @@ const routes = [
     path: '/error',
     name: 'error',
     component: Error
+  },
+  {
+    path: '/transaction',
+    name: 'transaction',
+    component: Transaction
   }
 ]
 

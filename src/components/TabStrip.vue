@@ -154,6 +154,7 @@ export default {
   background-color: white;
 }
 .enter{
+  cursor: pointer;
   margin-top: 15px;
 }
 .tr-title{

@@ -4,6 +4,7 @@ import Index from '../views/index.vue'
 import Login from '../views/login.vue'
 import Error from '../views/error.vue'
 import Transaction from '../views/transaction.vue'
+import Market from '../views/market.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -34,6 +35,11 @@ const routes = [
     path: '/transaction',
     name: 'transaction',
     component: Transaction
+  },
+  {
+    path: '/market',
+    name: 'market',
+    component: Market
   }
 ]
 

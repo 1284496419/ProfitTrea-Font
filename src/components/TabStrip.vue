@@ -30,7 +30,7 @@
             </p>
           </el-col>
           <el-col class="address">
-            <div class="enter">
+            <div class="enter" @click="enter_Market">
               <i class="el-icon-right"></i>
               <span>我们的市场</span>
             </div>
@@ -124,6 +124,9 @@ export default {
     },
     indexMethod (name) {
       return name
+    },
+    enter_Market () {
+      this.$router.push('/market')
     }
   }
 }
@@ -151,6 +154,7 @@ export default {
   background-color: white;
 }
 .enter{
+  cursor: pointer;
   margin-top: 15px;
 }
 .tr-title{

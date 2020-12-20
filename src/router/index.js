@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '../views/index.vue'
 import Login from '../views/login.vue'
-
+import Error from '../views/error.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -23,6 +23,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/error',
+    name: 'error',
+    component: Error
   }
 ]
 

@@ -1,6 +1,8 @@
 <template>
   <div class="market">
     <topbar></topbar>
+    <div class="m-main">
+    </div>
   </div>
 </template>
 
@@ -15,4 +17,10 @@ export default {
 </script>
 
 <style>
+.m-main{
+  width: 100%;
+  height: 1000px;
+  background-size: 100% auto;
+  background-image: url(../../static/images/profittrea.jpg);
+}
 </style>

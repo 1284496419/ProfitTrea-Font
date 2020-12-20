@@ -39,7 +39,7 @@ export default {
       console.log(key, keyPath)
     },
     login () {
-      this.$router.push({ path: '/login' })
+      this.$router.push({ path: '/error' })
     }
   }
 }

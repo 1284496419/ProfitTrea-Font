@@ -1,10 +1,17 @@
 <template>
   <div class="market">
-    这是市场页面
+    <topbar></topbar>
   </div>
 </template>
 
 <script>
+import topbar from '@/components/topbar.vue'
+export default {
+  name: 'market',
+  components: {
+    topbar
+  }
+}
 </script>
 
 <style>

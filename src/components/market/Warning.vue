@@ -4,6 +4,7 @@
     <div>
       <div class="w-main1">
         <span>最近的预警</span>
+        <span>查看全部</span>
       </div>
       <div class="w-main2">
         <i class="el-icon-bottom"></i>
@@ -50,7 +51,15 @@
   width: 16%;
   height: 200px;
 }
+.w-main1 span{
+  display: inline-block;
+  margin-left: 40px;
+  margin-top: 40px;
+  font-size: 18px;
+}
 .w-main2{
+  box-sizing: border-box;
+  border-left: 2px solid #8B0000;
   text-align: center;
   float: left;
   width: 28%;

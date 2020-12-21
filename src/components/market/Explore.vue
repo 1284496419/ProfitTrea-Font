@@ -21,7 +21,7 @@
 
 <style>
 .explore{
-  height: 750px;
+  height: 830px;
   width: 90%;
   background-color: rgba(205,51,51,80%);
   margin: auto;
@@ -35,10 +35,11 @@
 }
 .e-main{
   width: 93.5%;
-  height: 90%;
+  height: 80%;
   margin: auto;
 }
 .e-main-block{
+  margin-top: 30px;
   width: 100%;
   height: 50%;
 }

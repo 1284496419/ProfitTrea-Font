@@ -65,7 +65,6 @@ export default {
   width: 25%;
   height: 70%;
   margin: auto;
-  /* text-align: center; */
 }
 .el-avatar{
   display: inline-block;

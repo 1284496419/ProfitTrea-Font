@@ -1,72 +1,23 @@
 <template>
-  <div id="login">
-    <!-- 登录页背景图片  -->
-    <h1><a @click="toIndex">ProfitTrea</a></h1>
-    <div class="login-bord">
-      <div class="head">
-        <el-avatar :size="100" src="https://empty" @error="errorHandler">
-          <img src="../../static/images/head.jpg" width="100%" height="100%"/>
-        </el-avatar>
-      </div>
-      <el-form :model="ruleForm" status-icon :rules="rules"  label-width="30px" label-position="top" ref="ruleForm">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="ruleForm.username"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-    <div class="login-img">
+  <div class="login">
+    <h1 class="toIndex" @click="toIndex">ProfitTrea</h1>
+    <Form></Form>
+    <!-- <h1><a @click="toIndex">ProfitTrea</a></h1> -->
+    <!-- <div class="login-img">
       <img src="../../static/images/profittrea.jpg" alt="图片正在加载中……" />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import Form from '@/components/login/Form.vue'
+
 export default {
-  data () {
-    var validateUser = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入用户名'))
-      }
-    }
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
-      }
-    }
-    return {
-      ruleForm: {
-        username: '',
-        password: ''
-      },
-      rules: {
-        username: [
-          { validator: validateUser, trigger: 'blur' }
-        ],
-        password: [
-          { validator: validatePass, trigger: 'blur' }
-        ]
-      }
-    }
+  components: {
+    Form
   },
   methods: {
-    submitForm (formName) {
-      alert('submit')
-    },
-    resetForm (formName) {
-      this.$refs[formName].resetFields()
-    },
-    errorHandler () {
-      return true
-    },
     toIndex () {
-      console.log('首页')
       this.$router.push('/')
     }
   }
@@ -78,20 +29,32 @@ export default {
     margin: 0;
     padding: 0;
   }
-  h1{
+  .login{
+    margin: auto;
+    width: 100%;
+    height: 800px;
+    /* 控制禁止滚动 */
+    background-size: 100% auto;
+    background-image: url(../../static/images/profittrea.jpg);
     text-align: center;
+  }
+  .toIndex{
     color: #DC143C;
     font-size: 45px;
-    display: block;
-    position: absolute;
+    display: inline-block;
+    margin: auto;
+    cursor: pointer;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    /* position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    margin-top: 50px;
+    margin-top: 50px; */
     /* margin: 10px 0 0 ; */
   }
-  a{
+  /* a{
     text-decoration: none;
     color: #DC143C;
     cursor: pointer;
@@ -99,7 +62,6 @@ export default {
   .login-img{
     width: 100%;
     height: 50rem;
-    /* 控制禁止滚动 */
     overflow: hidden;
     z-index: 100;
   }
@@ -139,7 +101,7 @@ export default {
   }
   .el-input{
     width: 80%;
-  }
+  } */
   /*
     不允许空行否则会报错
     Trailing spaces not allowed no-trailing-spaces

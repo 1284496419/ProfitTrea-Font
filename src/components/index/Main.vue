@@ -5,8 +5,10 @@
       <h3 id="resolve">解决方案</h3>
       <h3 id="help">我们为您提供帮助</h3>
     </div>
-    <Tabline></Tabline>
-    <Graph></Graph>
+    <div class="container">
+      <Tabline></Tabline>
+      <Graph></Graph>
+    </div>
   </div>
 </template>
 
@@ -40,5 +42,8 @@ export default {
 #resolve{
   color: #EEEE00;
   font-size: 18px;
+}
+.container{
+  background-color: rgba(205,51,51,45%);
 }
 </style>

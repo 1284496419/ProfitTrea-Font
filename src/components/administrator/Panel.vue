@@ -2,7 +2,7 @@
   <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="用户列表" name="first">
       <span class="username-label">用户名：</span>
-      <el-input v-model="username"></el-input>
+      <el-input v-model="username" class="username-input"></el-input>
       <span class="date-label">创建时间：</span>
       <el-date-picker
         v-model="value2"
@@ -114,7 +114,7 @@ export default {
 .el-tab-pane{
   margin-top: 30px;
 }
-.el-input{
+.username-input{
   margin-right: 50px;
   width: 30%;
 }

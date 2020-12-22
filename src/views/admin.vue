@@ -1,5 +1,6 @@
 <template>
   <div class="admin">
+    <Top></Top>
     <Navigator></Navigator>
     <!-- <Feature></Feature> -->
     <Panel></Panel>
@@ -8,6 +9,7 @@
 
 <script>
 import Navigator from '@/components/administrator/Navigator.vue'
+import Top from '@/components/administrator/Top.vue'
 // import Feature from '@/components/administrator/Feature.vue'
 import Panel from '@/components/administrator/Panel.vue'
 export default {
@@ -15,7 +17,8 @@ export default {
   components: {
     Navigator,
     // Feature
-    Panel
+    Panel,
+    Top
   }
 }
 </script>

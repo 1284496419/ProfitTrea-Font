@@ -2,7 +2,7 @@
   <div id="index">
     <!-- 登录页背景图片  -->
     <topbar/>
-    <div class="main">
+    <!-- <div class="main">
       <span>多样化证券交易模拟平台</span>
       <div class="head">
         <span id="resolve">解决方案</span>
@@ -12,24 +12,24 @@
         <TabStrip/>
         <VolumeGraph/>
       </div>
-    </div>
-    <Footers/>
+    </div> -->
+    <Main></Main>
+    <!-- <Footer/> -->
     <!-- <img src="../../static/images/profittrea.jpg" alt="图片正在加载中……" /> -->
   </div>
 </template>
 
 <script>
 import topbar from '@/components/topbar.vue'
-import TabStrip from '@/components/TabStrip.vue'
-import VolumeGraph from '@/components/VolumeGraph.vue'
-import Footers from '@/components/Footers.vue'
+import Main from '@/components/index/Main.vue'
+// import VolumeGraph from '@/components/VolumeGraph.vue'
+// import Footer from '@/components/index/Footer.vue'
 export default {
   name: 'index',
   components: {
     topbar,
-    TabStrip,
-    VolumeGraph,
-    Footers
+    Main
+    // Footer
   }
 }
 </script>

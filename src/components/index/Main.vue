@@ -26,9 +26,14 @@ export default {
 
 <style>
 .main{
+  width: 100%;
+  height: 1728px;
+  background-size: 100% auto;
+  background-image: url('../../../static/images/profittrea.jpg');
   color: white;
   font-size: 30px;
 }
+
 .platform{
   display: inline-block;
   margin: 230px 0 0 80px;
@@ -44,6 +49,7 @@ export default {
   font-size: 18px;
 }
 .container{
+  height: 1150px;
   background-color: rgba(205,51,51,45%);
 }
 </style>

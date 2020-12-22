@@ -1,15 +1,18 @@
 <template>
   <div class="transaction">
     <topbar/>
-    <span id="t-title">抓住商机最大程度地降低交易市场中的风险</span>
-    <div class="t-bg">
-      <Activities></Activities>
-      <Delivery></Delivery>
-      <Cancel></Cancel>
-      <Query></Query>
-      <Capital></Capital>
-      <Foot></Foot>
+    <div class="bg-img">
+      <h2 id="t-title">抓住商机最大程度地降低交易市场中的风险</h2>
+      <div class="t-main">
+        <div class="t-bg"></div>
+        <Activities></Activities>
+        <Delivery></Delivery>
+        <Cancel></Cancel>
+        <Query></Query>
+        <Capital></Capital>
+      </div>
     </div>
+    <Foot></Foot>
   </div>
 </template>
 
@@ -37,27 +40,33 @@ export default {
 </script>
 
 <style>
-.transaction{
-  color: white;
+/* .transaction{
   width: 100%;
-  height: 2000px;
+} */
+.bg-img{
+  color: white;
   background-size: 100% auto;
-  background-image: url('../../static/images/profittrea.jpg');
+  background-image: url(../../static/images/profittrea.jpg);
 }
-.t-bg > div{
+.t-main > div:not(:first-child){
   margin: auto;
   height: 470px;
   width: 90%;
 }
+.t-main{
+  height: 2700px;
+}
 #t-title{
   width: 700px;
   margin: 140px 0 200px 80px;
-  font-size: 60px;
+  font-size: 45px;
   display: inline-block;
 }
 .t-bg{
+  margin-top: 50px;
+  position: absolute;
   width: 100%;
-  height: 2000px;
+  height: 2700px;
   /* 使用rgba子元素不会继承父元素的透明度 */
   background-color: rgba(209,221,230,60%);
 }

@@ -20,6 +20,7 @@
 
 <style>
 .delivery {
+  padding-top: 90px;
   margin: auto;
   height: 470px;
   width: 90%;

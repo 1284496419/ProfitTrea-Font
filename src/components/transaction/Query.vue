@@ -11,4 +11,7 @@
 </script>
 
 <style>
+.query{
+  padding-top: 60px;
+}
 </style>

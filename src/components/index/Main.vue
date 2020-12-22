@@ -6,15 +6,18 @@
       <h3 id="help">我们为您提供帮助</h3>
     </div>
     <Tabline></Tabline>
+    <Graph></Graph>
   </div>
 </template>
 
 <script>
 import Tabline from '@/components/index/Tabline.vue'
+import Graph from '@/components/index/Graph.vue'
 export default {
   name: 'main',
   components: {
-    Tabline
+    Tabline,
+    Graph
   }
 }
 </script>

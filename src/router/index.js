@@ -5,6 +5,7 @@ import Login from '../views/login.vue'
 import Error from '../views/error.vue'
 import Transaction from '../views/transaction.vue'
 import Market from '../views/market.vue'
+import Admin from '../views/admin.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -40,6 +41,11 @@ const routes = [
     path: '/market',
     name: 'market',
     component: Market
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin
   }
 ]
 

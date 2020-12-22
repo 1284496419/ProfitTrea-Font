@@ -19,11 +19,6 @@
 </script>
 
 <style>
-/* .activities{
-  margin: auto;
-  height: 470px;
-  width: 90%;
-} */
 .title{
   box-sizing: border-box;
   border-left: 5px solid #CD0000;
@@ -47,7 +42,7 @@
   width: 32%;
 }
 .content{
-  background-color: #303133;
+  background-color: white;
   height: 420px;
   width: 100%;
 }

@@ -24,7 +24,7 @@
   height: 830px;
   width: 90%;
   background-color: rgba(205,51,51,80%);
-  margin: auto;
+  margin: 80px auto;
   border-radius: 10px;
 }
 .explore > span{

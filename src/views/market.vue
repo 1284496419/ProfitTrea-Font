@@ -29,7 +29,7 @@ export default {
 <style>
 .m-main{
   width: 100%;
-  height: 1600px;
+  height: 1650px;
   background-size: 100% auto;
   background-image: url(../../static/images/profittrea.jpg);
   margin-bottom: 100px;

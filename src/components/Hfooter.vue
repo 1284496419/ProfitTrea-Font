@@ -1,5 +1,5 @@
 <template>
-  <div id="hfooter">
+  <div class="hfooter">
     <el-row>
       <el-col :span="8">
         <ul>

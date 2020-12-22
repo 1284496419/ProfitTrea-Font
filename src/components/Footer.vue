@@ -9,10 +9,10 @@
     <el-row>
       <el-col :span="24">
         <!-- <div id="words"> -->
-          <p id="w-content">
+          <p class="copyright" id="w-content">
             ProfitTrea是多样化的证券交易模拟平台。提供优化的交易功能。实时获取每个交易日的交易量和未平仓量等更多信息，通过量化交易得到更优化策略。
           </p>
-          <span id="tag">&#169;2020 ProfitTrea Inc.保留所有权利</span>
+          <span id="tag" class="copyright">&#169;2020 ProfitTrea Inc.保留所有权利</span>
           <ul>
             <li id="statement">免责声明</li>
             <li>隐私政策</li>
@@ -55,6 +55,8 @@
   }
   .el-col{
     height: 100%;
+  }
+  .copyright{
     margin-left: 80px;
   }
   #w-content{

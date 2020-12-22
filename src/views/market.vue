@@ -5,7 +5,7 @@
       <Warning></Warning>
       <Explore></Explore>
     </div>
-    <Footers></Footers>
+    <Foot></Foot>
   </div>
 </template>
 
@@ -13,14 +13,14 @@
 import topbar from '@/components/topbar.vue'
 import Warning from '@/components/market/Warning.vue'
 import Explore from '@/components/market/Explore.vue'
-import Footers from '@/components/Footers.vue'
+import Foot from '@/components/index/Foot.vue'
 export default {
   name: 'market',
   components: {
     topbar,
     Warning,
     Explore,
-    Footers
+    Foot
   }
 }
 </script>

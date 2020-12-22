@@ -8,7 +8,7 @@
       <Cancel></Cancel>
       <Query></Query>
       <Capital></Capital>
-      <Footers></Footers>
+      <Foot></Foot>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@ import Cancel from '@/components/transaction/Cancel.vue'
 import Capital from '@/components/transaction/Capital.vue'
 import Delivery from '@/components/transaction/Delivery.vue'
 import Query from '@/components/transaction/Query.vue'
-import Footers from '@/components/Footers.vue'
+import Foot from '@/components/index/Foot.vue'
 
 export default {
   name: 'transaction',
@@ -31,7 +31,7 @@ export default {
     Capital,
     Delivery,
     Query,
-    Footers
+    Foot
   }
 }
 </script>

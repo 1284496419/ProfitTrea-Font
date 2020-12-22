@@ -1,8 +1,8 @@
 <template>
-  <div class="tabstrip">
+  <div class="tabline">
     <el-menu
     :default-active="activeIndex2"
-    class="el-menu-demo"
+    class="tabline-top"
     mode="horizontal"
     @select="handleSelect"
     background-color="#CD3333"
@@ -13,41 +13,30 @@
       <el-menu-item index="3">分析市场数据</el-menu-item>
       <el-menu-item index="4">优化交易</el-menu-item>
     </el-menu>
-    <el-row class="strip-main">
-      <el-col :span="12" id="t-left">
-        <div class="tr-main">
-          <el-row>
-            <el-col :span="24" class="tr-title">
-              <h1>市场交易所有主要资产类别</h1>
-            </el-col>
-          </el-row>
-          <el-col :span="24" class="tr-content">
-            <p>
-              通过将领先的技术作为策略的核心部分，
-              探索六种主要资产类别的产品，以找到机会，
-              使您的投资组合多样化并提高效率。
-              每周六天，每天24小时都可即时访问全球市场动荡的事件。
-            </p>
-          </el-col>
-          <el-col class="address">
-            <div class="enter" @click="enter_Market">
-              <i class="el-icon-right"></i>
-              <span>我们的市场</span>
-            </div>
-            <div class="enter">
-              <i class="el-icon-right"></i>
-              <span>每日交易量和未平仓量</span>
-            </div>
-          </el-col>
+    <el-row class="tabline-content">
+      <el-col :span="12" class="tabline-content-info">
+        <h2 class=" info info-title">市场交易所有主要资产类别</h2>
+        <p class="info info-content">
+          通过将领先的技术作为策略的核心部分，
+          探索六种主要资产类别的产品，以找到机会，
+          使您的投资组合多样化并提高效率。
+          每周六天，每天24小时都可即时访问全球市场动荡的事件。
+        </p>
+        <div class=" info jump our-market" @click="enter_Market">
+          <i class="el-icon-right"></i>
+          <span>我们的市场</span>
+        </div>
+        <div class=" info jump" @click="enter_Transaction">
+          <i class="el-icon-right"></i>
+          <span>每日交易</span>
         </div>
       </el-col>
-      <el-col :span="8" id="t-right">
-        <h2>全球指数</h2>
+      <el-col :span="8" class="tabline-content-data">
+        <h2 id="global">全球指数</h2>
         <el-table
           :data="tableData"
           stripe
-          style="width: 80%;"
-          >
+          style="width: 80%;" class="global-data">
           <el-table-column
             prop="stockname"
             width="120">
@@ -127,16 +116,18 @@ export default {
     },
     enter_Market () {
       this.$router.push('/market')
+    },
+    enter_Transaction () {
+      this.$router.push('/transaction')
     }
   }
 }
 </script>
 
 <style scoped>
-.el-menu{
+.tabline-top{
   margin-top: 20px;
   opacity: 70%;
-  /* background-color: rgba(205, 51, 51, -100%); */
   width: 83.3%;
 }
 .el-menu-item{
@@ -144,61 +135,47 @@ export default {
   width: 150px;
   text-align: center;
 }
-#t-market{
-  margin-left: 80px;
-}
-.strip-main > .el-col{
-  height: 500px;
-}
-#t-left{
+.tabline-content-info{
+  height: 450px;
   background-color: white;
 }
-.enter{
+.info{
+  color: #000000;
+  margin-left: 80px;
+}
+.info-title{
+  margin-top: 60px;
+}
+.info-content{
+  width: 80%;
+  font-size: 23px;
+  margin-top: 60px;
+  line-height: 35px;
+  /* text-indent: 20px; */
+}
+.our-market{
+  margin: 30px 0 10px 80px;
+}
+.jump{
   cursor: pointer;
-  margin-top: 15px;
-}
-.tr-title{
-  margin-top: 80px;
-}
-#t-right{
-  text-align: center;
-  background-color: #DC143C;
-  margin-top: -0.5px;
-}
-h1{
-  margin-left: 80px;
-  height: 50px;
-}
-h2{
-  color: white;
-  margin-top: 35px;
-  display: inline-block;
-}
-.tr-content{
-  font-size: 20px;
-  margin-left: 80px;
-  width: 650px;
-  height: 100px;
-}
-.el-table{
-  margin-left: 50px;
-  margin-top: 20px;
-}
-.el-table__row{
-  margin-top: 80px;
-  background-color: #DC143C;
-}
-/* 表格下划线 */
-.el-table td, .el-table th.is-leaf{
-  border-bottom: none;
-}
-.el-table th, .el-table tr{
-  background-color: #DC143C;
-}
-.address{
-  margin-top: 30px;
-  margin-left: 80px;
   font-size: 20px;
   color: #CD2626;
+}
+.tabline-content-data{
+  margin-top: -0.5px;
+  height: 450px;
+  background-color: #DC143C;
+  text-align: center;
+}
+#global{
+  margin-top: 35px;
+  font-size: 30px;
+  margin-bottom: 25px;
+}
+.el-table{
+  margin: auto;
+}
+.global-data{
+  color: #303133;
 }
 </style>

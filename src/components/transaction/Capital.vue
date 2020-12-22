@@ -11,4 +11,7 @@
 </script>
 
 <style>
+.capital{
+  padding-top: 60px;
+}
 </style>

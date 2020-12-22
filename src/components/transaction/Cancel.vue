@@ -11,4 +11,7 @@
 </script>
 
 <style>
+.cancel{
+  padding-top: 60px;
+}
 </style>

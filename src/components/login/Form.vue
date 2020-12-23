@@ -52,7 +52,8 @@ export default {
       var username = formName.username
       var password = formName.password
       if (username === 'admin' && password === '123456') {
-        this.$router.push('/admin')
+        this.$router.push({ name: 'admin', params: { user: username } })
+        console.log(this)
       }
     },
     resetForm (formName) {

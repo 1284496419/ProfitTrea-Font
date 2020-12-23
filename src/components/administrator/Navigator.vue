@@ -83,7 +83,4 @@ export default {
   background-color: #545c64;
   float: left;
 }
-.el-menu{
-  /* height: 800px; */
-}
 </style>

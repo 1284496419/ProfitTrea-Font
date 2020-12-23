@@ -5,7 +5,7 @@
       <div>
         <el-avatar :size="45" :src="circleUrl"></el-avatar>
         <el-button type="primary" class="signout-button">
-         管理员姓名<i class="el-icon-arrow-down el-icon--right"></i>
+         {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
       </div>
       <el-dropdown-menu slot="dropdown">
@@ -27,12 +27,20 @@ export default {
   data () {
     return {
       activeIndex: '1',
-      activeIndex2: '1'
+      activeIndex2: '1',
+      username: this.$route.params.user
+      // username: this.$router.params.user
     }
   },
+  /* mounted () {
+    console.log(this.$route.params)
+  }, */
   methods: {
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
+    },
+    toIndex () {
+      this.$router.push('/')
     },
     signOut () {
       this.$router.push('/login')
@@ -41,7 +49,8 @@ export default {
       const h = this.$createElement
       this.$notify({
         title: '提示',
-        message: h('i', { style: 'color: teal' }, '退出成功')
+        message: h('i', { style: 'color: teal' }, '退出成功'),
+        duration: 1500
       })
       this.$router.push('/')
     }
@@ -61,6 +70,7 @@ export default {
   cursor: pointer;
   font-size: 30px;
   float: left;
+  margin: 13px 0 0 20px;
 }
 .sign-out{
   float: right;

@@ -13,35 +13,19 @@
 
 <script>
 export default {
+  name: 'feature',
   data () {
     return {
-      editableTabsValue: '2',
-      editableTabs: [
-        {
-          title: 'Tab 1',
-          name: '1',
-          content: 'Tab 1 content'
-        },
-        {
-          title: 'Tab 2',
-          name: '2',
-          content: 'Tab 2 content'
-        }
-      ],
-      tabIndex: 2
+      editableTabsValue: '',
+      editableTabs: []
     }
   },
   methods: {
+    init (tab, value) {
+      this.editableTabs.push(tab)
+      this.editableTabsValue = value
+    },
     handleTabsEdit (targetName, action) {
-      if (action === 'add') {
-        const newTabName = ++this.tabIndex + ''
-        this.editableTabs.push({
-          title: 'New Tab',
-          name: newTabName,
-          content: 'New Tab content'
-        })
-        this.editableTabsValue = newTabName
-      }
       if (action === 'remove') {
         const tabs = this.editableTabs
         let activeName = this.editableTabsValue

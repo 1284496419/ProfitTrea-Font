@@ -6,6 +6,7 @@
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
+        @select="handleSelect($event)"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b">
@@ -15,8 +16,8 @@
             <span>服务大厅</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="1-1">在场服务</el-menu-item>
-            <el-menu-item index="1-2">历史服务</el-menu-item>
+            <el-menu-item index="在线服务">在场服务</el-menu-item>
+            <el-menu-item index="历史服务">历史服务</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -25,8 +26,8 @@
             <span>数据统计</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">交易量统计</el-menu-item>
-            <el-menu-item index="2-2">资产管理</el-menu-item>
+            <el-menu-item index="交易量统计">交易量统计</el-menu-item>
+            <el-menu-item index="资产管理">资产管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
          <el-submenu index="3">
@@ -35,8 +36,8 @@
             <span>权限管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="3-1">管理员管理</el-menu-item>
-            <el-menu-item index="3-2">角色管理</el-menu-item>
+            <el-menu-item index="管理员管理">管理员管理</el-menu-item>
+            <el-menu-item index="角色管理">角色管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">
@@ -45,7 +46,7 @@
             <span>用户管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="4-1">用户设置</el-menu-item>
+            <el-menu-item index="用户设置">用户设置</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="5">
@@ -54,8 +55,8 @@
             <span>系统设置</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="5-1">意见反馈</el-menu-item>
-            <el-menu-item index="5-2">站内信息</el-menu-item>
+            <el-menu-item index="意见反馈">意见反馈</el-menu-item>
+            <el-menu-item index="站内信息">站内信息</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -65,12 +66,22 @@
 
 <script>
 export default {
+  data () {
+    return {
+      tabs: [],
+      tabIndex: 2,
+      value: ''
+    }
+  },
   methods: {
     handleOpen (key, keyPath) {
-      console.log(key, keyPath)
     },
     handleClose (key, keyPath) {
-      console.log(key, keyPath)
+    },
+    handleSelect (key) {
+      // this.value = this.tabIndex + ''
+      // this.$emit('get', this.value)
+      this.$emit('select', key)
     }
   }
 }

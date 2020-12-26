@@ -50,6 +50,7 @@ export default {
 <style>
 .el-tabs{
   width: 84%;
+  margint-top: 30px;
   float: right;
 }
 </style>

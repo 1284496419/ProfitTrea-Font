@@ -12,7 +12,7 @@
         <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item id="button">
-        <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+        <el-button type="primary" @click="submitForm(ruleForm)">登录</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -49,7 +49,12 @@ export default {
   },
   methods: {
     submitForm (formName) {
-      alert('submit')
+      var username = formName.username
+      var password = formName.password
+      if (username === 'admin' && password === '123456') {
+        this.$router.push({ name: 'admin', params: { user: username } })
+        console.log(this)
+      }
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()

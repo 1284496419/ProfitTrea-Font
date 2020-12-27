@@ -29,14 +29,23 @@
           label="序号">
         </el-table-column>
         <el-table-column
-          property="date"
-          label="日期"
-          width="120">
+          property="studentnumber"
+          label="学号"
+          width="140">
         </el-table-column>
         <el-table-column
           property="name"
-          label="用户名"
-          width="120">
+          label="姓名"
+          width="140">
+        </el-table-column>
+        <el-table-column
+          property="account"
+          label="账号"
+          width="140">
+        </el-table-column>
+        <el-table-column
+          property="date"
+          label="创建时间">
         </el-table-column>
         <el-table-column
           property="operate"

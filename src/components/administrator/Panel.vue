@@ -1,5 +1,5 @@
 <template>
-  <el-tabs v-model="activeName" @tab-click="handleClick">
+  <el-tabs class="panel" v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="用户列表" name="first">
       <span class="username-label">用户名：</span>
       <el-input v-model="username" class="username-input"></el-input>
@@ -22,7 +22,6 @@
         ref="singleTable"
         :data="tableData"
         highlight-current-row
-        @current-change="handleCurrentChange"
         style="width: 100%">
         <el-table-column
           type="index"
@@ -52,6 +51,7 @@
 
 <script>
 export default {
+  name: 'panel',
   data () {
     return {
       activeName: 'first',
@@ -107,12 +107,9 @@ export default {
 </script>
 
 <style>
-.el-tabs{
-  width: 84%;
-  float: right;
-}
-.el-tab-pane{
-  margin-top: 30px;
+.panel{
+  width: 100%;
+  margin-right: 200px;
 }
 .username-input{
   margin-right: 50px;

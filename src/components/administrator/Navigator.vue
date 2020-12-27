@@ -1,15 +1,8 @@
 <template>
   <el-row class="navigator">
     <el-col :span="24">
-      <el-menu
-        default-active="2"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-        @select="handleSelect($event)"
-        background-color="#545c64"
-        text-color="#fff"
-        active-text-color="#ffd04b">
+      <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" @select="handleSelect($event)"
+        background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-s-platform"></i>
@@ -30,7 +23,7 @@
             <el-menu-item index="资产管理">资产管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-         <el-submenu index="3">
+        <el-submenu index="3">
           <template slot="title">
             <i class="el-icon-lock"></i>
             <span>权限管理</span>
@@ -65,33 +58,45 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      tabs: [],
-      tabIndex: 2,
-      value: ''
-    }
-  },
-  methods: {
-    handleOpen (key, keyPath) {
+  import Panel from '@/components/administrator/Panel.vue'
+  import Manager from '@/components/administrator/Manager.vue'
+  export default {
+    data() {
+      return {
+        tabs: [],
+        tabIndex: 2
+      }
     },
-    handleClose (key, keyPath) {
+    methods: {
+      handleOpen(key, keyPath) {},
+      handleClose(key, keyPath) {},
+      handleSelect(key) {
+        const tabs = {
+          title: key,
+          name: ++this.tabIndex + '',
+          content: ''
+        }
+        if (key === '用户设置') {
+          tabs.content = 'Panel'
+        }
+        else if (key === '管理员管理'){
+          tabs.content = 'Manager'
+        }
+        this.$emit('select', tabs)
+      }
     },
-    handleSelect (key) {
-      // this.value = this.tabIndex + ''
-      // this.$emit('get', this.value)
-      this.$emit('select', key)
+    components: {
+      Panel,
+      Manager
     }
   }
-}
 </script>
 
 <style>
-.navigator{
-  width: 15%;
-  height: 800px;
-  background-color: #545c64;
-  float: left;
-}
+  .navigator {
+    width: 15%;
+    height: 800px;
+    background-color: #545c64;
+    float: left;
+  }
 </style>

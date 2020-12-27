@@ -1,56 +1,76 @@
 <template>
   <el-tabs v-model="editableTabsValue" type="card" editable @edit="handleTabsEdit">
     <!-- v-for="(item, index) in editableTabs" -->
-    <el-tab-pane
-      v-for="(item) in editableTabs"
-      :key="item.name"
-      :label="item.title"
-      :name="item.name">
-      {{item.content}}
+    <!-- {{editableTabsValue}} -->
+    <el-tab-pane v-for="(item,val) in editableTabs" :key="item.name" :label="item.title" :name="item.name">
+      <component :is="item.content"></component>
+      <!-- <Panel></Panel> -->
+      <!-- <component :is="currentView"></component> -->
     </el-tab-pane>
   </el-tabs>
+
+
 </template>
 
 <script>
-export default {
-  name: 'feature',
-  data () {
-    return {
-      editableTabsValue: '',
-      editableTabs: []
-    }
-  },
-  methods: {
-    init (tab, value) {
-      this.editableTabs.push(tab)
-      this.editableTabsValue = value
-    },
-    handleTabsEdit (targetName, action) {
-      if (action === 'remove') {
-        const tabs = this.editableTabs
-        let activeName = this.editableTabsValue
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              const nextTab = tabs[index + 1] || tabs[index - 1]
-              if (nextTab) {
-                activeName = nextTab.name
-              }
-            }
-          })
-        }
-        this.editableTabsValue = activeName
-        this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+  import Feature from '@/components/administrator/Feature.vue'
+  import Panel from '@/components/administrator/Panel.vue'
+  import Manager from '@/components/administrator/Manager.vue'
+  export default {
+    name: 'feature',
+    data() {
+      return {
+        editableTabsValue: '',
+        editableTabs: [],
+        index: 0,
+        key: '',
+
+        myarr:[{
+          title: "1",
+          name: "111",
+          content: "Panel"
+        },{
+          title: "2",
+          name:"2222",
+          content: "Manager"
+        }]
       }
+    },
+    methods: {
+      init(tab) {
+        this.editableTabs.push(tab)
+        this.editableTabsValue = tab.name
+      },
+      handleTabsEdit(targetName, action) {
+        if (action === 'remove') {
+          const tabs = this.editableTabs
+          let activeName = this.editableTabsValue
+          if (activeName === targetName) {
+            tabs.forEach((tab, index) => {
+              if (tab.name === targetName) {
+                const nextTab = tabs[index + 1] || tabs[index - 1]
+                if (nextTab) {
+                  activeName = nextTab.name
+                }
+              }
+            })
+          }
+          this.editableTabsValue = activeName
+          this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+        }
+      }
+    },
+    components: {
+      Panel,
+      Manager
     }
   }
-}
 </script>
 
 <style>
-.el-tabs{
-  width: 84%;
-  margint-top: 30px;
-  float: right;
-}
+  .el-tabs {
+    width: 84%;
+    margint-top: 30px;
+    float: right;
+  }
 </style>

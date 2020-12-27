@@ -3,7 +3,7 @@
     <h3 @click="toIndex" class="logo">ProfitTrea</h3>
     <el-dropdown class="sign-out">
       <div>
-        <el-avatar :size="45" :src="circleUrl"></el-avatar>
+        <el-avatar :size="45"></el-avatar>
         <el-button type="primary" class="signout-button">
          {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>

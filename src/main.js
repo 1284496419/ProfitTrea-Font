@@ -3,8 +3,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import router from './router'
-import axios from 'axiox'
-axios.default.baseURL="http://localhost:8081/profittrea"
+import axios from 'axios'
+axios.defaults.baseURL="http://localhost:8081/profittrea"
 //设置每次请求可以挂在cookies
 axios.default.withCredentials = true
 Vue.config.productionTip = false

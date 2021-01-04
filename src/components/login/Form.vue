@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <el-avatar :size="100" src="https://empty" @error="errorHandler">
-      <img :src="../../../static/images/head.jpg" width="100%" height="100%"/>
+      <img src="../../../static/images/head.jpg" width="100%" height="100%"/>
     </el-avatar>
     <!-- label-position设置标签位置 -->
     <el-form :model="ruleForm" status-icon :rules="rules"  label-width="30px" label-position="top" ref="ruleForm">
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+// import axios from 'axios'
 export default {
   data () {
     var validateUser = (rule, value, callback) => {
@@ -51,6 +52,14 @@ export default {
     submitForm (formName) {
       var username = formName.username
       var password = formName.password
+      this.$axios.post("/login").then((successRes)=>{
+        if(successRes.status=100){
+          console.log(successRes)
+        }
+        console.log("success")
+      }).catch((error)=>{
+        console.log("error")
+      })
       if (username === 'admin' && password === '123456') {
         this.$router.push({ name: 'admin', params: { user: username } })
         console.log(this)
@@ -58,6 +67,9 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    errorHandler () {
+      console.log("error")
     }
   }
 }

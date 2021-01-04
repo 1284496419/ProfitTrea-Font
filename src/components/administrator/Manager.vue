@@ -69,10 +69,7 @@
           label: '平台管理员'
         }, {
           value: '选项2',
-          label: 'XXX管理员'
-        }, {
-          value: '选项3',
-          label: 'XXX管理员'
+          label: '组织管理员'
         }],
         value: '',
         radio: '全部'

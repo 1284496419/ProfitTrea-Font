@@ -1,7 +1,7 @@
 <template>
   <el-tabs class="panel" v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane label="用户列表" name="first">
-      <span class="username-label">用户名：</span>
+    <el-tab-pane label="组织列表" name="first">
+      <span class="username-label">组织名称：</span>
       <el-input v-model="username" class="username-input"></el-input>
       <span class="date-label">创建时间：</span>
       <el-date-picker
@@ -15,7 +15,7 @@
       </el-date-picker>
       <br/>
       <el-button class="btn" icon="el-icon-download">导出列表数据</el-button>
-      <el-button class="btn" type="primary" icon="el-icon-plus">新增用户</el-button>
+      <el-button class="btn" type="primary" icon="el-icon-plus">新增组织</el-button>
       <el-button class="btn" type="primary" icon="el-icon-search">查询</el-button>
       <el-button class="btn" icon="el-icon-refresh-left">重置</el-button>
       <el-table

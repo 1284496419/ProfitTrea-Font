@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <el-avatar :size="100" src="https://empty" @error="errorHandler">
-      <img src="../../../static/images/head.jpg" width="100%" height="100%"/>
+      <img :src="../../../static/images/head.jpg" width="100%" height="100%"/>
     </el-avatar>
     <!-- label-position设置标签位置 -->
     <el-form :model="ruleForm" status-icon :rules="rules"  label-width="30px" label-position="top" ref="ruleForm">

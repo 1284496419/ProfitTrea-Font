@@ -61,13 +61,12 @@ export default {
       this.$axios.post("/login",info,{headers:
 						{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}})
          .then((response) =>{
-           console.log(response.data)
            var username = response.data.data
-           console.log("user",username)
            this.$router.push({ name: 'admin', params: { user: username } })
          })
          .catch((error) =>{
            console.log(error)
+           this.$router.push({name: 'error'})
          })
     },
     resetForm (formName) {

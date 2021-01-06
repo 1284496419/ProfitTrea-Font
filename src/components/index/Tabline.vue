@@ -36,7 +36,7 @@
         <el-table
           :data="tableData"
           stripe
-          style="width: 80%;" class="global-data">
+          style="width: 90%;" class="global-data">
           <el-table-column
             prop="stockname"
             width="120">

@@ -9,7 +9,7 @@
 import Hfooter from '@/components/Hfooter.vue'
 import Footer from '@/components/Footer.vue'
 export default {
-  name: 'Footers',
+  name: "foot",
   components: {
     Hfooter,
     Footer

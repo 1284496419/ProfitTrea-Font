@@ -69,10 +69,7 @@
           label: '平台管理员'
         }, {
           value: '选项2',
-          label: 'XXX管理员'
-        }, {
-          value: '选项3',
-          label: 'XXX管理员'
+          label: '组织管理员'
         }],
         value: '',
         radio: '全部'
@@ -84,7 +81,7 @@
 
 <style>
   .manager {
-    margin: 30px 0 0 30px;
+    margin: 30px 0 0 20px;
   }
 
   .m-username {
@@ -97,7 +94,7 @@
   }
 
   .m-query {
-    margin: 0 15px 0 80px;
+    margin: 0 15px 0 40px;
   }
   .derive-and-build{
     margin-top: 30px;

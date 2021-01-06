@@ -20,6 +20,7 @@
 </template>
 
 <script>
+// import axios from 'axios'
 export default {
   data () {
     var validateUser = (rule, value, callback) => {
@@ -49,15 +50,30 @@ export default {
   },
   methods: {
     submitForm (formName) {
-      var username = formName.username
-      var password = formName.password
-      if (username === 'admin' && password === '123456') {
-        this.$router.push({ name: 'admin', params: { user: username } })
-        console.log(this)
-      }
+      var user_name = formName.username
+      var pass = formName.password
+      /*
+        parse和stringify方法的区别
+        parse将URL解析成对象的形式
+        stringify将对象 序列化成URL的形式以&进行拼接
+      */
+      var info = this.$qs.stringify({username:user_name,password:pass})
+      this.$axios.post("/login",info,{headers:
+						{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}})
+         .then((response) =>{
+           var username = response.data.data
+           this.$router.push({ name: 'admin', params: { user: username } })
+         })
+         .catch((error) =>{
+           console.log(error)
+           this.$router.push({name: 'error'})
+         })
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    errorHandler () {
+      console.log("error")
     }
   }
 }

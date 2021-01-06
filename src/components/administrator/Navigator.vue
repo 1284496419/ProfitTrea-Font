@@ -36,10 +36,10 @@
         <el-submenu index="4">
           <template slot="title">
             <i class="el-icon-user"></i>
-            <span>用户管理</span>
+            <span>组织管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="用户设置">用户设置</el-menu-item>
+            <el-menu-item index="组织设置">组织设置</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="5">
@@ -76,7 +76,7 @@
           name: ++this.tabIndex + '',
           content: ''
         }
-        if (key === '用户设置') {
+        if (key === '组织设置') {
           tabs.content = 'Panel'
         }
         else if (key === '管理员管理'){

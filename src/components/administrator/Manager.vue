@@ -81,7 +81,7 @@
 
 <style>
   .manager {
-    margin: 30px 0 0 30px;
+    margin: 30px 0 0 20px;
   }
 
   .m-username {
@@ -94,7 +94,7 @@
   }
 
   .m-query {
-    margin: 0 15px 0 80px;
+    margin: 0 15px 0 40px;
   }
   .derive-and-build{
     margin-top: 30px;

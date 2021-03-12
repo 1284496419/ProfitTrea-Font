@@ -1,33 +1,91 @@
 <template>
   <div class="warning">
-    <span id="w-title">市场预警</span>
-    <div>
-      <div class="w-main1">
-        <span id="nearest">最近的预警</span>
-        <span id="show-all">查看全部</span>
-      </div>
-      <div class="w-main2">
-        <div class="warning-content">
-          <i class="el-icon-bottom change"></i>
-          <span>E-迷你纳斯达克</span>
-          <p class="change">较上一交易日下跌1%</p>
-          <span class="change">3天前</span>
+    <div class="warning-title">
+      <h3 class="w-word">市场预警</h3>
+    </div>
+    <div class="warning-container">
+      <div class="warning-header">
+        <div class="wc-title">
+          <span>
+            最近的
+          </span>
+          <br/>
+          <span>预警</span>
         </div>
+        <a href="" class="show-all">查看全部</a>
       </div>
-      <div class="w-main2">
-        <div class="warning-content">
-          <i class="el-icon-bottom change"></i>
-          <span class="change">E-迷你纳斯达克</span>
-          <p class="change">较上一交易日下跌1%</p>
-          <span class="change">3天前</span>
+      <div class="warning-slider">
+        <div class="ws-content">
+          <a href="" class="ws-link">
+            <div class="ms-element">
+              <div class="movement">
+                <span class="el-icon-bottom"></span>
+              </div>
+              <div class="details">
+                <div class="product-name">
+                  <font>
+                    E-迷你纳斯达克100
+                  </font>
+                </div>
+                <div class="product-text">
+                  <font>较上一交易日上涨2％</font>
+                </div>
+                <div class="last-update">
+                  <font>
+                    一天前
+                  </font>
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
-      </div>
-      <div class="w-main2">
-        <div class="warning-content">
-          <i class="el-icon-bottom change"></i>
-          <span class="change">E-迷你纳斯达克</span>
-          <p class="change">较上一交易日下跌1%</p>
-          <span class="change">3天前</span>
+        <div class="ws-content">
+          <a href="" class="ws-link">
+            <div class="ms-element">
+              <div class="movement">
+                <span class="el-icon-bottom"></span>
+              </div>
+              <div class="details">
+                <div class="product-name">
+                  <font>
+                    E-迷你纳斯达克100
+                  </font>
+                </div>
+                <div class="product-text">
+                  <font>较上一交易日上涨2％</font>
+                </div>
+                <div class="last-update">
+                  <font>
+                    一天前
+                  </font>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="ws-content">
+          <a href="" class="ws-link">
+            <div class="ms-element">
+              <div class="movement">
+                <span class="el-icon-bottom"></span>
+              </div>
+              <div class="details">
+                <div class="product-name">
+                  <font>
+                    E-迷你纳斯达克100
+                  </font>
+                </div>
+                <div class="product-text">
+                  <font>较上一交易日上涨2％</font>
+                </div>
+                <div class="last-update">
+                  <font>
+                    一天前
+                  </font>
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -44,51 +102,70 @@
   background-color: white;
   margin: auto;
   border-radius: 10px;
+  color: #5a6874;
 }
-#w-title{
-  display: inline-block;
-  margin: 20px 0 15px 65px;
-  font-size: 26px;
+.warning-title{
+  font-size: 20px;
+  padding:2.5rem 0px 0px 1.875rem;
 }
-#nearest{
-  display: block;
-  margin-left: 65px;
-  font-size: 17px;
-  width: 60px;
-}
-#show-all{
-  margin: 30px 0 0 65px;
-  font-size: 13px;
-  display: block;
-  color: #CD0000;
-}
-.w-main1{
-  float: left;
-  width: 16%;
-  height: 150px;
-}
-.w-main1 span{
-  display: inline-block;
-  margin-left: 40px;
-  margin-top: 20px;
-  font-size: 18px;
-}
-.w-main2{
-  box-sizing: border-box;
-  border-left: 2px solid #8B0000;
-  text-align: center;
-  float: left;
-  width: 28%;
-  height: 150px;
-}
-.warning-content{
-  padding-top: 25px;
-  width: 40%;
-  margin: auto;
-  text-align: left;
-}
-.change{
-  display: inline-block;
+.wc-title{
   margin-top: 10px;
+  font-size: 16px;
+}
+.show-all{
+  display: inline-block;
+  margin-top: 25px;
+  color: royalblue;
+  font-size: 14px;
+}
+.warning-container{
+  margin-top: 1.25rem;
+}
+.warning-header{
+  margin-left: 1.875rem;
+  width: 10%;
+  float: left;
+}
+.warning-slider{
+  margin-left: 30px;
+  float: left;
+  width: 85%;
+}
+.ws-content{
+  margin-left: 5px;
+  padding-left: 30px;
+  border-left: 1px solid #8B0000;
+  float: left;
+  width: 30%;
+}
+.ws-link{
+  padding-top: 7px;
+  width: 100%;
+  display: inline-block;
+}
+.movement{
+  float: left;
+  width: 10%;
+}
+.details{
+  float: left;
+  width: 85%;
+}
+.product-name{
+  font-weight: bold;
+}
+.product-text{
+  margin-top: 10px;
+}
+.last-update{
+  margin-top:40px;
+  font-size: 10px;
+}
+.warning h3{
+  color: #112b4a;
+}
+a{
+  color: #5a6874;
+  text-decoration: none;
 }
 </style>

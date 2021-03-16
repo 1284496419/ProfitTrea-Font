@@ -8,7 +8,7 @@
         <el-date-picker v-model="value2" type="datetimerange" :picker-options="pickerOptions" range-separator="To"
           start-placeholder="Start date" end-placeholder="End date" align="right">
         </el-date-picker>
-        <br />
+        <br/>
         <el-button class="btn" icon="el-icon-download">导出列表数据</el-button>
         <el-button class="btn" type="primary" icon="el-icon-plus" @click="addOrganize">新增组织</el-button>
         <el-button class="btn" type="primary" icon="el-icon-search">查询</el-button>

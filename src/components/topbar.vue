@@ -58,8 +58,8 @@
           <template slot="title">服务</template>
           <el-submenu index="3-1">
             <template slot="title">优化交易</template>
-            <el-menu-item index="2-3-1">量化交易</el-menu-item>
-            <el-menu-item index="2-3-2">优化策略分析</el-menu-item>
+            <el-menu-item index="3-1-1">量化交易</el-menu-item>
+            <el-menu-item index="3-2-2">优化策略分析</el-menu-item>
           </el-submenu>
           <el-submenu index="3-2">
             <template slot="title">结算和保管</template>

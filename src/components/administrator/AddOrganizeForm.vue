@@ -9,23 +9,24 @@
           <el-input v-model="form.email" placeholder="请输入电子邮箱"></el-input>
         </el-form-item>
         <el-form-item label="所在地区">
-          <el-cascader :options="options" :props="{ checkStrictly: true }" clearable></el-cascader>
+          <el-cascader v-model="value" :options="options" @change="handleChange"></el-cascader>
         </el-form-item>
         <el-form-item label="详细地址">
           <el-input v-model="form.address" placeholder="请输入详细地址"></el-input>
         </el-form-item>
-        <el-form-item label="活动性质">
+        <!-- <el-form-item label="活动性质">
           <el-checkbox-group v-model="form.type">
             <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
             <el-checkbox label="地推活动" name="type"></el-checkbox>
             <el-checkbox label="线下主题活动" name="type"></el-checkbox>
             <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
           </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="特殊资源">
-          <el-radio-group v-model="form.resource">
-            <el-radio label="线上品牌商赞助"></el-radio>
-            <el-radio label="线下场地免费"></el-radio>
+        </el-form-item> -->
+        <el-form-item label="组织性质">
+          <el-radio-group v-model="form.type">
+            <el-radio label="学校"></el-radio>
+            <el-radio label="公司"></el-radio>
+            <el-radio label="个人"></el-radio>
           </el-radio-group>
         </el-form-item>
         <!-- <el-form-item>
@@ -51,16 +52,31 @@
           name: '',
           email: '',
           address: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        }
+          // delivery: false,
+          type: ''
+          // desc: ''
+        },
+        value: [],
+        options: [{
+          value: 'zhinan',
+          label: '指南',
+          children: [{
+            value: 'shejiyuanze',
+            label: '设计原则',
+            children: [{
+              value: 'yizhi',
+              label: '一致'
+            }]
+          }]
+        }]
       };
     },
     methods: {
       init(status) {
         this.dialogVisible = status
+      },
+      muted(){
+        
       },
       handleClose(done) {
         this.$confirm('确认关闭？')
@@ -69,9 +85,12 @@
           })
           .catch(_ => {});
       },
+      handleChange(value){
+      },
       onSubmit() {
         this.dialogVisible = false
-        console.log('submit!');
+        console.log(this.form);
+        console.log(this.value);
       }
     }
   };

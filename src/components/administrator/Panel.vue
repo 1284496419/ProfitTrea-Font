@@ -97,7 +97,7 @@
 <style>
   .panel {
     width: 100%;
-    margin-right: 200px;
+    margin-right: 180px;
   }
 
   .username-input {

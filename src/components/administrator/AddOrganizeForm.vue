@@ -24,8 +24,7 @@
         </el-form-item> -->
         <el-form-item label="组织性质">
           <el-radio-group v-model="form.type">
-            <el-radio label="学校"></el-radio>
-            <el-radio label="公司"></el-radio>
+            <el-radio label="团体"></el-radio>
             <el-radio label="个人"></el-radio>
           </el-radio-group>
         </el-form-item>
@@ -75,8 +74,8 @@
       init(status) {
         this.dialogVisible = status
       },
-      muted(){
-        
+      muted() {
+
       },
       handleClose(done) {
         this.$confirm('确认关闭？')
@@ -85,12 +84,46 @@
           })
           .catch(_ => {});
       },
-      handleChange(value){
-      },
+      handleChange(value) {},
       onSubmit() {
+        var organize_name = this.form.name
+        var organize_email = this.form.email
+        var organize_location = {
+          'province': this.value[0],
+          'city': this.value[1],
+          'town': this.value[2]
+        }
+        var organize_address = this.form.address
+        var organize_type = this.form.type
+        var organize = JSON.stringify({
+          organizeName: organize_name,
+          organizeEmail: organize_email,
+          organizeLocation: organize_location,
+          organizeAddress: organize_address,
+          organizeType: organize_type
+        })
         this.dialogVisible = false
-        console.log(this.form);
-        console.log(this.value);
+        this.$axios.post("/organize/ADD||ORGANIZE.do", organize, {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          })
+          .then((response) => {
+            this.$message({
+              message: '恭喜你，这是一条成功消息',
+              type: 'success'
+            });
+            /* var username = response.data.data
+            this.$router.push({ name: 'admin', params: { user: username } }) */
+          })
+          .catch((error) => {
+            this.$message.error('错了哦，这是一条错误消息');
+            /* this.$router.push({
+              name: 'error'
+            }) */
+          })
+        // console.log(this.form);
+        // console.log(this.value);
       }
     }
   };

@@ -52,17 +52,30 @@ export default {
     submitForm (formName) {
       var user_name = formName.username
       var pass = formName.password
+      console.log(user_name)
       /*
         parse和stringify方法的区别
         parse将URL解析成对象的形式
         stringify将对象 序列化成URL的形式以&进行拼接
       */
-      var info = this.$qs.stringify({username:user_name,password:pass})
+      var info = JSON.stringify({
+        userName:user_name,
+        password:pass})
       this.$axios.post("/login",info,{headers:
-						{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}})
+						{'Content-Type':'application/json;charset=UTF-8'}})
          .then((response) =>{
-           var username = response.data.data
-           this.$router.push({ name: 'admin', params: { user: username } })
+           if(response.data.data !== null){
+             this.$message({
+               message: '登录成功',
+               type: 'success'
+             });
+             var username = response.data.data
+             this.$router.push({ name: 'admin', params: { user: username } })
+           }else{
+             this.$message.error('用户名或密码错误');
+             this.$router.push({ name: 'login'})
+           }
+
          })
          .catch((error) =>{
            console.log(error)

@@ -1,50 +1,55 @@
 <template>
-  <div class="manager">
-    <span class="username-label">用户名：</span>
-    <el-input v-model="username" class="m-username" placeholder="请输入用户账号/名称/手机"></el-input>
-    <span class="role-label">角色查询：</span>
-    <el-select v-model="value" placeholder="角色">
-      <el-option class="m-role" v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-      </el-option>
-    </el-select>
-    <span class="status-label">状态：</span>
-    <el-radio-group v-model="radio" size="medium">
-      <el-radio-button label="全部"></el-radio-button>
-      <el-radio-button label="启用"></el-radio-button>
-      <el-radio-button label="禁用"></el-radio-button>
-    </el-radio-group>
-    <br />
-    <el-button class="m-query" type="primary" icon="el-icon-search">查询</el-button>
-    <el-button class="m-reset" icon="el-icon-refresh-left">重置</el-button>
-    <div class="derive-and-build">
-      <el-button class="m-derive" icon="el-icon-download">导出列表数据</el-button>
-      <el-button class="m-build" type="primary" icon="el-icon-plus" @click="setDialog">新建管理员</el-button>
-    </div>
-    <el-table ref="singleTable" :data="tableData" highlight-current-row style="width: 90%">
-      <el-table-column type="index" width="140" label="序号">
-      </el-table-column>
-      <el-table-column property="account" label="账号" width="140">
-      </el-table-column>
-      <el-table-column property="role" label="角色" width="140">
-      </el-table-column>
-      <el-table-column property="name" label="姓名">
-      </el-table-column>
-      <el-table-column property="phonenumber" label="手机号码">
-      </el-table-column>
-      <el-table-column property="createtime" label="创建时间">
-      </el-table-column>
-      <el-table-column property="operate" label="操作">
-      </el-table-column>
-    </el-table>
+  <div>
+    <el-tabs class="panel" v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="管理员列表" name="first">
+        <span class="username-label">用户名：</span>
+        <el-input v-model="username" class="username-input"></el-input>
+        <span class="username-label">管理员类型：</span>
+        <el-select v-model="value" placeholder="请选择">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+        <br />
+        <el-button class="btn" icon="el-icon-download">导出列表数据</el-button>
+        <el-button class="btn" type="primary" icon="el-icon-plus" @click="addManager">新增管理员</el-button>
+        <el-button class="btn" type="primary" icon="el-icon-search">查询</el-button>
+        <el-button class="btn" icon="el-icon-refresh-left">重置</el-button>
+        <el-table :data="tableData" border style="width: 100%">
+          <el-table-column fixed prop="userId" label="账号" width="150">
+          </el-table-column>
+          <el-table-column prop="userName" label="用户名" width="120">
+          </el-table-column>
+          <el-table-column prop="email" label="邮箱" width="120">
+          </el-table-column>
+          <el-table-column prop="organize" label="所属组织" width="120">
+          </el-table-column>
+          <el-table-column prop="realName" label="姓名" width="300">
+          </el-table-column>
+          <el-table-column prop="status" label="状态" width="120">
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="100">
+            <template slot-scope="scope">
+              <el-button @click="managerEdit(scope.row)" type="text" size="small">编辑</el-button>
+              <el-button @click="managerDelete(scope.row)" type="text" size="small">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="待审核" name="second">待审核</el-tab-pane>
+      <el-tab-pane label="审核不通过" name="third">审核不通过</el-tab-pane>
+    </el-tabs>
+    <AddManager ref="setDialogVisible"></AddManager>
   </div>
 </template>
 
 <script>
-  import AddOrganizeForm from '@/components/administrator/AddOrganizeForm.vue'
+  import AddManager from '@/components/administrator/AddManager.vue'
   export default {
-    name: 'manager',
+    name: 'panel',
     data() {
       return {
+        activeName: 'first',
+        username: '',
         options: [{
           value: '选项1',
           label: '平台管理员'
@@ -53,45 +58,90 @@
           label: '组织管理员'
         }],
         value: '',
-        radio: '全部'
+        tableData: []
       }
     },
-    methods:{
-      setDialog(){
-        this.$refs.dialog.init(true)
+    methods: {
+      handleClick(tab, event) {
+        console.log(tab, event)
+      },
+      managerEdit(row) {
+        console.log(row)
+      },
+      managerDelete(row) {
+        var manager = JSON.stringify({
+          userId: row.userId,
+        })
+        console.log(manager)
+        this.$axios.post("/user/DELETE||USER.do", manager, {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          })
+          .then((response) => {
+            if (response.data.code == 100) {
+              this.$message({
+                message: response.data.msg,
+                type: 'success'
+              });
+            } else {
+              this.$message.error(response.data.msg);
+            }
+          })
+          .catch((error) => {
+            this.$message.error('系统异常');
+          })
+        this.tableData = []
+        this.$axios.get("/user/QUERY||USER.do")
+          .then((response) => {
+
+            var array = response.data.data
+            array.forEach((item, i) => {
+              this.tableData.push(item)
+            })
+          })
+          .catch((error) => {
+            this.$message.error('系统异常');
+          })
+      },
+      addManager() {
+        this.$refs.setDialogVisible.init(true)
       }
+    },
+    components: {
+      AddManager
+    },
+    mounted() {
+      this.$axios.get("/user/QUERY||USER.do")
+        .then((response) => {
+          var array = response.data.data
+          array.forEach((item, i) => {
+            this.tableData.push(item)
+          })
+        })
+        .catch((error) => {
+          this.$message.error('系统异常');
+        })
     }
   }
 </script>
 
 <style>
-  .manager {
-    margin: 30px 0 0 20px;
+  .panel {
+    width: 100%;
+    margin-right: 180px;
   }
 
-  .m-username {
-    width: 300px;
-    margin-right: 30px;
+  .username-input {
+    margin-right: 50px;
+    width: 30%;
   }
 
-  .status-label {
-    margin-left: 30px;
+  .btn {
+    margin: 30px 20px 0 0;
   }
 
-  .m-query {
-    margin: 30px 15px 0 0px;
-  }
-
-  .m-reset {
+  .el-table {
     margin-top: 30px;
-  }
-
-  .derive-and-build {
-    margin-top: 30px;
-  }
-
-  .m-build {
-    float: right;
-    margin-right: 125px;
   }
 </style>

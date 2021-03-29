@@ -16,6 +16,7 @@
   import Feature from '@/components/administrator/Feature.vue'
   import Panel from '@/components/administrator/Panel.vue'
   import Manager from '@/components/administrator/Manager.vue'
+  import User from '@/components/administrator/User.vue'
   export default {
     name: 'feature',
     data() {
@@ -62,7 +63,8 @@
     },
     components: {
       Panel,
-      Manager
+      Manager,
+      User
     }
   }
 </script>

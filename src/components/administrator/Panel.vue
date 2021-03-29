@@ -8,19 +8,29 @@
         <el-date-picker v-model="value2" type="datetimerange" :picker-options="pickerOptions" range-separator="To"
           start-placeholder="Start date" end-placeholder="End date" align="right">
         </el-date-picker>
-        <br/>
+        <br />
         <el-button class="btn" icon="el-icon-download">导出列表数据</el-button>
         <el-button class="btn" type="primary" icon="el-icon-plus" @click="addOrganize">新增组织</el-button>
         <el-button class="btn" type="primary" icon="el-icon-search">查询</el-button>
         <el-button class="btn" icon="el-icon-refresh-left">重置</el-button>
-        <el-table ref="singleTable" :data="tableData" highlight-current-row style="width: 100%">
-          <el-table-column type="index" width="120" label="序号">
+        <el-table :data="tableData" border style="width: 90%">
+          <el-table-column fixed prop="organizationId" label="账号" width="150">
           </el-table-column>
-          <el-table-column property="date" label="日期" width="120">
+          <el-table-column prop="organizeName" label="组织名" width="120">
           </el-table-column>
-          <el-table-column property="name" label="用户名" width="120">
+          <el-table-column prop="email" label="邮箱" width="120">
           </el-table-column>
-          <el-table-column property="operate" label="操作">
+          <el-table-column prop="location" label="市区" width="120">
+          </el-table-column>
+          <el-table-column prop="address" label="地址" width="300">
+          </el-table-column>
+          <el-table-column prop="status" label="状态" width="120">
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="100">
+            <template slot-scope="scope">
+              <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>
+              <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
@@ -71,25 +81,69 @@
         },
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
         value2: '',
-        tableData: [
-          /* {
-            date: '',
-            name: '',
-            operate: ''
-          } */
-        ]
+        tableData: []
       }
     },
     methods: {
       handleClick(tab, event) {
         console.log(tab, event)
       },
-      addOrganize () {
+      handleEdit(row) {
+        console.log(row)
+      },
+      handleDelete(row) {
+        var organize = JSON.stringify({
+          organizationId: row.organizationId,
+        })
+        console.log(organize)
+        this.$axios.post("/organize/DELETE||ORGANIZATION.do", organize, {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          })
+          .then((response) => {
+            if (response.data.code == 100) {
+              this.$message({
+                message: response.data.msg,
+                type: 'success'
+              });
+            } else {
+              this.$message.error(response.data.msg);
+            }
+          })
+          .catch((error) => {
+            this.$message.error('系统异常');
+          })
+        this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+          .then((response) => {
+            this.tableData = []
+            var array = response.data.data
+            array.forEach((item, i) => {
+              this.tableData.push(item)
+            })
+          })
+          .catch((error) => {
+            this.$message.error('系统异常');
+          })
+      },
+      addOrganize() {
         this.$refs.setDialogVisible.init(true)
       }
     },
     components: {
       AddOrganizeForm
+    },
+    mounted() {
+      this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+        .then((response) => {
+          var array = response.data.data
+          array.forEach((item, i) => {
+            this.tableData.push(item)
+          })
+        })
+        .catch((error) => {
+          this.$message.error('系统异常');
+        })
     }
   }
 </script>

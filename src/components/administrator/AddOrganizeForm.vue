@@ -14,24 +14,12 @@
         <el-form-item label="详细地址">
           <el-input v-model="form.address" placeholder="请输入详细地址"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="活动性质">
-          <el-checkbox-group v-model="form.type">
-            <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-            <el-checkbox label="地推活动" name="type"></el-checkbox>
-            <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-            <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item> -->
         <el-form-item label="组织性质">
           <el-radio-group v-model="form.type">
             <el-radio label="团体"></el-radio>
             <el-radio label="个人"></el-radio>
           </el-radio-group>
         </el-form-item>
-        <!-- <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
-          <el-button>取消</el-button>
-        </el-form-item> -->
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -48,6 +36,7 @@
       return {
         dialogVisible: false,
         form: {
+          id: '',
           name: '',
           email: '',
           address: '',
@@ -86,6 +75,7 @@
       },
       handleChange(value) {},
       onSubmit() {
+        this.dialogVisible = false
         var organize_name = this.form.name
         var organize_email = this.form.email
         var organize_location = {
@@ -95,35 +85,45 @@
         }
         var organize_address = this.form.address
         var organize_type = this.form.type
-        var organize = JSON.stringify({
-          organizeName: organize_name,
-          organizeEmail: organize_email,
-          organizeLocation: organize_location,
-          organizeAddress: organize_address,
-          organizeType: organize_type
-        })
-        this.dialogVisible = false
-        this.$axios.post("/organize/ADD||ORGANIZE.do", organize, {
-            headers: {
-              'Content-Type': 'application/json;charset=UTF-8'
-            }
-          })
+        this.$axios.get("/organize/ID||ORGANIZATION.do")
           .then((response) => {
-            this.$message({
-              message: '恭喜你，这是一条成功消息',
-              type: 'success'
-            });
-            /* var username = response.data.data
-            this.$router.push({ name: 'admin', params: { user: username } }) */
+            var organize = JSON.stringify({
+              organizationId: response.data.data,
+              organizeName: organize_name,
+              email: organize_email,
+              location: "12",
+              address: organize_address,
+              status: organize_type
+            })
+            this.$axios.post("/organize/ADD||ORGANIZATION.do", organize, {
+                headers: {
+                  'Content-Type': 'application/json;charset=UTF-8'
+                }
+              })
+              .then((response) => {
+                this.$message({
+                  message: response.data.msg,
+                  type: 'success'
+                });
+              })
+              .catch((error) => {
+                this.$message.error('错了哦，这是一条错误消息');
+              })
           })
           .catch((error) => {
-            this.$message.error('错了哦，这是一条错误消息');
-            /* this.$router.push({
-              name: 'error'
-            }) */
+            console.log(error)
+          });
+        this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+          .then((response) => {
+            this.tableData = []
+            var array = response.data.data
+            array.forEach((item, i) => {
+              this.tableData.push(item)
+            })
           })
-        // console.log(this.form);
-        // console.log(this.value);
+          .catch((error) => {
+            this.$message.error('系统异常');
+          })
       }
     }
   };

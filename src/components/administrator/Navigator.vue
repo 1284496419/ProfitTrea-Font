@@ -30,7 +30,7 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="管理员管理">管理员管理</el-menu-item>
-            <el-menu-item index="角色管理">角色管理</el-menu-item>
+            <el-menu-item index="用户管理">用户管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">
@@ -60,6 +60,7 @@
 <script>
   import Panel from '@/components/administrator/Panel.vue'
   import Manager from '@/components/administrator/Manager.vue'
+  import User from '@/components/administrator/User.vue'
   export default {
     data() {
       return {
@@ -81,13 +82,16 @@
         }
         else if (key === '管理员管理'){
           tabs.content = 'Manager'
+        } else if(key === '用户管理'){
+          tabs.content = 'User'
         }
         this.$emit('select', tabs)
       }
     },
     components: {
       Panel,
-      Manager
+      Manager,
+      User
     }
   }
 </script>

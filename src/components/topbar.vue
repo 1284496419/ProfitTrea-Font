@@ -1,7 +1,4 @@
 <template>
-  <!-- <div class="top">
-    <div class="topbar"></div>
-  </div> -->
   <div class="topbar">
     <div class="topbar-container">
       <a href="">

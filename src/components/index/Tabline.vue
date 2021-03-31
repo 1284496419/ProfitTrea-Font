@@ -90,15 +90,17 @@
 </script>
 
 <style scoped>
-  .tabline {
-    height: 50%;
-    width: 100%;
+  .tab-container {
+    height: 511px;
+    width: 1152px;
   }
-
+  .tab-container .el-tabs__header{
+    margin-bottom: 0;
+  }
   #tab-info{
     float: left;
     margin-left: 2px;
-    width: 80%;
+    width: 100%;
     background-color: rgb(205, 51, 51, 55%);
   }
   .global-data {

@@ -7,6 +7,8 @@ import Transaction from '../views/transaction.vue'
 import Market from '../views/market.vue'
 import Admin from '../views/admin.vue'
 import Info from '../views/info.vue'
+import Data from '../views/data.vue'
+import Quotation from '../views/quotationInfo.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -52,7 +54,17 @@ const routes = [
     path: '/info',
     name: 'info',
     component: Info
-  }
+  },
+  {
+    path: '/data',
+    name: 'data',
+    component: Data
+  },
+  {
+    path: '/quotation',
+    name: 'quotation',
+    component: Quotation
+  },
 ]
 
 const router = new VueRouter({

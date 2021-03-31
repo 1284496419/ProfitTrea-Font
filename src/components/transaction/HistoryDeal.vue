@@ -25,6 +25,11 @@
       <el-table-column prop="address" label="股东账户">
       </el-table-column>
     </el-table>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :total="1000">
+    </el-pagination>
   </div>
 </template>
 

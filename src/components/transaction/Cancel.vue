@@ -7,7 +7,9 @@
       <el-tab-pane label="买入" name="first">
         <BuyIn></BuyIn>
       </el-tab-pane>
-      <el-tab-pane label="卖出" name="second"></el-tab-pane>
+      <el-tab-pane label="卖出" name="second">
+        <SaleOut></SaleOut>
+      </el-tab-pane>
       <el-tab-pane label="撤单" name="third">
         <CancelOrder></CancelOrder>
       </el-tab-pane>
@@ -34,6 +36,7 @@
   import DailyEntrust from '@/components/transaction/DailyEntrust.vue'
   import HistoryDeal from '@/components/transaction/HistoryDeal.vue'
   import BuyIn from '@/components/transaction/BuyIn.vue'
+  import SaleOut from '@/components/transaction/SaleOut.vue'
   export default {
     name: 'cancel',
     data() {
@@ -55,7 +58,8 @@
       DailyDeal,
       DailyEntrust,
       HistoryDeal,
-      BuyIn
+      BuyIn,
+      SaleOut
     }
   };
 </script>

@@ -1,7 +1,7 @@
 <template>
-  <div class="buyIn">
-    <div class="buyIn_content">
-      <el-form :model="form" id="buyForm">
+  <div class="saleOut">
+    <div class="saleOut_content">
+      <el-form :model="form" id="saleForm">
         <el-form-item label="股票代码" :label-width="formLabelWidth">
           <el-input v-model="form.stockName" autocomplete="off"></el-input>
         </el-form-item>
@@ -14,29 +14,26 @@
             <el-option label="市价委托" value="shijia"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="买入价格" :label-width="formLabelWidth">
-          <el-input v-model="form.buyPrice" autocomplete="off"></el-input>
+        <el-form-item label="卖出价格" :label-width="formLabelWidth">
+          <el-input v-model="form.salePrice" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="可用资金" :label-width="formLabelWidth">
-          <el-input v-model="form.fund" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="最大可买" :label-width="formLabelWidth">
-          <el-input v-model="form.maxBuy" autocomplete="off"></el-input>
+        <el-form-item label="最大可卖" :label-width="formLabelWidth">
+          <el-input v-model="form.maxsale" autocomplete="off"></el-input>
           <el-button type="danger" icon="el-icon-plus">全部</el-button>
-          <el-radio-group v-model="form.maxBuy">
+          <el-radio-group v-model="form.maxsale">
             <el-radio label="1/2"></el-radio>
             <el-radio label="1/3"></el-radio>
             <el-radio label="1/4"></el-radio>
             <el-radio label="1/5"></el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="买入数量" :label-width="formLabelWidth">
-          <el-input v-model="form.buyNumber" autocomplete="off"></el-input>
+        <el-form-item label="卖出数量" :label-width="formLabelWidth">
+          <el-input v-model="form.saleNumber" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
-      <div class="buy-stock-info">
-        <div class="buy-stock-top">-</div>
-        <table id="stockbuyinfo" border="0">
+      <div class="sale-stock-info">
+        <div class="sale-stock-top">-</div>
+        <table id="stocksaleoutinfo" border="0">
           <tr>
             <td>卖五</td>
             <td class="font-red">-</td>
@@ -62,7 +59,7 @@
             <td class="font-red">-</td>
             <td>-</td>
           </tr>
-          <tr class="buy-stock-middle">
+          <tr class="sale-stock-middle">
             <td>
               <strong>最新：</strong>
               <span id="newestPrice1">-</span>
@@ -99,7 +96,7 @@
             <td>-</td>
           </tr>
         </table>
-        <div class="buy-stock-bottom">
+        <div class="sale-stock-bottom">
           <div class="col-left">
             <strong>涨停：</strong>
             <span class="font-red">-</span>
@@ -111,7 +108,7 @@
         </div>
       </div>
     </div>
-    <div class="buyIn_footer">
+    <div class="saleout_footer">
       <el-button @click="cancelForm">取 消</el-button>
       <el-button type="primary" @click="$refs.drawer.closeDrawer()" :loading="loading">
         {{ loading ? '提交中 ...' : '确 定' }}
@@ -128,10 +125,10 @@
           stockCode: '',
           stockName: '',
           enstrustWay: '',
-          buyPrice: '',
+          salePrice: '',
           fund: '',
-          maxBuy: '',
-          buyNumber: ''
+          maxsale: '',
+          saleNumber: ''
         },
         formLabelWidth: '80px',
       }
@@ -164,13 +161,13 @@
 </script>
 
 <style>
-  #buyForm {
+  #saleForm {
     margin-top: 10px;
     width: 50%;
     float: left;
   }
 
-  .buy-stock-info{
+  .sale-stock-info{
     text-align: center;
     border: 1px solid #dcdcdc;
     float: right;
@@ -180,7 +177,7 @@
   table{
     width: 100%;
   }
-  .buyIn_footer {
+  .saleout_footer {
     float: left;
   }
 </style>

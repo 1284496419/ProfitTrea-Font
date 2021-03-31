@@ -11,7 +11,9 @@
         </p>
       </el-col>
       <el-col :span="12" class="graph-right">
-        <div class="graph-img"></div>
+        <div class="graph-img">
+          
+        </div>
       </el-col>
     </el-row>
   </div>

@@ -1,14 +1,20 @@
 <template>
   <div class="top">
     <h3 @click="toIndex" class="logo">ProfitTrea</h3>
-    <el-dropdown class="sign-out">
+    <el-dropdown class="sign-out" @command="signOut">
       <div>
-        <el-avatar :size="45"></el-avatar>
+        <el-avatar :size="45" class="admin-img"></el-avatar>
         <el-button type="primary" class="signout-button">
          {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
       </div>
       <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="个人信息">个人信息</el-dropdown-item>
+        <el-dropdown-item command="退出">
+            退出
+        </el-dropdown-item>
+      </el-dropdown-menu>
+      <!-- <el-dropdown-menu slot="dropdown">
         <el-dropdown-item>个人信息</el-dropdown-item>
         <el-dropdown-item>
           <el-button id="out-btn"
@@ -17,7 +23,7 @@
               退出
             </el-button>
         </el-dropdown-item>
-      </el-dropdown-menu>
+      </el-dropdown-menu>-->
     </el-dropdown>
   </div>
 </template>
@@ -29,7 +35,6 @@ export default {
       activeIndex: '1',
       activeIndex2: '1',
       username: this.$route.params.user
-      // username: this.$router.params.user
     }
   },
   /* mounted () {
@@ -42,17 +47,19 @@ export default {
     toIndex () {
       this.$router.push('/')
     },
-    signOut () {
-      this.$router.push('/login')
-    },
-    sendMessage () {
-      const h = this.$createElement
-      this.$notify({
-        title: '提示',
-        message: h('i', { style: 'color: teal' }, '退出成功'),
-        duration: 1500
-      })
-      this.$router.push('/')
+    signOut (command) {
+      if(command == "退出"){
+        const h = this.$createElement
+        this.$notify({
+          title: '提示',
+          message: h('i', { style: 'color: teal' }, '退出成功'),
+          duration: 1500
+        })
+        this.$router.push('/login')
+      }
+      if(command == "个人信息"){
+        this.$router.push('/info')
+      }
     }
   }
 }
@@ -75,7 +82,7 @@ export default {
 .sign-out{
   float: right;
 }
-.el-avatar{
+.admin-img{
   float: left;
   margin: 12px 5px 0 0;
 }

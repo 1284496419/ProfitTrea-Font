@@ -10,46 +10,35 @@
           <template slot="title">市场</template>
           <el-submenu index="1-1">
             <template slot="title">证券市场</template>
-            <el-menu-item index="1-3-1">股票</el-menu-item>
-            <el-menu-item index="1-3-2">债券</el-menu-item>
-            <el-menu-item index="1-3-3">基金+ETF</el-menu-item>
+            <el-menu-item index="1-1-1" @click="toMarket">新三板</el-menu-item>
+            <el-menu-item index="1-1-2">债券</el-menu-item>
+            <el-menu-item index="1-1-3">基金+ETF</el-menu-item>
           </el-submenu>
           <el-submenu index="1-2">
             <template slot="title">衍生品市场</template>
-            <el-menu-item index="1-2-1">股指</el-menu-item>
-            <el-menu-item index="1-2-2">货币期权</el-menu-item>
-            <el-menu-item index="1-2-3">外汇交易</el-menu-item>
-            <el-menu-item index="1-2-4">外汇交易</el-menu-item>
-            <el-menu-item index="1-2-5">股票期货</el-menu-item>
-            <el-menu-item index="1-2-6">期货</el-menu-item>
-          </el-submenu>
-          <el-submenu index="1-3">
-            <template slot="title">场外交易市场</template>
-            <el-menu-item index="1-3-1">利率掉价</el-menu-item>
-            <el-menu-item index="1-3-2">不可交割远期</el-menu-item>
-            <el-menu-item index="1-3-3">可交割外汇</el-menu-item>
+            <el-menu-item index="1-2-1">外汇</el-menu-item>
+            <el-menu-item index="1-2-2">期货</el-menu-item>
           </el-submenu>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">数据</template>
           <el-submenu index="2-1">
             <template slot="title">实时数据</template>
-            <el-menu-item index="2-1-1">股票数据</el-menu-item>
+            <el-menu-item index="2-1-1">新三板数据</el-menu-item>
             <el-menu-item index="2-1-2">债券数据</el-menu-item>
             <el-menu-item index="2-1-3">基金数据</el-menu-item>
             <el-menu-item index="2-1-4">期权数据</el-menu-item>
-            <el-menu-item index="2-1-5">其他数据</el-menu-item>
           </el-submenu>
           <el-submenu index="2-2">
             <template slot="title">行情信息</template>
-            <el-menu-item index="2-2-1">行情走势</el-menu-item>
+            <el-menu-item index="2-2-1">焦点新闻</el-menu-item>
             <el-menu-item index="2-2-2">行情报表</el-menu-item>
           </el-submenu>
-          <el-submenu index="2-3">
+         <!-- <el-submenu index="2-3">
             <template slot="title">统计资料</template>
             <el-menu-item index="2-3-1">统计月报</el-menu-item>
             <el-menu-item index="2-3-2">统计年鉴</el-menu-item>
-          </el-submenu>
+          </el-submenu> -->
         </el-submenu>
         <el-submenu index="3">
           <template slot="title">服务</template>
@@ -59,15 +48,8 @@
             <el-menu-item index="3-2-2">优化策略分析</el-menu-item>
           </el-submenu>
           <el-submenu index="3-2">
-            <template slot="title">结算和保管</template>
-            <el-menu-item index="3-2-1">存托处</el-menu-item>
-            <el-menu-item index="3-2-2">普通代理人服务</el-menu-item>
-            <el-menu-item index="3-2-3">资金管理</el-menu-item>
-            <el-menu-item index="3-2-4">证券进入结算系统</el-menu-item>
-          </el-submenu>
-          <el-submenu index="3-3">
             <template slot="title">规则</template>
-            <el-menu-item index="3-3-1">使用规则</el-menu-item>
+            <el-menu-item index="3-2-1">使用规则</el-menu-item>
           </el-submenu>
         </el-submenu>
         <div class="top">
@@ -148,8 +130,15 @@
               </div>
             </el-drawer>
           </div>
-          <div class="el-icon-user-solid"></div>
-          <el-button id="login" @click="login">登录</el-button>
+          <el-dropdown class="sign-out" @command="handleSignOut">
+              <div class="el-icon-user-solid"></div>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="个人信息">个人信息</el-dropdown-item>
+              <el-dropdown-item command="退出">
+                  退出
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </el-menu>
     </div>
@@ -181,12 +170,29 @@
       toIndex() {
         this.$router.push('/')
       },
+      toMarket(){
+        this.$router.push('/market')
+      },
       handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {
             done();
           })
           .catch(_ => {});
+      },
+      handleSignOut(command){
+        if(command == "退出"){
+          const h = this.$createElement
+          this.$notify({
+            title: '提示',
+            message: h('i', { style: 'color: teal' }, '退出成功'),
+            duration: 1500
+          })
+          this.$router.push('/login')
+        }
+        if(command == "个人信息"){
+          this.$router.push('/info')
+        }
       }
     }
   }
@@ -195,7 +201,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .topbar {
-    height: 80px;
+    height: 82px;
     color: white;
     background-color: #DC143C;
   }
@@ -222,6 +228,9 @@
     border: none;
   }
 
+  .sign-out{
+    color: white;
+  }
   .el-menu .el-submenu {
     padding-top: 0.3125rem;
     width: 200px;
@@ -234,7 +243,7 @@
   }
 
   .top {
-    margin: 20px 80px;
+    margin: 30px 80px;
     float: right;
   }
 

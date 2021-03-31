@@ -1,19 +1,21 @@
 <template>
-  <div class="tabline">
-    <el-tabs v-model="activeName" @tab-click="tabClick" id="tabline">
-      <el-tab-pane label="进入市场" name="first">
-        <GoMarket></GoMarket>
-      </el-tab-pane>
-      <el-tab-pane label="管理风险" name="second">
-        <ManagerRisk></ManagerRisk>
-      </el-tab-pane>
-      <el-tab-pane label="分析市场数据" name="third">
-        <MarketData></MarketData>
-      </el-tab-pane>
-      <el-tab-pane label="优化交易" name="fourth">
-        <OptimizeTrade></OptimizeTrade>
-      </el-tab-pane>
-    </el-tabs>
+  <div clss="tabline">
+    <div class="tab-container">
+        <el-tabs v-model="activeName" @tab-click="tabClick" id="tab-info">
+          <el-tab-pane label="进入市场" name="first">
+            <GoMarket></GoMarket>
+          </el-tab-pane>
+          <el-tab-pane label="管理风险" name="second">
+            <ManagerRisk></ManagerRisk>
+          </el-tab-pane>
+          <el-tab-pane label="分析市场数据" name="third">
+            <MarketData></MarketData>
+          </el-tab-pane>
+          <el-tab-pane label="优化交易" name="fourth">
+            <OptimizeTrade></OptimizeTrade>
+          </el-tab-pane>
+        </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -78,7 +80,7 @@
         return name
       }
     },
-    components:{
+    components: {
       GoMarket,
       ManagerRisk,
       MarketData,
@@ -88,10 +90,12 @@
 </script>
 
 <style scoped>
-  .tabline{
+  .tabline {
     height: 50%;
+    width: 100%;
   }
-  .tabline .el-tabs {
+
+  #tab-info{
     float: left;
     margin-left: 2px;
     width: 80%;

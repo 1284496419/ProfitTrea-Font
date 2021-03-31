@@ -1,10 +1,10 @@
 <template>
   <div class="form">
-    <el-avatar :size="100" src="https://empty" @error="errorHandler">
+    <el-avatar :size="100" src="https://empty" @error="errorHandler" class="login-img">
       <img src="../../../static/images/head.jpg" width="100%" height="100%"/>
     </el-avatar>
     <!-- label-position设置标签位置 -->
-    <el-form :model="ruleForm" status-icon :rules="rules"  label-width="30px" label-position="top" ref="ruleForm">
+    <el-form :model="ruleForm" status-icon :rules="rules"  label-width="30px" label-position="top" ref="ruleForm" class="login_form">
       <el-form-item label="用户名" prop="username" class="login-label">
         <el-input v-model="ruleForm.username"></el-input>
       </el-form-item>
@@ -100,7 +100,7 @@ export default {
   height: 70%;
   margin: auto;
 }
-.el-avatar{
+.login-img{
   display: inline-block;
   margin-top: 40px;
 }
@@ -117,6 +117,9 @@ export default {
   color: #DC143C;
   font-size: 17px;
   font-weight: bold;
+}
+.login_form .el-form-item__error{
+  padding-left: 0px;
 }
 #button{
   margin-top: 30px;

@@ -6,6 +6,7 @@ import Error from '../views/error.vue'
 import Transaction from '../views/transaction.vue'
 import Market from '../views/market.vue'
 import Admin from '../views/admin.vue'
+import Info from '../views/info.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -13,14 +14,14 @@ const routes = [
     path: '/',
     name: 'index',
     // 属性名: 属性值   之间的空格不要少
-    component: Index,
+    component: Index/* ,
     chiledren: [
       {
         path: '/',
         name: 'login',
         component: Login
       }
-    ]
+    ] */
   },
   {
     path: '/login',
@@ -46,6 +47,11 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: Admin
+  },
+  {
+    path: '/info',
+    name: 'info',
+    component: Info
   }
 ]
 

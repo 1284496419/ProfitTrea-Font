@@ -71,7 +71,83 @@
           </el-submenu>
         </el-submenu>
         <div class="top">
-          <div class="el-icon-search"></div>
+          <div class="el-icon-search" @click="drawer = true">
+            <el-drawer title="" :visible.sync="drawer" :direction="direction" :before-close="handleClose" size="40%">
+              <div class="custom-search">
+                <div class="search-container">
+                  <input type="text" placeholder="搜索产品/服务">
+                  <div class="el-icon-search searchProduct"></div>
+                </div>
+                <div class="populars-searches">
+                  <h6 class="popular-title">
+                    <font></font>
+                  </h6>
+                  <div class="searches">
+                    <a href="" class="search-box">
+                      <span class="box-title">
+                        <font>NYMEX WTI原油期货和期权</font>
+                      </span>
+                      <span class="el-icon-right"></span>
+                    </a>
+                    <a href="" class="search-box">
+                      <span class="box-title">
+                        <font>NYMEX WTI原油期货和期权</font>
+                      </span>
+                      <span class="el-icon-right"></span>
+                    </a>
+                    <a href="" class="search-box">
+                      <span class="box-title">
+                        <font>NYMEX WTI原油期货和期权</font>
+                      </span>
+                      <span class="el-icon-right"></span>
+                    </a>
+                    <a href="" class="search-box">
+                      <span class="box-title">
+                        <font>NYMEX WTI原油期货和期权</font>
+                      </span>
+                      <span class="el-icon-right"></span>
+                    </a>
+                    <a href="" class="search-box">
+                      <span class="box-title">
+                        <font>NYMEX WTI原油期货和期权</font>
+                      </span>
+                      <span class="el-icon-right"></span>
+                    </a>
+                    <a href="" class="search-box">
+                      <span class="box-title">
+                        <font>NYMEX WTI原油期货和期权</font>
+                      </span>
+                      <span class="el-icon-right"></span>
+                    </a>
+                    <a href="" class="search-box">
+                      <span class="box-title">
+                        <font>NYMEX WTI原油期货和期权</font>
+                      </span>
+                      <span class="el-icon-right"></span>
+                    </a>
+                    <a href="" class="search-box">
+                      <span class="box-title">
+                        <font>NYMEX WTI原油期货和期权</font>
+                      </span>
+                      <span class="el-icon-right"></span>
+                    </a>
+                    <a href="" class="search-box">
+                      <span class="box-title">
+                        <font>NYMEX WTI原油期货和期权</font>
+                      </span>
+                      <span class="el-icon-right"></span>
+                    </a>
+                    <a href="" class="search-box">
+                      <span class="box-title">
+                        <font>NYMEX WTI原油期货和期权</font>
+                      </span>
+                      <span class="el-icon-right"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </el-drawer>
+          </div>
           <div class="el-icon-user-solid"></div>
           <el-button id="login" @click="login">登录</el-button>
         </div>
@@ -88,8 +164,10 @@
     data() {
       return {
         activeIndex: '1',
-        activeIndex2: '1'
-      }
+        activeIndex2: '1',
+        drawer: false,
+        direction: 'rtl',
+      };
     },
     methods: {
       handleSelect(key, keyPath) {
@@ -102,6 +180,13 @@
       },
       toIndex() {
         this.$router.push('/')
+      },
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
       }
     }
   }
@@ -164,5 +249,76 @@
   #login {
     color: white;
     background-color: #DC143C;
+  }
+
+  .custom-search {
+    padding: 0 30px;
+    width: 100%;
+    height: 100%;
+    color: #000000;
+  }
+
+  .search-container {
+    display: flex;
+    height: 45px;
+  }
+
+  .searchProduct{
+    font-size: 30px;
+    margin: 5px 0px 0px 20px;
+  }
+
+  .search-container input {
+    line-height: 44px;
+    font-size: 24px;
+    color: #fff;
+    border-left: 2px solid #5a6874;
+    width: 100%;
+  }
+
+  .popular-searches {
+    padding-top: 2.6875rem;
+  }
+
+  .popular-title {
+    color: #e3e935;
+    font-size: .625rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: .0625rem;
+  }
+
+  .searches {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: .375rem;
+  }
+
+  .search-box {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+    background: #5a6874;
+    color: #fff;
+    margin: 1.5125rem 0;
+    border-radius: .1875rem;
+    height: 3.75rem;
+    align-items: center;
+    padding: 0 1.25rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  a {
+    text-decoration: none;
+    background-color: transparent;
+  }
+
+  .popular-searches .searches .search-box .box-title {
+    padding-right: .3125rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
 </style>

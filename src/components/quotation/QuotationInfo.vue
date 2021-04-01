@@ -15,7 +15,7 @@
         <div class="dm-content">
           <el-tabs :tab-position="tabPosition" id="quo-tab">
             <el-tab-pane label="焦点新闻">
-
+              <FocusNews></FocusNews>
             </el-tab-pane>
             <el-tab-pane label="咨询公告">配置管理</el-tab-pane>
           </el-tabs>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+  import FocusNews from './FocusNews.vue'
   export default {
     data() {
       return {
@@ -34,6 +35,7 @@
       };
     },
     components: {
+      FocusNews
     }
   };
 </script>
@@ -79,7 +81,7 @@
   .dm-content {
     z-index: 100;
     background-color: rgb(255, 255, 255, 0%);
-    height: 490px;
+    height: 520px;
     width: 100%;
     color: #000000;
 

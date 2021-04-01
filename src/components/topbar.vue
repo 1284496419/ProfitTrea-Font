@@ -25,14 +25,14 @@
           <el-submenu index="2-1">
             <template slot="title">实时数据</template>
             <!-- 爬去该页面http://quote.eastmoney.com/center/gridlist.html#neeq_selected新三板动态爬去，其他静态存储数据库-->
-            <el-menu-item index="2-1-1">新三板数据</el-menu-item>
+            <el-menu-item index="2-1-1" @click="toData">新三板数据</el-menu-item>
             <el-menu-item index="2-1-2">债券数据</el-menu-item>
             <el-menu-item index="2-1-3">基金数据</el-menu-item>
             <el-menu-item index="2-1-4">期权数据</el-menu-item>
           </el-submenu>
           <el-submenu index="2-2">
             <template slot="title">行情信息</template>
-            <el-menu-item index="2-2-1">焦点新闻</el-menu-item>
+            <el-menu-item index="2-2-1" @click="toQuotation">焦点新闻</el-menu-item>
             <!-- 爬取该页面新闻http://finance.eastmoney.com/yaowen.html -->
             <el-menu-item index="2-2-2">咨询公告</el-menu-item>
             <!-- 爬去该页面http://xinsanban.eastmoney.com/Article/NoticeList-->
@@ -170,6 +170,12 @@
       },
       toMarket(){
         this.$router.push('/market')
+      },
+      toData(){
+        this.$router.push('/data')
+      },
+      toQuotation(){
+        this.$router.push('/quotation')
       },
       handleClose(done) {
         this.$confirm('确认关闭？')

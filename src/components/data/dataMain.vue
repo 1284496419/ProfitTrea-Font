@@ -17,9 +17,15 @@
             <el-tab-pane label="新三板数据">
               <NewBlock></NewBlock>
             </el-tab-pane>
-            <el-tab-pane label="基金数据">配置管理</el-tab-pane>
-            <el-tab-pane label="债券数据">角色管理</el-tab-pane>
-            <el-tab-pane label="期权数据">定时任务补偿</el-tab-pane>
+            <el-tab-pane label="基金数据">
+              <Foundation></Foundation>
+            </el-tab-pane>
+            <el-tab-pane label="债券数据">
+              <Bond></Bond>
+            </el-tab-pane>
+            <el-tab-pane label="外汇数据">
+              <Option></Option>
+            </el-tab-pane>
           </el-tabs>
         </div>
       </div>
@@ -30,6 +36,9 @@
 
 <script>
   import NewBlock from './newBlock.vue'
+  import Foundation from './foundation.vue'
+  import Bond from './bond.vue'
+  import Option from './option.vue'
   export default {
     data() {
       return {
@@ -37,7 +46,10 @@
       };
     },
     components: {
-      NewBlock
+      NewBlock,
+      Foundation,
+      Bond,
+      Option
     }
   };
 </script>
@@ -117,43 +129,10 @@
   }
 
   #dm-tab .el-tabs__content {
-    background-color:  rgb(243, 245, 249);
+    background-color: rgb(243, 245, 249);
     height: 100%;
     /* float: left; */
     z-index: 101;
     float: left;
   }
-
-  #dm-tab .el-tab-pane {}
-
-  /* .dm-container {
-    padding: 0 30px;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1440px;
-  }
-
-  .nav-side {
-    width: 23.7288135593%;
-    float: left;
-    margin-right: 1.6949152542%;
-  }
-  .menu-title {
-      color: #fff;
-      background-color: #10416c;
-      width: 100%;
-      border-left: 4px solid #e72742;
-      min-height: 48px;
-      text-align: left;
-      overflow: hidden;
-  }
-  .left-menu__wrapper {
-      float: left;
-      width: 100%;
-      display: block;
-      overflow: hidden;
-      background-color: #fff;
-      -webkit-box-shadow: 0 1px 0 0 #a1b4c5;
-      box-shadow: 0 1px 0 0 #a1b4c5;
-  } */
 </style>

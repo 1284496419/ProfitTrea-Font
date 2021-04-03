@@ -17,7 +17,9 @@
             <el-tab-pane label="焦点新闻">
               <FocusNews></FocusNews>
             </el-tab-pane>
-            <el-tab-pane label="咨询公告">配置管理</el-tab-pane>
+            <el-tab-pane label="咨询公告">
+              <Annoucement></Annoucement>
+            </el-tab-pane>
           </el-tabs>
         </div>
       </div>
@@ -28,6 +30,7 @@
 
 <script>
   import FocusNews from './FocusNews.vue'
+  import Annoucement from './Announcement.vue'
   export default {
     data() {
       return {
@@ -35,7 +38,8 @@
       };
     },
     components: {
-      FocusNews
+      FocusNews,
+      Annoucement
     }
   };
 </script>

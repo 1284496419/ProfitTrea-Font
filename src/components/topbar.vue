@@ -17,7 +17,6 @@
           <el-submenu index="1-2">
             <template slot="title">衍生品市场</template>
             <el-menu-item index="1-2-1">外汇</el-menu-item>
-            <el-menu-item index="1-2-2">期货</el-menu-item>
           </el-submenu>
         </el-submenu>
         <el-submenu index="2">

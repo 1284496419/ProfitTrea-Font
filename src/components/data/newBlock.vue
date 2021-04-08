@@ -1,7 +1,7 @@
 <template>
   <div class="newBlock">
     <table class="dataTable">
-      <tbody>
+      <thead>
         <tr class="headerrow">
           <th class="nm">
             <font>序号</font>
@@ -40,393 +40,72 @@
             <font>最低</font>
           </th>
         </tr>
-        <tr class="datarow">
+      </thead>
+      <tbody>
+        <tr class="datarow" v-for="cm in this.stock_list">
           <td class="nm">
             <div class="over2l">
-              <font>恒生指数</font>
+              <font v-text="cm.stockId"></font>
             </div>
           </td>
           <td>
             <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
+              <font v-text="cm.stockCode"></font>
             </div>
           </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-        </tr>
-        <tr class="datarow">
-          <td class="nm">
-            <div class="over2l">
-              <font>恒生指数</font>
-            </div>
-          </td>
-          <td>
-            <div class="idx">
-              <font></font>
-            </div>
-            <div>
-              <span class="nc"></span>
-              <span class="pc">
-                <font>(-)</font>
-              </span>
-            </div>
-          </td>
-          <td class="op"></td>
-          <td class="high"></td>
-          <td class="low"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
-          <td class="op"></td>
+          <td class="op" v-text="cm.stockName"></td>
+          <td class="high" v-text="cm.newPrice"></td>
+          <td class="low" v-text="cm.priceAmount"></td>
+          <td class="op" v-text="cm.priceLimit"></td>
+          <td class="op" v-text="cm.volumeNumber"></td>
+          <td class="op" v-text="cm.volumeAmount"></td>
+          <td class="op" v-text="cm.lastGet"></td>
+          <td class="op" v-text="cm.nowSet"></td>
+          <td class="op" v-text="cm.highest"></td>
+          <td class="op" v-text="cm.lowest"></td>
         </tr>
       </tbody>
     </table>
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      :total="1000" class="data-page">
+    <el-pagination background layout="prev, pager, next" :total="1000" class="data-page">
     </el-pagination>
   </div>
 </template>
 
 <script>
+  export default {
+    name: 'newBlock',
+    data(){
+      return {
+        stock_list:[]
+      }
+    },
+    mounted() {
+      var block = {
+        stockType: 'STOCK'
+      }
+      this.$axios.post('/data/QUERY||DATA.do', block, {
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        })
+        .then((response) => {
+          this.stock_list = response.data.data
+          console.log(response)
+        }).catch()
+    }
+  }
 </script>
 
 <style>
-  .dataTable th{
+  .dataTable th {
     text-align: center;
   }
-  .newBlock{
+
+  .newBlock {
     text-align: center;
     width: 1072.8px;
     /* background-color: #000000; */
   }
-  .data-page{
 
-  }
+  .data-page {}
 </style>

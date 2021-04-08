@@ -68,7 +68,7 @@
               <div class="content-title">
                 <h3>
                   <a href="">
-                    <span>股票</span>
+                    <span>基金</span>
                     <i class="el-icon-arrow-right"></i>
                   </a>
                 </h3>
@@ -127,7 +127,7 @@
               <div class="content-title">
                 <h3>
                   <a href="">
-                    <span>股票</span>
+                    <span>债券</span>
                     <i class="el-icon-arrow-right"></i>
                   </a>
                 </h3>
@@ -184,7 +184,7 @@
               <div class="content-title">
                 <h3>
                   <a href="">
-                    <span>股票</span>
+                    <span>期权</span>
                     <i class="el-icon-arrow-right"></i>
                   </a>
                 </h3>

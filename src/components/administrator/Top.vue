@@ -5,13 +5,13 @@
       <div>
         <el-avatar :size="45" class="admin-img"></el-avatar>
         <el-button type="primary" class="signout-button">
-         {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
+          {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
       </div>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="个人信息">个人信息</el-dropdown-item>
         <el-dropdown-item command="退出">
-            退出
+          退出
         </el-dropdown-item>
       </el-dropdown-menu>
       <!-- <el-dropdown-menu slot="dropdown">
@@ -29,73 +29,80 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      activeIndex: '1',
-      activeIndex2: '1',
-      username: this.$route.params.user
-    }
-  },
-  /* mounted () {
-    console.log(this.$route.params)
-  }, */
-  methods: {
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    toIndex () {
-      this.$router.push('/')
-    },
-    signOut (command) {
-      if(command == "退出"){
-        const h = this.$createElement
-        this.$notify({
-          title: '提示',
-          message: h('i', { style: 'color: teal' }, '退出成功'),
-          duration: 1500
-        })
-        this.$router.push('/login')
+  export default {
+    data() {
+      return {
+        activeIndex: '1',
+        activeIndex2: '1',
+        username: this.$route.params.user
       }
-      if(command == "个人信息"){
-        this.$router.push('/info')
+    },
+    /* mounted () {
+      console.log(this.$route.params)
+    }, */
+    methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath)
+      },
+      toIndex() {
+        this.$router.push('/')
+      },
+      signOut(command) {
+        if (command == "退出") {
+          localStorage.removeItem('Authorization');
+          const h = this.$createElement
+          this.$notify({
+            title: '提示',
+            message: h('i', {
+              style: 'color: teal'
+            }, '退出成功'),
+            duration: 1500
+          })
+          this.$router.push('/login')
+        }
+        if (command == "个人信息") {
+          this.$router.push('/info')
+        }
       }
     }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.top{
-  color: white;
-  width: 100%;
-  height: 70px;
-  background-color: #DC143C;
-}
-.logo{
-  cursor: pointer;
-  font-size: 30px;
-  float: left;
-  margin: 13px 0 0 20px;
-}
-.sign-out{
-  float: right;
-}
-.admin-img{
-  float: left;
-  margin: 12px 5px 0 0;
-}
-.signout-button{
-  float: right;
-  display: block;
-  margin: 14px 10px 0 0;
-  background-color: #DC143C;
-  border-color: #DC143C;
-}
-#out-btn{
-  border: 0px;
-  background-color: inherit;
-}
+  .top {
+    color: white;
+    width: 100%;
+    height: 70px;
+    background-color: #DC143C;
+  }
 
+  .logo {
+    cursor: pointer;
+    font-size: 30px;
+    float: left;
+    margin: 13px 0 0 20px;
+  }
+
+  .sign-out {
+    float: right;
+  }
+
+  .admin-img {
+    float: left;
+    margin: 12px 5px 0 0;
+  }
+
+  .signout-button {
+    float: right;
+    display: block;
+    margin: 14px 10px 0 0;
+    background-color: #DC143C;
+    border-color: #DC143C;
+  }
+
+  #out-btn {
+    border: 0px;
+    background-color: inherit;
+  }
 </style>

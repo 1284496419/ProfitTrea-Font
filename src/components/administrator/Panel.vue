@@ -20,8 +20,8 @@
           </el-table-column>
           <el-table-column prop="email" label="邮箱" width="120">
           </el-table-column>
-          <el-table-column prop="location" label="市区" width="120">
-          </el-table-column>
+          <!-- <el-table-column prop="location" label="市区" width="120">
+          </el-table-column> -->
           <el-table-column prop="address" label="地址" width="300">
           </el-table-column>
           <el-table-column prop="status" label="状态" width="120">
@@ -103,6 +103,22 @@
           })
           .then((response) => {
             if (response.data.code == 100) {
+              this.tableData = []
+              this.$axios.get("/organize/QUERY||ORGANIZATION.do", {
+                  headers: {
+                    'token': localStorage.getItem('Authorization')
+                  }
+                })
+                .then((response) => {
+                  this.tableData = []
+                  var array = response.data.data
+                  array.forEach((item, i) => {
+                    this.tableData.push(item)
+                  })
+                })
+                .catch((error) => {
+                  this.$message.error('系统异常');
+                })
               this.$message({
                 message: response.data.msg,
                 type: 'success'
@@ -114,7 +130,11 @@
           .catch((error) => {
             this.$message.error('系统异常');
           })
-        this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+        this.$axios.get("/organize/QUERY||ORGANIZATION.do", {
+            headers: {
+              'token': localStorage.getItem('Authorization')
+            }
+          })
           .then((response) => {
             this.tableData = []
             var array = response.data.data
@@ -144,6 +164,7 @@
         .catch((error) => {
           this.$message.error('系统异常');
         })
+
     }
   }
 </script>

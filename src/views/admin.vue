@@ -27,6 +27,8 @@ export default {
     getTab (tabs) {
       this.$refs.editTab.init(tabs)
     }
+  },
+  mounted() {
   }
 }
 </script>

@@ -11,19 +11,14 @@ import Data from '../views/data.vue'
 import Quotation from '../views/quotationInfo.vue'
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'index',
     // 属性名: 属性值   之间的空格不要少
-    component: Index/* ,
-    chiledren: [
-      {
-        path: '/',
-        name: 'login',
-        component: Login
-      }
-    ] */
+    component: Index,
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/login',
@@ -38,32 +33,50 @@ const routes = [
   {
     path: '/transaction',
     name: 'transaction',
-    component: Transaction
+    component: Transaction,
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/market',
     name: 'market',
-    component: Market
+    component: Market,
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/admin',
     name: 'admin',
-    component: Admin
+    component: Admin,
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/info',
     name: 'info',
-    component: Info
+    component: Info,
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/data',
     name: 'data',
-    component: Data
+    component: Data,
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/quotation',
     name: 'quotation',
-    component: Quotation
+    component: Quotation,
+    meta: {
+      requireAuth: true
+    }
   },
 ]
 
@@ -73,7 +86,29 @@ const router = new VueRouter({
 
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
-    return originalPush.call(this, location).catch(err => err)
+  return originalPush.call(this, location).catch(err => err)
 }
+
+// 导航守卫
+// 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem('Authorization');
+  if (to.path == "/login") {
+    console.log('登录页')
+    if (token === 'null' || token === '') {
+      next("/login");
+    } else {
+      next();
+    }
+  } else {
+    console.log('不是登录页')
+    if (token === null || token === '') {
+      console.log('登录成功')
+      next("/login");
+    } else {
+      next();
+    }
+  }
+});
 
 export default router

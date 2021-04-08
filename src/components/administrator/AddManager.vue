@@ -23,17 +23,18 @@
     data() {
       return {
         dialogVisible: false,
+        organization:'',
+        type:'',
         ruleForm: {
           name: '',
           email: ''
         },
         rules: {
           name: [{
-              required: true,
-              message: '请输入真实姓名',
-              trigger: 'blur'
-            }
-          ],
+            required: true,
+            message: '请输入真实姓名',
+            trigger: 'blur'
+          }],
           email: [{
               required: true,
               message: '请输入邮箱地址',
@@ -63,41 +64,64 @@
       handleChange(value) {},
       onSubmit() {
         this.dialogVisible = false
-        var user_name = this.ruleForm.name
-        var user_email = this.ruleForm.email
-        this.$axios.get("/user/ID||USER.do")
+
+        var token = localStorage.getItem('Authorization')
+        var user = {
+          userName: token
+        }
+        this.$axios.post("/user/QUERY||ORGANIZATION.do", user, {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          })
           .then((response) => {
-            var manager = JSON.stringify({
-              userId: response.data.data,
-              realName: user_name,
-              email: user_email,
-              userName: '',
-              realName: user_name,
-              studentNumber: '',
-              major: '',
-              grade:'',
-              roleType: 100,
-              status: '100'
-            })
-            this.$axios.post("/user/ADD||USER.do", manager, {
-                headers: {
-                  'Content-Type': 'application/json;charset=UTF-8'
-                }
-              })
+            this.organization = response.data.data.organization
+            if(response.data.data.roleType === 101){
+              this.type = 103
+            }else if(response.data.data.type === 102){
+              this.type = 104
+            }
+            var user_name = this.ruleForm.name
+            var user_email = this.ruleForm.email
+            this.$axios.get("/user/ID||USER.do")
               .then((response) => {
-                this.$message({
-                  message: response.data.msg,
-                  type: 'success'
-                });
+                var manager = JSON.stringify({
+                  userId: response.data.data,
+                  realName: user_name,
+                  email: user_email,
+                  userName: response.data.data,
+                  realName: user_name,
+                  studentNumber: '',
+                  organization:this.organization,
+                  major: '',
+                  grade: '',
+                  roleType: this.type,
+                  status: '100'
+                })
+                this.$axios.post("/user/ADD||MANAGER.do", manager, {
+                    headers: {
+                      'Content-Type': 'application/json;charset=UTF-8'
+                    }
+                  })
+                  .then((response) => {
+
+                    this.$message({
+                      message: response.data.msg,
+                      type: 'success'
+                    });
+                  })
+                  .catch((error) => {
+                    this.$message.error('错了哦，这是一条错误消息');
+                  })
               })
               .catch((error) => {
-                this.$message.error('错了哦，这是一条错误消息');
-              })
+                console.log(error)
+              });
+          }).catch((error) => {
+            this.$message.error('系统异常');
           })
-          .catch((error) => {
-            console.log(error)
-          });
-        this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+
+        /* this.$axios.get("/organize/QUERY||ORGANIZATION.do")
           .then((response) => {
             this.tableData = []
             var array = response.data.data
@@ -107,7 +131,7 @@
           })
           .catch((error) => {
             this.$message.error('系统异常');
-          })
+          }) */
       }
     }
   };

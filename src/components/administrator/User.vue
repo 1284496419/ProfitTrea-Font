@@ -26,7 +26,7 @@
           </el-table-column>
           <el-table-column prop="major" label="专业" width="300">
           </el-table-column>
-          <el-table-column prop="organize" label="所属组织" width="300">
+          <el-table-column prop="organization" label="所属组织" width="300">
           </el-table-column>
           <el-table-column prop="status" label="状态" width="120">
           </el-table-column>
@@ -96,11 +96,12 @@
         console.log(row)
       },
       userDelete(row) {
-        var organize = JSON.stringify({
-          organizationId: row.organizationId,
+        console.log(row)
+        var user = JSON.stringify({
+          userId: row.userId,
         })
-        console.log(organize)
-        this.$axios.post("/user/DELETE||USER.do", organize, {
+        console.log(user)
+        this.$axios.post("/user/DELETE||USER.do", user, {
             headers: {
               'Content-Type': 'application/json;charset=UTF-8'
             }
@@ -111,6 +112,17 @@
                 message: response.data.msg,
                 type: 'success'
               });
+              this.tableData = []
+              this.$axios.get("/user/QUERY||USER.do")
+                .then((response) => {
+                  var array = response.data.data
+                  array.forEach((item, i) => {
+                    this.tableData.push(item)
+                  })
+                })
+                .catch((error) => {
+                  this.$message.error('系统异常');
+                })
             } else {
               this.$message.error(response.data.msg);
             }
@@ -127,16 +139,38 @@
       AddUser
     },
     mounted() {
-      this.$axios.get("/user/QUERY||USER.do")
-        .then((response) => {
-          var array = response.data.data
-          array.forEach((item, i) => {
-            this.tableData.push(item)
+      var token = localStorage.getItem('Authorization')
+      var user = {
+        userName: token
+      }
+      this.$axios.post("/user/QUERY||ORGANIZATION.do", user, {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      }).then((response) => {
+        var organize = response.data.data.organization
+        var user = {
+          organization: organize,
+          roleType: 104
+        }
+        console.log(organize)
+        this.$axios.post("/user/QUERY||USER.do", user, {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
           })
-        })
-        .catch((error) => {
-          this.$message.error('系统异常');
-        })
+          .then((response) => {
+            var array = response.data.data
+            array.forEach((item, i) => {
+              this.tableData.push(item)
+            })
+          })
+          .catch((error) => {
+            this.$message.error('系统异常');
+          })
+      }).catch((error) => {
+        this.$message.error('系统异常');
+      })
     }
   }
 </script>

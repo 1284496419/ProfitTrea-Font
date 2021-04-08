@@ -29,11 +29,11 @@
             <span>权限管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="管理员管理">管理员管理</el-menu-item>
+            <el-menu-item index="管理员管理" :disabled="disabledManager">管理员管理</el-menu-item>
             <el-menu-item index="用户管理">用户管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="4">
+        <el-submenu index="4" :disabled="disabled">
           <template slot="title">
             <i class="el-icon-user"></i>
             <span>组织管理</span>
@@ -65,7 +65,9 @@
     data() {
       return {
         tabs: [],
-        tabIndex: 2
+        tabIndex: 2,
+        disabled:false,
+        disabledManager:false
       }
     },
     methods: {
@@ -92,6 +94,35 @@
       Panel,
       Manager,
       User
+    },
+    mounted() {
+      var token = localStorage.getItem('Authorization')
+      var user = {
+        userName: token
+      }
+      this.$axios.post("/user/QUERY||PERMISSION.do", user, {
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        }).then((response) => {
+          console.log(response)
+          var permission = response.data.data.permissionId
+          console.log(permission)
+          if(permission !== 10){
+            this.disabled = true
+            if(permission == 13){
+              this.disabledManager = true
+            }else{
+              this.disabledManager = false
+            }
+          }else{
+            this.disabled = false
+          }
+        })
+        .catch((error) => {
+          this.$message.error('系统异常');
+        })
+
     }
   }
 </script>

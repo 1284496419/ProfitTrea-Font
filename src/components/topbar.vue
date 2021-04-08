@@ -185,6 +185,7 @@
       },
       handleSignOut(command){
         if(command == "退出"){
+          localStorage.removeItem('Authorization');
           const h = this.$createElement
           this.$notify({
             title: '提示',

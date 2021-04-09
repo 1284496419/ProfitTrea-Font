@@ -80,14 +80,7 @@
       }
     },
     mounted() {
-      var foun = {
-        stockType: 'FOUNDATION'
-      }
-      this.$axios.post('/data/QUERY||DATA.do', foun, {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        })
+      this.$axios.get('/data/QUERY||FOUNDATION.do')
         .then((response) => {
           this.foundation = response.data.data
           console.log(response)

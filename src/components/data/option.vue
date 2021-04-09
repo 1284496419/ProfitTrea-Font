@@ -75,14 +75,7 @@
       }
     },
     mounted() {
-      var opt = {
-        stockType: 'FOREX'
-      }
-      this.$axios.post('/data/QUERY||DATA.do', opt, {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        })
+      this.$axios.get('/data/QUERY||FOREX.do')
         .then((response) => {
           this.forex = response.data.data
           console.log(response)

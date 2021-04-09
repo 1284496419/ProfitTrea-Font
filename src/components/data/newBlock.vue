@@ -80,14 +80,7 @@
       }
     },
     mounted() {
-      var block = {
-        stockType: 'STOCK'
-      }
-      this.$axios.post('/data/QUERY||DATA.do', block, {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        })
+      this.$axios.get('/data/QUERY||STOCK.do')
         .then((response) => {
           this.stock_list = response.data.data
           console.log(response)
@@ -104,8 +97,5 @@
   .newBlock {
     text-align: center;
     width: 1072.8px;
-    /* background-color: #000000; */
   }
-
-  .data-page {}
 </style>

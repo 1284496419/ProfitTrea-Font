@@ -84,17 +84,9 @@
       }
     },
     mounted() {
-      var bonds = {
-        stockType: 'BOND'
-      }
-      this.$axios.post('/data/QUERY||DATA.do', bonds, {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        })
+      this.$axios.get('/data/QUERY||BOND.do')
         .then((response) => {
           this.bond = response.data.data
-          console.log(response)
         }).catch()
     }
   }

@@ -29,6 +29,13 @@
 </template>
 
 <script>
+  export default{
+    data(){
+      return {
+        tableData:[]
+      }
+    }
+  }
 </script>
 
 <style>

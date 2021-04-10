@@ -22,9 +22,9 @@
         <el-table
             :data="tableData"
             stripe
-            style="width: 100%">
+            style="width: 100%" id="better-stock">
             <el-table-column
-              prop="date"
+              prop="stockCode"
               label="股票代码"
               width="180">
             </el-table-column>
@@ -34,7 +34,7 @@
               width="180">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="priceLimit"
               label="涨幅">
             </el-table-column>
           </el-table>
@@ -49,7 +49,14 @@
       return{
         tableData:[]
       }
-    }
+    },
+	mounted() {
+		this.$axios.get('transaction/QUERY||STOCK.do')
+		.then((response)=>{
+      this.tableData = response.data.data
+			console.log(response)
+		}).catch()
+	}
   }
 </script>
 
@@ -92,6 +99,9 @@
   height: 420px;
   width: 100%;
   padding-top: 15px;
+}
+#better-stock{
+  margin-top:0px;
 }
 .icon{
   display: inline-block;

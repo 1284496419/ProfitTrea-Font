@@ -168,7 +168,7 @@
         this.$router.push('/')
       },
       toMarket(){
-        this.$router.push('/market')
+        this.$router.push('/transaction')
       },
       toData(){
         this.$router.push('/data')

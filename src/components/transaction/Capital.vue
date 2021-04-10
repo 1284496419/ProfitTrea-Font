@@ -5,17 +5,17 @@
         <tbody>
           <tr>
             <td class="bg-gray funder">可用余额</td>
-            <td class="funder"></td>
+            <td class="funder">{{this.found.availableBalance}}</td>
             <td class="bg-gray funder">资金余额</td>
-            <td class="funder"></td>
+            <td class="funder">{{this.found.fundBalance}}</td>
             <td class="bg-gray funder">冻结余额</td>
-            <td class="funder"></td>
+            <td class="funder">{{this.found.freezeBalance}}</td>
           </tr>
           <tr>
             <td class="bg-gray funder">总资产</td>
-            <td class="funder"></td>
+            <td class="funder">{{this.found.totalFund}}</td>
             <td class="bg-gray funder">总盈亏</td>
-            <td class="funder"></td>
+            <td class="funder">{{this.found.totalProfit}}</td>
           </tr>
         </tbody>
       </table>
@@ -42,30 +42,50 @@
       <el-table-column prop="address" label="盈亏比例">
       </el-table-column>
     </el-table>
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      :total="1000">
+    <el-pagination background layout="prev, pager, next" :total="1000">
     </el-pagination>
   </div>
 </template>
 
 <script>
+  export default {
+    data() {
+      return {
+        tableData: [],
+        found:{}
+      }
+    },
+    mounted() {
+      var token = localStorage.getItem('Authorization')
+      var share = JSON.stringify({
+        stockCode: token
+      })
+      this.$axios.post('/transaction/QUERY||SHARE.do', share, {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      }).then((response) => {
+        this.found = response.data.data
+        console.log(this.found)
+      }).catch()
+    }
+  }
 </script>
 
 <style>
-.capital{
-  padding-top: 60px;
-}
-#funderDetailTable{
-  text-align: center;
-}
-.funder{
-  width: 200px;
-  height: 50px;
-  border: 1px solid #000000;
-}
-.bg-gray{
+  .capital {
+    padding-top: 60px;
+  }
 
-}
+  #funderDetailTable {
+    text-align: center;
+  }
+
+  .funder {
+    width: 200px;
+    height: 50px;
+    border: 1px solid #000000;
+  }
+
+  .bg-gray {}
 </style>

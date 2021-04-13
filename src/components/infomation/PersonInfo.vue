@@ -1,20 +1,20 @@
 <template>
   <div class="personInfo">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="infoForm">
-      <el-form-item label="姓名" prop="checkPass">
-        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" class="show_info"></el-input>
+      <el-form-item label="姓名" prop="name">
+        <el-input v-model="ruleForm.name" autocomplete="off" class="show_info"></el-input>
       </el-form-item>
-      <el-form-item label="学号" prop="age">
-        <el-input v-model.number="ruleForm.age" class="show_info"></el-input>
+      <el-form-item label="学号" prop="studentNumber">
+        <el-input v-model.number="ruleForm.studentNumber" class="show_info"></el-input>
       </el-form-item>
-      <el-form-item label="院系" prop="age">
-        <el-input v-model.number="ruleForm.age" class="show_info"></el-input>
+      <el-form-item label="院系" prop="sdept">
+        <el-input v-model.number="ruleForm.sdept" class="show_info"></el-input>
       </el-form-item>
-      <el-form-item label="专业" prop="age">
-        <el-input v-model.number="ruleForm.age" class="show_info"></el-input>
+      <el-form-item label="专业" prop="major">
+        <el-input v-model.number="ruleForm.major" class="show_info"></el-input>
       </el-form-item>
-      <el-form-item label="班级" prop="age">
-        <el-input v-model.number="ruleForm.age" class="show_info"></el-input>
+      <el-form-item label="班级" prop="grade">
+        <el-input v-model.number="ruleForm.grade" class="show_info"></el-input>
       </el-form-item>
       <!-- <el-form-item class="personinfo_btn">
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -64,9 +64,11 @@
       };
       return {
         ruleForm: {
-          pass: '',
-          checkPass: '',
-          age: ''
+          name: '',
+          studentNumber: '',
+          sdept: '',
+          major:'',
+          grade:''
         },
         rules: {
           pass: [{
@@ -98,6 +100,25 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
+    },
+    mounted() {
+      var token = localStorage.getItem('Authorization')
+      var user_information = JSON.stringify({
+        userName: token
+      })
+      this.$axios.post('/user/QUERY||ORGANIZATION.do', user_information, {
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        }).then((response) => {
+          var user = response.data.data
+          this.ruleForm.name = user.realName
+          this.ruleForm.studentNumber = user.studentNumber
+          this.ruleForm.sdept = user.organization
+          this.ruleForm.major = user.major
+          this.ruleForm.grade = user.grade
+        })
+        .catch()
     }
   }
 </script>
@@ -107,16 +128,21 @@
     width: 60%;
     margin: 40px auto 50px auto;
   }
-  .personInfo input{
+
+  .personInfo input {
     width: 85%;
   }
-  .personInfo .el-form-item:not(:first-child){
+
+  .personInfo .el-form-item:not(:first-child) {
     padding-top: 30px;
   }
-  .infoForm .el-form-item__label{
+
+  .infoForm .el-form-item__label {
     text-align: right;
   }
-  .infoForm .show_info,.el-form-item__error{
+
+  .infoForm .show_info,
+  .el-form-item__error {
     padding-left: 40px;
   }
 </style>

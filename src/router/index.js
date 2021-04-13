@@ -95,15 +95,13 @@ router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('Authorization');
   if (to.path == "/login") {
     console.log('登录页')
-    if (token === 'null' || token === '') {
-      next("/login");
-    } else {
+    if (token !== 'null' || token !== '') {
+      localStorage.removeItem('Authorization')
       next();
     }
   } else {
     console.log('不是登录页')
     if (token === null || token === '') {
-      console.log('登录成功')
       next("/login");
     } else {
       next();

@@ -166,7 +166,9 @@
             buyNumber:this.form.buyNumber,
             maxBuyNumber:this.form.maxBuy,
             organizationId: user.organization,
-            userId:user.userId
+            userId:user.userId,
+            stockName:this.form.stockName,
+            operation:'买入'
           })
           this.$axios.post('/transaction/STOCK||BUY.do',stock_info, {
             headers: {
@@ -200,7 +202,9 @@
           }
         }).then((response) => {
           this.buyStock_list = response.data.data
-        }).catch()
+        }).catch((error)=>{
+          console.log(error)
+        })
       },
       closeBuyList() {
         this.buyStyle = 'buy-list ifind-hide'

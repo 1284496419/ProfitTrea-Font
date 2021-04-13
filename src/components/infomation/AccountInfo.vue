@@ -4,12 +4,12 @@
       <div class="user-img">
         <el-avatar src="" class="u-img"></el-avatar>
       </div>
-      <el-form-item label="用户名" prop="checkPass">
-        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" class="show_info"></el-input>
+      <el-form-item label="用户名" prop="userName">
+        <el-input v-model="ruleForm.userName" autocomplete="off" class="show_info" @blur="updateUserName"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱" prop="age">
-        <el-input v-model.number="ruleForm.age" class="show_info accountEamil"></el-input>
-        <el-button type="primary" plain>更换邮箱</el-button>
+      <el-form-item label="邮箱" prop="email">
+        <el-input v-model.number="ruleForm.email" class="show_info accountEamil"></el-input>
+        <el-button type="primary" @click="updateEmail" plain>更换邮箱</el-button>
       </el-form-item>
       <el-form-item label="账号状态" prop="age">
         <div class="account_status show_info">
@@ -19,9 +19,9 @@
           </el-tooltip>
         </div>
       </el-form-item>
-      <el-form-item label="创建时间" prop="age">
+      <el-form-item label="创建时间" prop="createTime">
         <div class="account_create show_info">
-          <span>2021-03-31 16:19</span>
+          <span>{{this.ruleForm.createTime}}</span>
         </div>
       </el-form-item>
     </el-form>
@@ -68,9 +68,9 @@
       };
       return {
         ruleForm: {
-          pass: '',
-          checkPass: '',
-          age: ''
+          userName: '',
+          email: '',
+          createTime: ''
         },
         rules: {
           pass: [{
@@ -101,7 +101,47 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      updateUserName() {
+        var userInfo = JSON.stringify({
+          userName: this.ruleForm.userName
+        })
+        this.$axios.post('/user/UPDATE||USERNAME', userInfo, {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          }).then((response) => {
+            this.$message({
+              message: response.data.msg,
+              type: 'success'
+            });
+          })
+          .catch((error) => {
+            this.$message.error('系统异常');
+          })
+      },
+      updateEmail() {
+        var userEmail = JSON.stringify({
+          emial: this.ruleForm.email
+        })
       }
+    },
+    mounted() {
+      var token = localStorage.getItem('Authorization')
+      var account_info = JSON.stringify({
+        userName: token
+      })
+      this.$axios.post('/user/QUERY||ORGANIZATION.do', account_info, {
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        }).then((response) => {
+          var account = response.data.data
+          this.ruleForm.userName = account.userName
+          this.ruleForm.email = account.email
+          this.ruleForm.createTime = "2021年4月6日"
+        })
+        .catch()
     }
   }
 </script>
@@ -111,7 +151,7 @@
     width: 75%;
   }
 
-  .accountEamil{
+  .accountEamil {
     width: 50%;
   }
 
@@ -120,9 +160,11 @@
     width: 88px;
     height: 88px;
   }
-  .accountInfo .el-form-item:not(:first-child){
+
+  .accountInfo .el-form-item:not(:first-child) {
     padding-top: 30px;
   }
+
   .u-img {
     width: 100%;
     height: 100%;

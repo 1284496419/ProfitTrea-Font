@@ -16,11 +16,12 @@
         <el-submenu index="2">
           <template slot="title">
             <i class="el-icon-data-analysis"></i>
-            <span>数据统计</span>
+            <span>数据管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="交易量统计">交易量统计</el-menu-item>
             <el-menu-item index="资产管理">资产管理</el-menu-item>
+            <el-menu-item index="市场管理">市场管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="3">
@@ -61,6 +62,9 @@
   import Panel from '@/components/administrator/Panel.vue'
   import Manager from '@/components/administrator/Manager.vue'
   import User from '@/components/administrator/User.vue'
+  import Statistics from '@/components/administrator/Statistics.vue'
+  import MarketManage from '@/components/administrator/MarketManage.vue'
+  import FundManage from '@/components/administrator/FundManage.vue'
   export default {
     data() {
       return {
@@ -86,6 +90,12 @@
           tabs.content = 'Manager'
         } else if(key === '用户管理'){
           tabs.content = 'User'
+        } else if(key === '交易量统计'){
+          tabs.content = 'Statistics'
+        } else if(key === '市场管理'){
+          tabs.content = 'MarketManage'
+        } else if(key === '资产管理'){
+          tabs.content = 'FundManage'
         }
         this.$emit('select', tabs)
       }
@@ -93,7 +103,10 @@
     components: {
       Panel,
       Manager,
-      User
+      User,
+      Statistics,
+      MarketManage,
+      FundManage
     },
     mounted() {
       var token = localStorage.getItem('Authorization')

@@ -17,6 +17,9 @@
   import Panel from '@/components/administrator/Panel.vue'
   import Manager from '@/components/administrator/Manager.vue'
   import User from '@/components/administrator/User.vue'
+  import Statistics from '@/components/administrator/Statistics.vue'
+  import MarketManage from '@/components/administrator/MarketManage.vue'
+  import FundManage from '@/components/administrator/FundManage.vue'
   export default {
     name: 'feature',
     data() {
@@ -64,7 +67,10 @@
     components: {
       Panel,
       Manager,
-      User
+      User,
+      Statistics,
+      MarketManage,
+      FundManage
     }
   }
 </script>

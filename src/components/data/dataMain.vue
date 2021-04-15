@@ -50,6 +50,9 @@
       Foundation,
       Bond,
       Option
+    },
+    mounted() {
+      
     }
   };
 </script>

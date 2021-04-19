@@ -92,23 +92,58 @@
         console.log(row)
       },
       handleDelete(row) {
-        var organize = JSON.stringify({
-          organizationId: row.organizationId,
-        })
-        console.log(organize)
-        this.$axios.post("/organize/DELETE||ORGANIZATION.do", organize, {
+        this.$confirm('此操作将永久删除该条记录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          var token = localStorage.getItem('Authorization')
+          var verify_token = {
+            userName: token
+          }
+          this.$axios.post("/logout/VERIFY.do", verify_token, {
             headers: {
               'Content-Type': 'application/json;charset=UTF-8'
             }
-          })
-          .then((response) => {
-            if (response.data.code == 100) {
-              this.tableData = []
-              this.$axios.get("/organize/QUERY||ORGANIZATION.do", {
+          }).then((response) => {
+            var verify_code = response.data.code
+            if (verify_code === 100) {
+              var organize = JSON.stringify({
+                organizationId: row.organizationId,
+              })
+              this.$axios.post("/organize/DELETE||ORGANIZATION.do", organize, {
                   headers: {
-                    'token': localStorage.getItem('Authorization')
+                    'Content-Type': 'application/json;charset=UTF-8'
                   }
                 })
+                .then((response) => {
+                  if (response.data.code == 100) {
+                    this.tableData = []
+                    this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+                      .then((response) => {
+                        this.tableData = []
+                        var array = response.data.data
+                        array.forEach((item, i) => {
+                          this.tableData.push(item)
+                        })
+                      })
+                      .catch((error) => {
+                        this.$message.error('查询组织异常');
+                        this.$router.push('/error')
+                      })
+                    this.$message({
+                      message: response.data.msg,
+                      type: 'success'
+                    });
+                  } else {
+                    this.$message.error(response.data.msg);
+                  }
+                })
+                .catch((error) => {
+                  this.$message.error('删除组织异常');
+                  this.$router.push('/error')
+                })
+              this.$axios.get("/organize/QUERY||ORGANIZATION.do")
                 .then((response) => {
                   this.tableData = []
                   var array = response.data.data
@@ -119,22 +154,30 @@
                 .catch((error) => {
                   this.$message.error('系统异常');
                 })
-              this.$message({
-                message: response.data.msg,
-                type: 'success'
-              });
-            } else {
-              this.$message.error(response.data.msg);
+            } else if (verify_code === 104) {
+              this.$message.error(response.data.msg)
+            } else if (verify_code === 102) {
+              this.$message.error(response.data.msg)
+              this.$router.push('/login')
             }
+          }).catch((error) => {
+            console.log(error)
+            this.$message.error('校验token异常')
+            this.$router.push('/error')
           })
-          .catch((error) => {
-            this.$message.error('系统异常');
-          })
-        this.$axios.get("/organize/QUERY||ORGANIZATION.do", {
-            headers: {
-              'token': localStorage.getItem('Authorization')
-            }
-          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消删除'
+          });
+        });
+      },
+      addOrganize() {
+        this.$refs.setDialogVisible.init(true)
+      },
+      updateOrganize(data){
+        console.log(data)
+        this.$axios.get("/organize/QUERY||ORGANIZATION.do")
           .then((response) => {
             this.tableData = []
             var array = response.data.data
@@ -143,28 +186,47 @@
             })
           })
           .catch((error) => {
-            this.$message.error('系统异常');
+            this.$message.error('更新组织信息异常');
           })
-      },
-      addOrganize() {
-        this.$refs.setDialogVisible.init(true)
       }
     },
     components: {
       AddOrganizeForm
     },
     mounted() {
-      this.$axios.get("/organize/QUERY||ORGANIZATION.do")
-        .then((response) => {
-          var array = response.data.data
-          array.forEach((item, i) => {
-            this.tableData.push(item)
-          })
-        })
-        .catch((error) => {
-          this.$message.error('系统异常');
-        })
-
+      var token = localStorage.getItem('Authorization')
+      var verify_token = {
+        userName: token
+      }
+      this.$axios.post("/logout/VERIFY.do", verify_token, {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      }).then((response) => {
+        var verify_code = response.data.code
+        if (verify_code === 100) {
+          this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+            .then((response) => {
+              var array = response.data.data
+              array.forEach((item, i) => {
+                this.tableData.push(item)
+              })
+            })
+            .catch((error) => {
+              this.$message.error('组织数据异常');
+            })
+        } else if (verify_code === 104) {
+          this.$message.error(response.data.msg)
+        } else if (verify_code === 102) {
+          console.log('执行')
+          this.$message.error(response.data.msg)
+          this.$router.push('/login')
+        }
+      }).catch((error) => {
+        console.log(error)
+        this.$message.error('校验token异常')
+        this.$router.push('/error')
+      })
     }
   }
 </script>

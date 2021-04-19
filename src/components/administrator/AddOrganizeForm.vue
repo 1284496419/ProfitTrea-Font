@@ -8,9 +8,6 @@
         <el-form-item label="电子邮箱" prop="email">
           <el-input v-model="form.email" placeholder="请输入电子邮箱"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="所在地区" prop="value">
-          <el-cascader v-model="value" :options="options" @change="handleChange"></el-cascader>
-        </el-form-item> -->
         <el-form-item label="详细地址" prop="address">
           <el-input v-model="form.address" placeholder="请输入详细地址"></el-input>
         </el-form-item>
@@ -42,7 +39,7 @@
           address: '',
           type: '',
           roleType: '',
-          organization:''
+          organization: ''
         },
         value: [],
         options: [{
@@ -125,86 +122,93 @@
               status: 100,
               type: organize_type
             })
-            console.log('organize_info',organize_info)
+            console.log('organize_info', organize_info)
             this.form.organization = response.data.data
-            this.$axios.post("/organize/ADD||ORGANIZATION.do", organize_info, {
-                headers: {
-                  'Content-Type': 'application/json;charset=UTF-8'
-                }
-              })
-              .then((response) => {
-                console.log(response.data)
-                if (response.data.code === 100) {
-                  this.$message({
-                    message: response.data.msg,
-                    type: 'success'
-                  });
-                  this.$axios.get("/user/ID||MANAGER.do")
-                    .then((response) => {
-                      if (organize_type === '1') {
-                        this.form.roleType = 102
-                      } else if (organize_type === '2') {
-                        this.form.roleType = 101
-                      }
-                      var user = JSON.stringify({
-                        userId: response.data.data,
-                        userName: response.data.data,
-                        realName: '',
-                        email: organize_email,
-                        organization: this.form.organization,
-                        studentNumber: '',
-                        major: '',
-                        grade: '',
-                        roleType: this.form.roleType,
-                        status: '100'
-                      })
-                      console.log(user)
-                      this.$axios.post("/user/ADD||MANAGER.do", user, {
-                          headers: {
-                            'Content-Type': 'application/json;charset=UTF-8'
-                          }
-                        })
+            var token = localStorage.getItem('Authorization')
+            var verify_token = {
+              userName: token
+            }
+            this.$axios.post("/logout/VERIFY.do", verify_token, {
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+              }
+            }).then((response) => {
+              var verify_code = response.data.code
+              if (verify_code === 100) {
+                this.$axios.post("/organize/ADD||ORGANIZATION.do", organize_info, {
+                    headers: {
+                      'Content-Type': 'application/json;charset=UTF-8'
+                    }
+                  })
+                  .then((response) => {
+                    console.log(response.data)
+                    if (response.data.code === 100) {
+                      this.$message({
+                        message: response.data.msg,
+                        type: 'success'
+                      });
+                      this.$axios.get("/user/ID||USER.do")
                         .then((response) => {
-                          this.$parent.tableData = []
-                          this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+                          if (organize_type === '1') {
+                            this.form.roleType = 102
+                          } else if (organize_type === '2') {
+                            this.form.roleType = 101
+                          }
+                          var user = JSON.stringify({
+                            userId: response.data.data,
+                            userName: response.data.data,
+                            realName: '',
+                            email: organize_email,
+                            organization: this.form.organization,
+                            studentNumber: '',
+                            major: '',
+                            grade: '',
+                            roleType: this.form.roleType,
+                            status: '100'
+                          })
+                          console.log(user)
+                          this.$axios.post("/user/ADD||MANAGER.do", user, {
+                              headers: {
+                                'Content-Type': 'application/json;charset=UTF-8'
+                              }
+                            })
                             .then((response) => {
-                              var array = response.data.data
-                              array.forEach((item, i) => {
-                                this.$parent.tableData.push(item)
-                              })
+                              this.$emit('updateOrganize',response.data.msg)
                             })
                             .catch((error) => {
-                              this.$message.error('系统异常');
-                            });
+                              console.log(error)
+                              this.$message.error('添加组织管理员异常');
+                              this.$router.push('/error')
+                            })
                         })
                         .catch((error) => {
-                          this.$message.error('错了哦，这是一条错误消息');
-                        })
-                    })
-                    .catch((error) => {
-                      console.log(error)
-                    });
-                } else {
-                  this.$message.error(response.data.msg);
-                }
-                /* this.$axios.get("/organize/QUERY||ORGANIZATION.do")
-                  .then((response) => {
-                    this.tableData = []
-                    var array = response.data.data
-                    array.forEach((item, i) => {
-                      this.tableData.push(item)
-                    })
+                          this.$message.error('生成组织管理员id异常');
+                          this.$router.push('/error')
+                        });
+                    } else {
+                      this.$message.error(response.data.msg);
+                    }
                   })
                   .catch((error) => {
-                    this.$message.error('系统异常');
-                  }); */
-              })
-              .catch((error) => {
-                this.$message.error('错了哦，这是一条错误消息');
-              })
+                    this.$message.error('添加组织异常');
+                    this.$router.push('/error')
+                  })
+              } else if (verify_code === 104) {
+                this.$message.error(response.data.msg)
+              } else if (verify_code === 102) {
+                console.log('执行')
+                this.$message.error(response.data.msg)
+                this.$router.push('/login')
+              }
+            }).catch((error) => {
+              console.log(error)
+              this.$message.error('添加组织校验token异常')
+              this.$router.push('/error')
+            })
           })
           .catch((error) => {
-            console.log(error)
+            this.$message.error('生成组织id异常')
+            this.$router.push('/error')
           });
       }
     },
@@ -218,35 +222,8 @@
           })
         })
         .catch((error) => {
-          this.$message.error('系统异常');
+          this.$message.error('查询组织信息异常');
         });
-      this.$axios.get("/organize/QUERY||CITY.do", {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        })
-        .then((response) => {
-          console.log(response.data.data)
-          var city = response.data.data
-          console.log(city)
-          /* let dataValueBatch = city => city.map(({
-            id,
-            name,
-            children
-          }) => (children ? {
-            value: id,
-            label: name,
-            children: dataValueBatch(children),
-          } : {
-            value: id,
-            label: name,
-          }));
-          this.options = dataValueBatch(city); */
-          // console.log(this.options)
-        })
-        .catch((error) => {
-          this.$message.error('获取城市信息异常');
-        })
     }
   };
 </script>

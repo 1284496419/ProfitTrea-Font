@@ -88,23 +88,32 @@ const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
-
+//1分钟
+let EXPIRESTIME = 60000
 // 导航守卫
 // 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('Authorization');
+  let date = localStorage.getItem('entireTime')
   if (to.path == "/login") {
     console.log('登录页')
     if (token !== 'null' || token !== '') {
       localStorage.removeItem('Authorization')
+      localStorage.removeItem('entireTime')
       next();
     }
   } else {
-    console.log('不是登录页')
     if (token === null || token === '') {
       next("/login");
     } else {
-      next();
+      let time = new Date().getTime();
+      if (time - date > EXPIRESTIME) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('entireTime')
+        next("/login");
+      } else {
+        next();
+      }
     }
   }
 });

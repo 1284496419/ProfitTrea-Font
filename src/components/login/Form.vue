@@ -79,7 +79,8 @@
             if (response.data.data !== null) {
               this.userToken = response.data.data.token
               this.changeLogin({
-                Authorization: this.userToken
+                Authorization: this.userToken,
+                entireTime:new Date().getTime()
               });
               this.$message({
                 message: '登录成功',

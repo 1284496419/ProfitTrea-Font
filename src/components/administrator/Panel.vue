@@ -7,14 +7,17 @@
           placeholder="请输入内容" @select="handleSelect"></el-autocomplete>
         <!-- <el-input v-model="username" class="username-input" @input="matchOrganize"></el-input> -->
         <span class="date-label">创建时间：</span>
-        <el-date-picker v-model="value2" type="datetimerange" :picker-options="pickerOptions" range-separator="To"
-          start-placeholder="Start date" end-placeholder="End date" align="right">
+        <el-date-picker v-model="create_date" type="daterange" range-separator="至" start-placeholder="开始日期"
+          end-placeholder="结束日期">
         </el-date-picker>
+        <!-- <el-date-picker v-model="createTime" type="datetimerange" :picker-options="pickerOptions" range-separator="To"
+          start-placeholder="Start date" end-placeholder="End date" align="right">
+        </el-date-picker> -->
         <br />
         <el-button class="btn" icon="el-icon-download">导出列表数据</el-button>
         <el-button class="btn" type="primary" icon="el-icon-plus" @click="addOrganize">新增组织</el-button>
         <el-button class="btn" type="primary" icon="el-icon-search" @click="selectOrganize">查询</el-button>
-        <el-button class="btn" icon="el-icon-refresh-left">重置</el-button>
+        <el-button class="btn" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
         <el-table :data="tableData" border style="width: 90%">
           <el-table-column fixed prop="organizationId" label="账号" width="150">
           </el-table-column>
@@ -53,38 +56,7 @@
         username: '',
         oranizaMatch: [],
         timeout: null,
-        pickerOptions: {
-          shortcuts: [{
-              text: 'Last week',
-              onClick(picker) {
-                const end = new Date()
-                const start = new Date()
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-                picker.$emit('pick', [start, end])
-              }
-            },
-            {
-              text: 'Last month',
-              onClick(picker) {
-                const end = new Date()
-                const start = new Date()
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-                picker.$emit('pick', [start, end])
-              }
-            },
-            {
-              text: 'Last 3 months',
-              onClick(picker) {
-                const end = new Date()
-                const start = new Date()
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-                picker.$emit('pick', [start, end])
-              }
-            }
-          ]
-        },
-        value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
-        value2: '',
+        create_date: '',
         tableData: []
       }
     },
@@ -93,9 +65,11 @@
       handleClick(tab, event) {
         console.log(tab, event)
       },
+      //修改组织信息
       handleEdit(row) {
-        console.log(row)
+        this.$refs.setDialogVisible.init(true,row)
       },
+      //删除组织信息
       handleDelete(row) {
         this.$confirm('此操作将永久删除该条记录, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -129,12 +103,12 @@
                   message: response.data.msg,
                   type: 'success'
                 });
-              } else if(response.data.code == 104 || response.data.code == 102){
+              } else if (response.data.code == 104 || response.data.code == 102) {
                 this.$message.error(response.data.msg);
                 this.$router.push('/login')
-              }else if(response.data.code == 105){
+              } else if (response.data.code == 105) {
                 this.$message.info(response.data.msg);
-              }else{
+              } else {
                 this.$message.error(response.data.msg);
                 this.$router.push('/error')
               }
@@ -152,7 +126,8 @@
               })
             })
             .catch((error) => {
-              this.$message.error('系统异常');
+              this.$message.error('删除后更新组织信息异常');
+              this.$router.push('/error')
             })
 
         }).catch(() => {
@@ -164,10 +139,40 @@
       },
       //切换navigate
       addOrganize() {
-        this.$refs.setDialogVisible.init(true)
+        this.$refs.setDialogVisible.init(true,'')
       },
       //模糊匹配搜索组织名
       selectOrganize() {
+        var startTime = this.create_date[0]
+        var endTime = this.create_date[1]
+        var organize_info = JSON.stringify({
+          organizeName: this.username,
+          createTime: startTime,
+          updateTime: endTime
+        })
+        this.$axios.post("/organize/QUERY||ORGANIZEONE.do", organize_info, {
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        }).then((response) => {
+          if (response.data.code == 100) {
+            this.tableData = []
+            var array = response.data.data
+            array.forEach((item, i) => {
+              this.tableData.push(item)
+            })
+          } else if (response.data.code == 104 || response.data.code == 102) {
+            this.$message.error(response.data.msg);
+            this.$router.push('/login')
+          } else if (response.data.code == 105) {
+            this.$message.info(response.data.msg);
+          } else {
+            this.$message.error(response.data.msg);
+          }
+        }).catch((error) => {
+          this.$message.error('选中组织名后更新组织信息异常');
+          this.$router.push('/error')
+        })
 
       },
       querySearchAsync(queryString, cb) {
@@ -189,9 +194,34 @@
           console.log(error)
         })
       },
+      //选中模糊搜索结果
       handleSelect(item) {
         this.username = item.value
-        console.log('user' + this.username)
+      },
+      resetForm() {
+        this.username = ''
+        this.create_date = ''
+        this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+          .then((response) => {
+            var array = response.data.data
+            var code = response.data.code
+            var message = response.data.msg
+            if (code !== 100) {
+              this.$message.error(message);
+              this.$router.push('/login')
+            } else {
+              console.log('dafdfa')
+              this.tableData = []
+              array.forEach((item, i) => {
+                this.tableData.push(item)
+              })
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+            this.$message.error('请求组织信息异常');
+            this.$router.push('/error')
+          })
       }
     },
     components: {

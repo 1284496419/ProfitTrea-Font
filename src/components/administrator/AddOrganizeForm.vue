@@ -124,87 +124,107 @@
             })
             console.log('organize_info', organize_info)
             this.form.organization = response.data.data
-            var token = localStorage.getItem('Authorization')
-            var verify_token = {
-              userName: token
-            }
-            this.$axios.post("/logout/VERIFY.do", verify_token, {
-              headers: {
-                'Content-Type': 'application/json;charset=UTF-8'
-              }
-            }).then((response) => {
-              var verify_code = response.data.code
-              if (verify_code === 100) {
-                this.$axios.post("/organize/ADD||ORGANIZATION.do", organize_info, {
-                    headers: {
-                      'Content-Type': 'application/json;charset=UTF-8'
-                    }
-                  })
-                  .then((response) => {
-                    console.log(response.data)
-                    if (response.data.code === 100) {
-                      this.$message({
-                        message: response.data.msg,
-                        type: 'success'
-                      });
-                      this.$axios.get("/user/ID||USER.do")
-                        .then((response) => {
-                          if (organize_type === '1') {
-                            this.form.roleType = 102
-                          } else if (organize_type === '2') {
-                            this.form.roleType = 101
-                          }
-                          var user = JSON.stringify({
-                            userId: response.data.data,
-                            userName: response.data.data,
-                            realName: '',
-                            email: organize_email,
-                            organization: this.form.organization,
-                            studentNumber: '',
-                            major: '',
-                            grade: '',
-                            roleType: this.form.roleType,
-                            status: '100'
-                          })
-                          console.log(user)
-                          this.$axios.post("/user/ADD||MANAGER.do", user, {
-                              headers: {
-                                'Content-Type': 'application/json;charset=UTF-8'
-                              }
-                            })
-                            .then((response) => {
-                              this.$emit('updateOrganize',response.data.msg)
-                            })
-                            .catch((error) => {
-                              console.log(error)
-                              this.$message.error('添加组织管理员异常');
-                              this.$router.push('/error')
-                            })
+            this.$axios.post("/organize/ADD||ORGANIZATION.do", organize_info, {
+                headers: {
+                  'Content-Type': 'application/json;charset=UTF-8'
+                }
+              })
+              .then((response) => {
+                var verify_code = response.data.code
+                if (verify_code === 100) {
+                  this.$message({
+                    message: response.data.msg,
+                    type: 'success'
+                  });
+                  //获取组织管理员id
+                  this.$axios.get("/user/ID||USER.do")
+                    .then((response) => {
+                      if (response.data.code == 100) {
+                        if (organize_type === '1') {
+                          this.form.roleType = 102
+                        } else if (organize_type === '2') {
+                          this.form.roleType = 101
+                        }
+                        var user = JSON.stringify({
+                          userId: response.data.data,
+                          userName: response.data.data,
+                          realName: '',
+                          email: organize_email,
+                          organization: this.form.organization,
+                          studentNumber: '',
+                          major: '',
+                          grade: '',
+                          roleType: this.form.roleType,
+                          status: '100'
                         })
-                        .catch((error) => {
-                          this.$message.error('生成组织管理员id异常');
-                          this.$router.push('/error')
-                        });
-                    } else {
-                      this.$message.error(response.data.msg);
-                    }
-                  })
-                  .catch((error) => {
-                    this.$message.error('添加组织异常');
-                    this.$router.push('/error')
-                  })
-              } else if (verify_code === 104) {
-                this.$message.error(response.data.msg)
-              } else if (verify_code === 102) {
-                console.log('执行')
-                this.$message.error(response.data.msg)
-                this.$router.push('/login')
-              }
-            }).catch((error) => {
-              console.log(error)
-              this.$message.error('添加组织校验token异常')
-              this.$router.push('/error')
-            })
+                        console.log(user)
+                        this.$axios.post("/user/ADD||MANAGER.do", user, {
+                            headers: {
+                              'Content-Type': 'application/json;charset=UTF-8'
+                            }
+                          })
+                          .then((response) => {
+                            if (response.data.code == 100) {
+                              this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+                                .then((response) => {
+                                  var array = response.data.data
+                                  var code = response.data.code
+                                  var message = response.data.msg
+                                  if (code !== 100) {
+                                    this.$message.error(message);
+                                    this.$router.push('/login')
+                                  } else {
+                                    this.$parent.tableData = []
+                                    array.forEach((item, i) => {
+                                      this.$parent.tableData.push(item)
+                                    })
+                                  }
+                                })
+                                .catch((error) => {
+                                  console.log(error)
+                                  this.$message.error('请求组织信息异常');
+                                  this.$router.push('/error')
+                                })
+                            } else if (response.data.code == 104 || response.data.code == 102) {
+                              this.$message.error(response.data.msg);
+                              this.$router.push('/login')
+                            } else if (response.data.code == 105) {
+                              this.$message.info(response.data.msg);
+                            } else {
+                              this.$message.error(response.data.msg);
+                              this.$router.push('/error')
+                            }
+                          })
+                          .catch((error) => {
+                            console.log(error)
+                            this.$message.error('添加组织管理员异常');
+                            this.$router.push('/error')
+                          })
+                      } else if (response.data.code == 104 || response.data.code == 102) {
+                        this.$message.error(response.data.msg);
+                        this.$router.push('/login')
+                      } else if (response.data.code == 105) {
+                        this.$message.info(response.data.msg);
+                      } else {
+                        this.$message.error(response.data.msg);
+                        this.$router.push('/error')
+                      }
+                    })
+                    .catch((error) => {
+                      this.$message.error('生成组织管理员id异常');
+                      this.$router.push('/error')
+                    });
+                } else if (verify_code === 103) {
+                  this.$message.error(response.data.msg);
+                } else {
+                  this.$message.error(response.data.msg);
+                  this.$router.push('/login')
+                }
+              })
+              .catch((error) => {
+                this.$message.error('添加组织异常');
+                this.$router.push('/error')
+              })
           })
           .catch((error) => {
             this.$message.error('生成组织id异常')
@@ -212,19 +232,7 @@
           });
       }
     },
-    mounted() {
-      this.$axios.get("/organize/QUERY||ORGANIZATION.do")
-        .then((response) => {
-          this.tableData = []
-          var array = response.data.data
-          array.forEach((item, i) => {
-            this.tableData.push(item)
-          })
-        })
-        .catch((error) => {
-          this.$message.error('查询组织信息异常');
-        });
-    }
+    mounted() {}
   };
 </script>
 

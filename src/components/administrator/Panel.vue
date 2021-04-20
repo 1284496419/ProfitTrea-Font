@@ -3,7 +3,9 @@
     <el-tabs class="panel" v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="组织列表" name="first">
         <span class="username-label">组织名称：</span>
-        <el-input v-model="username" class="username-input"></el-input>
+        <el-autocomplete v-model="username" :fetch-suggestions="querySearchAsync" class="username-input"
+          placeholder="请输入内容" @select="handleSelect"></el-autocomplete>
+        <!-- <el-input v-model="username" class="username-input" @input="matchOrganize"></el-input> -->
         <span class="date-label">创建时间：</span>
         <el-date-picker v-model="value2" type="datetimerange" :picker-options="pickerOptions" range-separator="To"
           start-placeholder="Start date" end-placeholder="End date" align="right">
@@ -11,7 +13,7 @@
         <br />
         <el-button class="btn" icon="el-icon-download">导出列表数据</el-button>
         <el-button class="btn" type="primary" icon="el-icon-plus" @click="addOrganize">新增组织</el-button>
-        <el-button class="btn" type="primary" icon="el-icon-search">查询</el-button>
+        <el-button class="btn" type="primary" icon="el-icon-search" @click="selectOrganize">查询</el-button>
         <el-button class="btn" icon="el-icon-refresh-left">重置</el-button>
         <el-table :data="tableData" border style="width: 90%">
           <el-table-column fixed prop="organizationId" label="账号" width="150">
@@ -34,8 +36,8 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="待审核" name="second">待审核</el-tab-pane>
-      <el-tab-pane label="审核不通过" name="third">审核不通过</el-tab-pane>
+      <!-- <el-tab-pane label="待审核" name="second">待审核</el-tab-pane>
+      <el-tab-pane label="审核不通过" name="third">审核不通过</el-tab-pane> -->
     </el-tabs>
     <AddOrganizeForm ref="setDialogVisible"></AddOrganizeForm>
   </div>
@@ -49,6 +51,8 @@
       return {
         activeName: 'first',
         username: '',
+        oranizaMatch: [],
+        timeout: null,
         pickerOptions: {
           shortcuts: [{
               text: 'Last week',
@@ -85,6 +89,7 @@
       }
     },
     methods: {
+      //切换tab导航
       handleClick(tab, event) {
         console.log(tab, event)
       },
@@ -97,74 +102,59 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          var token = localStorage.getItem('Authorization')
-          var verify_token = {
-            userName: token
-          }
-          this.$axios.post("/logout/VERIFY.do", verify_token, {
-            headers: {
-              'Content-Type': 'application/json;charset=UTF-8'
-            }
-          }).then((response) => {
-            var verify_code = response.data.code
-            if (verify_code === 100) {
-              var organize = JSON.stringify({
-                organizationId: row.organizationId,
-              })
-              this.$axios.post("/organize/DELETE||ORGANIZATION.do", organize, {
-                  headers: {
-                    'Content-Type': 'application/json;charset=UTF-8'
-                  }
-                })
-                .then((response) => {
-                  if (response.data.code == 100) {
-                    this.tableData = []
-                    this.$axios.get("/organize/QUERY||ORGANIZATION.do")
-                      .then((response) => {
-                        this.tableData = []
-                        var array = response.data.data
-                        array.forEach((item, i) => {
-                          this.tableData.push(item)
-                        })
-                      })
-                      .catch((error) => {
-                        this.$message.error('查询组织异常');
-                        this.$router.push('/error')
-                      })
-                    this.$message({
-                      message: response.data.msg,
-                      type: 'success'
-                    });
-                  } else {
-                    this.$message.error(response.data.msg);
-                  }
-                })
-                .catch((error) => {
-                  this.$message.error('删除组织异常');
-                  this.$router.push('/error')
-                })
-              this.$axios.get("/organize/QUERY||ORGANIZATION.do")
-                .then((response) => {
-                  this.tableData = []
-                  var array = response.data.data
-                  array.forEach((item, i) => {
-                    this.tableData.push(item)
-                  })
-                })
-                .catch((error) => {
-                  this.$message.error('系统异常');
-                })
-            } else if (verify_code === 104) {
-              this.$message.error(response.data.msg)
-            } else if (verify_code === 102) {
-              this.$message.error(response.data.msg)
-              this.$router.push('/login')
-            }
-          }).catch((error) => {
-            console.log(error)
-            this.$message.error('校验token异常')
-            this.$router.push('/error')
+          var organize = JSON.stringify({
+            organizationId: row.organizationId,
           })
+          this.$axios.post("/organize/DELETE||ORGANIZATION.do", organize, {
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+              }
+            })
+            .then((response) => {
+              if (response.data.code == 100) {
+                this.tableData = []
+                this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+                  .then((response) => {
+                    this.tableData = []
+                    var array = response.data.data
+                    array.forEach((item, i) => {
+                      this.tableData.push(item)
+                    })
+                  })
+                  .catch((error) => {
+                    this.$message.error('查询组织异常');
+                    this.$router.push('/error')
+                  })
+                this.$message({
+                  message: response.data.msg,
+                  type: 'success'
+                });
+              } else if(response.data.code == 104 || response.data.code == 102){
+                this.$message.error(response.data.msg);
+                this.$router.push('/login')
+              }else if(response.data.code == 105){
+                this.$message.info(response.data.msg);
+              }else{
+                this.$message.error(response.data.msg);
+                this.$router.push('/error')
+              }
+            })
+            .catch((error) => {
+              this.$message.error('删除组织异常');
+              this.$router.push('/error')
+            })
+          this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+            .then((response) => {
+              this.tableData = []
+              var array = response.data.data
+              array.forEach((item, i) => {
+                this.tableData.push(item)
+              })
+            })
+            .catch((error) => {
+              this.$message.error('系统异常');
+            })
+
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -172,61 +162,61 @@
           });
         });
       },
+      //切换navigate
       addOrganize() {
         this.$refs.setDialogVisible.init(true)
       },
-      updateOrganize(data){
-        console.log(data)
-        this.$axios.get("/organize/QUERY||ORGANIZATION.do")
-          .then((response) => {
-            this.tableData = []
-            var array = response.data.data
-            array.forEach((item, i) => {
-              this.tableData.push(item)
-            })
-          })
-          .catch((error) => {
-            this.$message.error('更新组织信息异常');
-          })
+      //模糊匹配搜索组织名
+      selectOrganize() {
+
+      },
+      querySearchAsync(queryString, cb) {
+        var organize_info = JSON.stringify({
+          organizeName: queryString
+        })
+        this.$axios.post("/organize/MATCH||ORGANIZENAME.do", organize_info, {
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        }).then((response) => {
+          var oranizaMatch = response.data.data;
+          var results = oranizaMatch;
+          clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+            cb(results);
+          }, 3 * Math.random());
+        }).catch((error) => {
+          console.log(error)
+        })
+      },
+      handleSelect(item) {
+        this.username = item.value
+        console.log('user' + this.username)
       }
     },
     components: {
       AddOrganizeForm
     },
     mounted() {
-      var token = localStorage.getItem('Authorization')
-      var verify_token = {
-        userName: token
-      }
-      this.$axios.post("/logout/VERIFY.do", verify_token, {
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8'
-        }
-      }).then((response) => {
-        var verify_code = response.data.code
-        if (verify_code === 100) {
-          this.$axios.get("/organize/QUERY||ORGANIZATION.do")
-            .then((response) => {
-              var array = response.data.data
-              array.forEach((item, i) => {
-                this.tableData.push(item)
-              })
+      this.$axios.get("/organize/QUERY||ORGANIZATION.do")
+        .then((response) => {
+          var array = response.data.data
+          var code = response.data.code
+          var message = response.data.msg
+          if (code !== 100) {
+            this.$message.error(message);
+            this.$router.push('/login')
+          } else {
+            array.forEach((item, i) => {
+              this.tableData.push(item)
             })
-            .catch((error) => {
-              this.$message.error('组织数据异常');
-            })
-        } else if (verify_code === 104) {
-          this.$message.error(response.data.msg)
-        } else if (verify_code === 102) {
-          console.log('执行')
-          this.$message.error(response.data.msg)
-          this.$router.push('/login')
-        }
-      }).catch((error) => {
-        console.log(error)
-        this.$message.error('校验token异常')
-        this.$router.push('/error')
-      })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$message.error('请求组织信息异常');
+          this.$router.push('/error')
+        })
     }
   }
 </script>

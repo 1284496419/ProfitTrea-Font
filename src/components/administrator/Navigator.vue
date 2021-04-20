@@ -118,9 +118,7 @@
             'Content-Type': 'application/json;charset=UTF-8'
           }
         }).then((response) => {
-          console.log(response)
           var permission = response.data.data.permissionId
-          console.log(permission)
           if(permission !== 10){
             this.disabled = true
             if(permission == 13){
@@ -133,7 +131,7 @@
           }
         })
         .catch((error) => {
-          this.$message.error('系统异常');
+          this.$message.error('获取用户权限异常');
         })
 
     }

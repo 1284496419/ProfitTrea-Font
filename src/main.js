@@ -18,10 +18,10 @@ Vue.prototype.$qs = qs
 //添加请求拦截器，在请求头中加token
 axios.interceptors.request.use(
     config => {
-      if (localStorage.getItem('Authorization')) {
-        config.headers.Authorization = localStorage.getItem('Authorization');
+      let token = localStorage.getItem('Authorization')
+      if (token) {
+        config.headers.Authorization = token;
       }
-
       return config;
     },
     error => {

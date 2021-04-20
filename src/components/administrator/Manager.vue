@@ -35,8 +35,6 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="待审核" name="second">待审核</el-tab-pane>
-      <el-tab-pane label="审核不通过" name="third">审核不通过</el-tab-pane>
     </el-tabs>
     <AddManager ref="setDialogVisible"></AddManager>
   </div>

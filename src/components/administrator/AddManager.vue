@@ -1,6 +1,6 @@
 <template>
   <div class="addManager">
-    <el-dialog title="新增管理员" :visible.sync="dialogVisible" width="35%" :before-close="handleClose" center>
+    <el-dialog :title="manager_title" :visible.sync="dialogVisible" width="35%" :before-close="handleClose" center>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="姓名:" prop="name">
           <el-input v-model="ruleForm.name" placeholder="请输入真实姓名"></el-input>
@@ -23,8 +23,10 @@
     data() {
       return {
         dialogVisible: false,
-        organization:'',
-        type:'',
+        organization: '',
+        type: '',
+        manager_title: '',
+        userId: '',
         ruleForm: {
           name: '',
           email: ''
@@ -51,8 +53,19 @@
       };
     },
     methods: {
-      init(status) {
+      init(status, row) {
+        console.log(row)
         this.dialogVisible = status
+        if (row === '') {
+          this.manager_title = '新增管理员'
+          this.operate = 'add'
+        } else {
+          this.operate = 'update'
+          this.manager_title = '修改管理员信息'
+          this.ruleForm.name = row.realName
+          this.ruleForm.email = row.email
+          this.userId = row.userId
+        }
       },
       handleClose(done) {
         this.$confirm('确认关闭？')
@@ -64,74 +77,132 @@
       handleChange(value) {},
       onSubmit() {
         this.dialogVisible = false
-
-        var token = localStorage.getItem('Authorization')
-        var user = {
-          userName: token
-        }
-        this.$axios.post("/user/QUERY||ORGANIZATION.do", user, {
-            headers: {
-              'Content-Type': 'application/json;charset=UTF-8'
-            }
-          })
-          .then((response) => {
-            this.organization = response.data.data.organization
-            if(response.data.data.roleType === 101){
-              this.type = 103
-            }else if(response.data.data.type === 102){
-              this.type = 104
-            }
-            var user_name = this.ruleForm.name
-            var user_email = this.ruleForm.email
-            this.$axios.get("/user/ID||USER.do")
-              .then((response) => {
-                var manager = JSON.stringify({
-                  userId: response.data.data,
-                  realName: user_name,
-                  email: user_email,
-                  userName: response.data.data,
-                  realName: user_name,
-                  studentNumber: '',
-                  organization:this.organization,
-                  major: '',
-                  grade: '',
-                  roleType: this.type,
-                  status: '100'
+        if (this.operate == 'add') {
+          var roleType = this.$parent.role
+          if (roleType === 101) {
+            this.type = 103
+          } else if (roleType === 102) {
+            this.type = 104
+          }
+          var user_name = this.ruleForm.name
+          var user_email = this.ruleForm.email
+          this.$axios.get("/user/ID||USER.do")
+            .then((response) => {
+              var manager = JSON.stringify({
+                userId: response.data.data,
+                realName: user_name,
+                email: user_email,
+                userName: response.data.data,
+                realName: user_name,
+                studentNumber: '',
+                organization: this.$parent.organization,
+                major: '',
+                grade: '',
+                roleType: this.type,
+                status: '100'
+              })
+              this.$axios.post("/user/ADD||MANAGER.do", manager, {
+                  headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                  }
                 })
-                this.$axios.post("/user/ADD||MANAGER.do", manager, {
+                .then((response) => {
+                  this.$message({
+                    message: response.data.msg,
+                    type: 'success'
+                  });
+                  var user = {
+                    organization: this.$parent.organization,
+                    roleType: this.$parent.role
+                  }
+                  this.$axios.post("/user/QUERY||MANAGER.do", user, {
+                      headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                      }
+                    })
+                    .then((response) => {
+                      var array = response.data.data
+                      var code = response.data.code
+                      var message = response.data.msg
+                      if (code !== 100) {
+                        this.$message.error(message);
+                        this.$router.push('/login')
+                      } else {
+                        console.log('dafdfa')
+                        this.$parent.tableData = []
+                        array.forEach((item, i) => {
+                          this.$parent.tableData.push(item)
+                        })
+                      }
+                    })
+                    .catch((error) => {
+                      this.$message.error('查询管理员信息异常');
+                      this.$router.push('/error')
+                    })
+                }).catch((error) => {
+                  this.$message.error('查询组织id异常');
+                  this.$router.push('/error')
+                })
+            })
+            .catch((error) => {
+              this.$message.error('获取管理员id异常');
+            })
+
+        } else {
+          var manager = JSON.stringify({
+            userId: this.userId,
+            realName: this.ruleForm.name,
+            email: this.ruleForm.email,
+          })
+          this.$axios.post("/user/UPDATE||MANAGER.do", manager, {
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+              }
+            })
+            .then((response) => {
+              var verify_code = response.data.code
+              if (verify_code === 100) {
+                this.$message({
+                  message: response.data.msg,
+                  type: 'success'
+                });
+                this.ruleForm.email = ''
+                this.ruleForm.name = ''
+                var user = {
+                  organization: this.$parent.organization,
+                  roleType: this.$parent.role
+                }
+                this.$axios.post("/user/QUERY||MANAGER.do", user, {
                     headers: {
                       'Content-Type': 'application/json;charset=UTF-8'
                     }
                   })
                   .then((response) => {
-
-                    this.$message({
-                      message: response.data.msg,
-                      type: 'success'
-                    });
+                    var array = response.data.data
+                    var code = response.data.code
+                    var message = response.data.msg
+                    if (code !== 100) {
+                      this.$message.error(message);
+                      this.$router.push('/login')
+                    } else {
+                      this.$parent.tableData = []
+                      array.forEach((item, i) => {
+                        this.$parent.tableData.push(item)
+                      })
+                    }
                   })
                   .catch((error) => {
-                    this.$message.error('错了哦，这是一条错误消息');
+                    this.$message.error('查询管理员信息异常');
+                    this.$router.push('/error')
                   })
-              })
-              .catch((error) => {
-                console.log(error)
-              });
-          }).catch((error) => {
-            this.$message.error('系统异常');
-          })
-
-        /* this.$axios.get("/organize/QUERY||ORGANIZATION.do")
-          .then((response) => {
-            this.tableData = []
-            var array = response.data.data
-            array.forEach((item, i) => {
-              this.tableData.push(item)
+              } else if (verify_code === 103) {
+                this.$message.error(response.data.msg);
+              } else {
+                this.$message.error(response.data.msg);
+                this.$router.push('/login')
+              }
             })
-          })
-          .catch((error) => {
-            this.$message.error('系统异常');
-          }) */
+        }
       }
     }
   };

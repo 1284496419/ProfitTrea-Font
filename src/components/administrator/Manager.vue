@@ -130,6 +130,7 @@
                 })
               } else {
                 this.$message.error(response.data.msg);
+                this.$router.push('/login')
               }
             })
             .catch((error) => {
@@ -268,10 +269,10 @@
 
       },
       querySearchAsync(queryString, cb) {
-
         var organize_info = JSON.stringify({
           userName: queryString,
-          organization:this.organization
+          organization:this.organization,
+          roleType:101
         })
         this.$axios.post("/user/MATCH||MANAGERNAME.do", organize_info, {
           headers: {

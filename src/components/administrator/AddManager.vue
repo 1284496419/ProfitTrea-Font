@@ -107,40 +107,46 @@
                   }
                 })
                 .then((response) => {
-                  this.$message({
-                    message: response.data.msg,
-                    type: 'success'
-                  });
-                  var user = {
-                    organization: this.$parent.organization,
-                    roleType: this.$parent.role
+                  if (response.data.code !== 100) {
+                    this.$message({
+                      message: response.data.msg,
+                      type: 'success'
+                    });
+                    var user = {
+                      organization: this.$parent.organization,
+                      roleType: this.$parent.role
+                    }
+                    this.$axios.post("/user/QUERY||MANAGER.do", user, {
+                        headers: {
+                          'Content-Type': 'application/json;charset=UTF-8'
+                        }
+                      })
+                      .then((response) => {
+                        var array = response.data.data
+                        var code = response.data.code
+                        var message = response.data.msg
+                        if (code !== 100) {
+                          this.$message.error(message);
+                          this.$router.push('/login')
+                        } else {
+                          console.log('dafdfa')
+                          this.$parent.tableData = []
+                          array.forEach((item, i) => {
+                            this.$parent.tableData.push(item)
+                          })
+                        }
+                      })
+                      .catch((error) => {
+                        this.$message.error('查询管理员信息异常');
+                        this.$router.push('/error')
+                      })
+                  }else{
+                    this.$message.error(response.data.msg);
+                    this.$router.push('/login')
                   }
-                  this.$axios.post("/user/QUERY||MANAGER.do", user, {
-                      headers: {
-                        'Content-Type': 'application/json;charset=UTF-8'
-                      }
-                    })
-                    .then((response) => {
-                      var array = response.data.data
-                      var code = response.data.code
-                      var message = response.data.msg
-                      if (code !== 100) {
-                        this.$message.error(message);
-                        this.$router.push('/login')
-                      } else {
-                        console.log('dafdfa')
-                        this.$parent.tableData = []
-                        array.forEach((item, i) => {
-                          this.$parent.tableData.push(item)
-                        })
-                      }
-                    })
-                    .catch((error) => {
-                      this.$message.error('查询管理员信息异常');
-                      this.$router.push('/error')
-                    })
+
                 }).catch((error) => {
-                  this.$message.error('查询组织id异常');
+                  this.$message.error('添加用户异常');
                   this.$router.push('/error')
                 })
             })

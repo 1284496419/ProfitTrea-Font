@@ -45,8 +45,8 @@
       return {
         activeName: 'first',
         username: '',
-        organization:'',
-        role:'',
+        organization: '',
+        role: '',
         options: [{
           value: '1',
           label: '平台管理员'
@@ -63,7 +63,7 @@
         console.log(tab, event)
       },
       managerEdit(row) {
-        this.$refs.setDialogVisible.init(true,row)
+        this.$refs.setDialogVisible.init(true, row)
       },
       managerDelete(row) {
         this.$confirm('此操作将永久删除该条记录, 是否继续?', '提示', {
@@ -85,56 +85,42 @@
                   message: response.data.msg,
                   type: 'success'
                 });
+
                 var user = {
-                  userName: this.access_token
+                  organization: this.organization,
+                  roleType: this.role
                 }
-                this.$axios.post("/user/QUERY||ORGANIZATION.do", user, {
-                  headers: {
-                    'Content-Type': 'application/json;charset=UTF-8'
-                  }
-                }).then((response) => {
-                  var organize = response.data.data.organization
-                  var role_type = response.data.data.roleType
-                  var user = {
-                    organization: organize,
-                    roleType: role_type
-                  }
-                  console.log(organize)
-                  this.$axios.post("/user/QUERY||MANAGER.do", user, {
-                      headers: {
-                        'Content-Type': 'application/json;charset=UTF-8'
-                      }
-                    })
-                    .then((response) => {
-                      var array = response.data.data
-                      var code = response.data.code
-                      var message = response.data.msg
-                      if (code !== 100) {
-                        this.$message.error(message);
-                        this.$router.push('/login')
-                      } else {
-                        console.log('dafdfa')
-                        this.tableData = []
-                        array.forEach((item, i) => {
-                          this.tableData.push(item)
-                        })
-                      }
-                    })
-                    .catch((error) => {
-                      this.$message.error('查询管理员信息异常');
-                      this.$router.push('/error')
-                    })
-                }).catch((error) => {
-                  this.$message.error('查询组织id异常');
-                  this.$router.push('/error')
-                })
+                this.$axios.post("/user/QUERY||MANAGER.do", user, {
+                    headers: {
+                      'Content-Type': 'application/json;charset=UTF-8'
+                    }
+                  })
+                  .then((response) => {
+                    var array = response.data.data
+                    var code = response.data.code
+                    var message = response.data.msg
+                    if (code !== 100) {
+                      this.$message.error(message);
+                      this.$router.push('/login')
+                    } else {
+                      console.log('dafdfa')
+                      this.tableData = []
+                      array.forEach((item, i) => {
+                        this.tableData.push(item)
+                      })
+                    }
+                  })
+                  .catch((error) => {
+                    this.$message.error('查询管理员信息异常');
+                    this.$router.push('/error')
+                  })
               } else {
                 this.$message.error(response.data.msg);
                 this.$router.push('/login')
               }
             })
             .catch((error) => {
-              this.$message.error('系统异常');
+              this.$message.error('删除数据异常');
             })
         }).catch(() => {
           this.$message({
@@ -144,106 +130,48 @@
         });
       },
       addManager() {
-        this.$refs.setDialogVisible.init(true,'')
+        this.$refs.setDialogVisible.init(true, '')
       },
-      handleSelect(item){
+      handleSelect(item) {
         this.username = item.value
       },
-      resetForm(){
+      resetForm() {
         this.username = ''
-        var token = localStorage.getItem('Authorization')
         var user = {
-          userName: token
+          organization: this.organization,
+          roleType: this.role
         }
-        this.$axios.post("/user/QUERY||ORGANIZATION.do", user, {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        }).then((response) => {
-          var organize = response.data.data.organization
-          this.organization = organize
-          var role_type = response.data.data.roleType
-          var user = {
-            organization: organize,
-            roleType: role_type
-          }
-          console.log(organize)
-          this.$axios.post("/user/QUERY||MANAGER.do", user, {
-              headers: {
-                'Content-Type': 'application/json;charset=UTF-8'
-              }
-            })
-            .then((response) => {
-              var array = response.data.data
-              var code = response.data.code
-              var message = response.data.msg
-              if (code !== 100) {
-                this.$message.error(message);
-                this.$router.push('/login')
-              } else {
-                var token = localStorage.getItem('Authorization')
-                var user = {
-                  userName: token
-                }
-                this.$axios.post("/user/QUERY||ORGANIZATION.do", user, {
-                  headers: {
-                    'Content-Type': 'application/json;charset=UTF-8'
-                  }
-                }).then((response) => {
-                  var organize = response.data.data.organization
-                  this.organization = organize
-                  var role_type = response.data.data.roleType
-                  var user = {
-                    organization: organize,
-                    roleType: role_type
-                  }
-                  console.log(organize)
-                  this.$axios.post("/user/QUERY||MANAGER.do", user, {
-                      headers: {
-                        'Content-Type': 'application/json;charset=UTF-8'
-                      }
-                    })
-                    .then((response) => {
-                      var array = response.data.data
-                      var code = response.data.code
-                      var message = response.data.msg
-                      if (code !== 100) {
-                        this.$message.error(message);
-                        this.$router.push('/login')
-                      } else {
-                        console.log('dafdfa')
-                        this.tableData = []
-                        array.forEach((item, i) => {
-                          this.tableData.push(item)
-                        })
-                      }
-                    })
-                    .catch((error) => {
-                      this.$message.error('查询管理员信息异常');
-                      this.$router.push('/error')
-                    })
-                }).catch((error) => {
-                  this.$message.error('查询组织id异常');
-                  this.$router.push('/error')
-                })
-              }
-            })
-            .catch((error) => {
-              this.$message.error('查询管理员信息异常');
-              this.$router.push('/error')
-            })
-        }).catch((error) => {
-          this.$message.error('查询组织id异常');
-          this.$router.push('/error')
-        })
+        this.$axios.post("/user/QUERY||MANAGER.do", user, {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          })
+          .then((response) => {
+            var array = response.data.data
+            var code = response.data.code
+            var message = response.data.msg
+            if (code !== 100) {
+              this.$message.error(message);
+              this.$router.push('/login')
+            } else {
+              this.tableData = []
+              array.forEach((item, i) => {
+                this.tableData.push(item)
+              })
+            }
+          })
+          .catch((error) => {
+            this.$message.error('查询管理员信息异常');
+            this.$router.push('/error')
+          })
 
       },
-      selectManager(){
+      selectManager() {
         console.log(this.username)
         var manager_info = JSON.stringify({
           userName: this.username
         })
-        this.$axios.post("/user/QUERY||MANAGERONE.do",manager_info,{
+        this.$axios.post("/user/QUERY||MANAGERONE.do", manager_info, {
           headers: {
             'Content-Type': 'application/json;charset=UTF-8'
           }
@@ -271,20 +199,29 @@
       querySearchAsync(queryString, cb) {
         var organize_info = JSON.stringify({
           userName: queryString,
-          organization:this.organization,
-          roleType:101
+          organization: this.organization,
+          roleType: 101
         })
         this.$axios.post("/user/MATCH||MANAGERNAME.do", organize_info, {
           headers: {
             'Content-Type': 'application/json;charset=UTF-8'
           }
         }).then((response) => {
-          var oranizaMatch = response.data.data;
-          var results = oranizaMatch;
-          clearTimeout(this.timeout);
-          this.timeout = setTimeout(() => {
-            cb(results);
-          }, 3 * Math.random());
+          if (response.data.code == 100) {
+            var oranizaMatch = response.data.data;
+            var results = oranizaMatch;
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+              cb(results);
+            }, 3 * Math.random());
+          } else if (response.data.code == 104 || response.data.code == 102) {
+            this.$message.error(response.data.msg);
+            this.$router.push('/login')
+          } else if (response.data.code == 105) {
+            this.$message.info(response.data.msg);
+          } else {
+            this.$message.error(response.data.msg);
+          }
         }).catch((error) => {
           console.log(error)
         })
@@ -326,7 +263,6 @@
               this.$message.error(message);
               this.$router.push('/login')
             } else {
-              console.log('dafdfa')
               this.tableData = []
               array.forEach((item, i) => {
                 this.tableData.push(item)

@@ -10,9 +10,6 @@
         <el-date-picker v-model="create_date" type="daterange" range-separator="至" start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
-        <!-- <el-date-picker v-model="createTime" type="datetimerange" :picker-options="pickerOptions" range-separator="To"
-          start-placeholder="Start date" end-placeholder="End date" align="right">
-        </el-date-picker> -->
         <br />
         <el-button class="btn" icon="el-icon-download">导出列表数据</el-button>
         <el-button class="btn" type="primary" icon="el-icon-plus" @click="addOrganize">新增组织</el-button>
@@ -175,6 +172,7 @@
         })
 
       },
+      //模糊匹配
       querySearchAsync(queryString, cb) {
         var organize_info = JSON.stringify({
           organizeName: queryString
@@ -184,20 +182,31 @@
             'Content-Type': 'application/json;charset=UTF-8'
           }
         }).then((response) => {
-          var oranizaMatch = response.data.data;
-          var results = oranizaMatch;
-          clearTimeout(this.timeout);
-          this.timeout = setTimeout(() => {
-            cb(results);
-          }, 3 * Math.random());
+          if (response.data.code == 100) {
+            var oranizaMatch = response.data.data;
+            var results = oranizaMatch;
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+              cb(results);
+            }, 3 * Math.random());
+          } else if (response.data.code == 104 || response.data.code == 102) {
+            this.$message.error(response.data.msg);
+            this.$router.push('/login')
+          } else if (response.data.code == 105) {
+            this.$message.info(response.data.msg);
+          } else {
+            this.$message.error(response.data.msg);
+          }
         }).catch((error) => {
-          console.log(error)
+          this.$message.error('信息匹配查询异常');
+          this.$router.push('/error')
         })
       },
       //选中模糊搜索结果
       handleSelect(item) {
         this.username = item.value
       },
+      //重置
       resetForm() {
         this.username = ''
         this.create_date = ''

@@ -235,36 +235,41 @@
           'Content-Type': 'application/json;charset=UTF-8'
         }
       }).then((response) => {
-        var organize = response.data.data.organization
-        this.organization = organize
-        var user = {
-          organization: organize,
-          roleType: 104
+        if(response.data.code != 100){
+          this.$message.error(response.data.msg);
+          this.$router.push('/login')
+        }else{
+          var organize = response.data.data.organization
+          this.organization = organize
+          var user = {
+            organization: organize,
+            roleType: 104
+          }
+          console.log(organize)
+          this.$axios.post("/user/QUERY||USER.do", user, {
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+              }
+            })
+            .then((response) => {
+              var array = response.data.data
+              var code = response.data.code
+              var message = response.data.msg
+              if (code !== 100) {
+                this.$message.error(message);
+                this.$router.push('/login')
+              } else {
+                this.tableData = []
+                array.forEach((item, i) => {
+                  this.tableData.push(item)
+                })
+              }
+            })
+            .catch((error) => {
+              this.$message.error('查询用户信息异常');
+              this.$router.push('/error')
+            })
         }
-        console.log(organize)
-        this.$axios.post("/user/QUERY||USER.do", user, {
-            headers: {
-              'Content-Type': 'application/json;charset=UTF-8'
-            }
-          })
-          .then((response) => {
-            var array = response.data.data
-            var code = response.data.code
-            var message = response.data.msg
-            if (code !== 100) {
-              this.$message.error(message);
-              this.$router.push('/login')
-            } else {
-              this.tableData = []
-              array.forEach((item, i) => {
-                this.tableData.push(item)
-              })
-            }
-          })
-          .catch((error) => {
-            this.$message.error('查询用户信息异常');
-            this.$router.push('/error')
-          })
       }).catch((error) => {
         this.$message.error('查询组织信息异常');
         this.$router.push('/error')

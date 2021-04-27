@@ -153,6 +153,7 @@
         activeIndex2: '1',
         drawer: false,
         direction: 'rtl',
+        role:''
       };
     },
     methods: {
@@ -195,9 +196,17 @@
           this.$router.push('/login')
         }
         if(command == "个人信息"){
-          this.$router.push('/info')
+          this.$router.push({
+            name:'info',
+            params:{
+              role:this.role
+            }
+          })
         }
       }
+    },
+    mounted() {
+      this.role = this.$route.params.role
     }
   }
 </script>

@@ -34,7 +34,8 @@
       return {
         activeIndex: '1',
         activeIndex2: '1',
-        username: this.$route.params.user
+        username: '',
+        role:''
       }
     },
     /* mounted () {
@@ -45,7 +46,14 @@
         console.log(key, keyPath)
       },
       toIndex() {
-        this.$router.push('/')
+        //判断用户，管理员index页为后台页，用户index页为首页
+        var role = this.role
+        if(role === 14){
+          this.$router.push('/')
+        }else{
+          this.$router.push('/admin')
+        }
+
       },
       signOut(command) {
         if (command == "退出") {
@@ -61,9 +69,18 @@
           this.$router.push('/login')
         }
         if (command == "个人信息") {
-          this.$router.push('/info')
+          this.$router.push({
+            name:'info',
+            params:{
+              role:this.role
+            }
+          })
         }
       }
+    },
+    mounted() {
+      this.username = this.$route.params.user
+      this.role = this.$route.params.role
     }
   }
 </script>

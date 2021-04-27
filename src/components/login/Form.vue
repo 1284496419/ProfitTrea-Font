@@ -87,11 +87,13 @@
                 type: 'success'
               });
               var username = response.data.data.username
+              var role = response.data.data.permission
               var url = response.data.data.url
               this.$router.push({
                 name: url,
                 params: {
-                  user: username
+                  user: username,
+                  role:role
                 }
               })
             } else {
@@ -103,9 +105,9 @@
 
           })
           .catch((error) => {
-            console.log(error)
+            this.$message.error('系统后台异常');
             this.$router.push({
-              name: 'error'
+              name: 'login'
             })
           })
       },

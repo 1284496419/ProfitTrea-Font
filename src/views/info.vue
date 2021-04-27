@@ -1,10 +1,11 @@
 <template>
   <div clss="info">
-    <topbar></topbar>
+    <topbar :class="isShow"></topbar>
+    <Top :class="isOn"></Top>
     <div class="info-container">
       <div class="user-info">
         <el-tabs v-model="activeName" @tab-click="handleClick" id="info-tab">
-          <el-tab-pane label="个人信息" name="first">
+          <el-tab-pane label="个人信息" name="first" :class="person_info">
             <PersonInfo></PersonInfo>
           </el-tab-pane>
           <el-tab-pane label="账号信息" name="second">
@@ -21,6 +22,7 @@
 
 <script>
   import topbar from '@/components/topbar.vue'
+  import Top from '@/components/administrator/Top.vue'
   import PersonInfo from '@/components/infomation/PersonInfo.vue'
   import AccountInfo from '@/components/infomation/AccountInfo.vue'
   import ChangePass from '@/components/infomation/ChangePass.vue'
@@ -28,7 +30,10 @@
     name: 'info',
     data() {
       return {
-        activeName: 'first'
+        activeName: 'first',
+        isShow:'',
+        isOn:'',
+        person_info:''
       };
     },
     methods: {
@@ -40,7 +45,21 @@
       topbar,
       PersonInfo,
       AccountInfo,
-      ChangePass
+      ChangePass,
+      Top
+    },
+    mounted() {
+      var role = this.$route.params.role
+      console.log('role' + role)
+      if(role === 14){
+        this.activeName = 'first'
+        this.isOn = 'show-top'
+        this.person_info = ''
+      }else{
+        this.activeName = 'second'
+        this.isShow = 'show-top'
+        this.person_info = 'show-top'
+      }
     }
   }
 </script>
@@ -70,8 +89,11 @@
     height: 50px;
     line-height: 50px;
   }
-  
+
   #tab-first{
     padding-left: 20px;
+  }
+  .show-top{
+    display: none;
   }
 </style>

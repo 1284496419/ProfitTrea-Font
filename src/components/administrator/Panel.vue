@@ -74,7 +74,7 @@
           type: 'warning'
         }).then(() => {
           var organize = JSON.stringify({
-            organizationId: row.organizationId,
+            organizationId: row.organizationId
           })
           this.$axios.post("/organize/DELETE||ORGANIZATION.do", organize, {
               headers: {
@@ -86,11 +86,16 @@
                 this.tableData = []
                 this.$axios.get("/organize/QUERY||ORGANIZATION.do")
                   .then((response) => {
-                    this.tableData = []
-                    var array = response.data.data
-                    array.forEach((item, i) => {
-                      this.tableData.push(item)
-                    })
+                    if(response.data.code != 100){
+                      this.$message.error(response.data.msg);
+                      this.$router.push('/login')
+                    }else{
+                      this.tableData = []
+                      var array = response.data.data
+                      array.forEach((item, i) => {
+                        this.tableData.push(item)
+                      })
+                    }
                   })
                   .catch((error) => {
                     this.$message.error('查询组织异常');
@@ -116,13 +121,17 @@
             })
           this.$axios.get("/organize/QUERY||ORGANIZATION.do")
             .then((response) => {
-              this.tableData = []
-              var array = response.data.data
-              array.forEach((item, i) => {
-                this.tableData.push(item)
-              })
+              if(response.data.code != 100){
+              }else{
+                this.tableData = []
+                var array = response.data.data
+                array.forEach((item, i) => {
+                  this.tableData.push(item)
+                })
+              }
             })
             .catch((error) => {
+              console.log(error)
               this.$message.error('删除后更新组织信息异常');
               this.$router.push('/error')
             })

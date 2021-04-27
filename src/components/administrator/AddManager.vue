@@ -144,7 +144,6 @@
                     this.$message.error(response.data.msg);
                     this.$router.push('/login')
                   }
-
                 }).catch((error) => {
                   this.$message.error('添加用户异常');
                   this.$router.push('/error')

@@ -96,6 +96,6 @@
 
   .newBlock {
     text-align: center;
-    width: 1072.8px;
+    width: 1060.8px;
   }
 </style>

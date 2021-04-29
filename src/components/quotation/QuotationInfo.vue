@@ -55,8 +55,9 @@
   .right {
     margin: 0;
     float: left;
-    width: 1072.8px;
+    width: 1060.8px
   }
+
 
   .dm-title {
     float: left;
@@ -119,7 +120,7 @@
   }
 
   #quo-tab .el-tabs__content {
-    background-color:  rgb(243, 245, 249);
+    background-color: rgb(243, 245, 249);
     height: 100%;
     z-index: 101;
     float: left;

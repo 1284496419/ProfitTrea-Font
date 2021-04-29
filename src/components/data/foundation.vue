@@ -90,15 +90,4 @@
 </script>
 
 <style>
-  .dataTable th {
-    text-align: center;
-  }
-
-  .newBlock {
-    text-align: center;
-    width: 1072.8px;
-    /* background-color: #000000; */
-  }
-
-  .data-page {}
 </style>

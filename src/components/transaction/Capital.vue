@@ -5,22 +5,22 @@
         <tbody>
           <tr>
             <td class="bg-gray funder">可用余额</td>
-            <td class="funder">{{this.found.availableBalance}}</td>
+            <td class="funder">{{funds.availableBalance}}</td>
             <td class="bg-gray funder">资金余额</td>
-            <td class="funder">{{this.found.fundBalance}}</td>
+            <td class="funder">{{funds.fundBalance}}</td>
             <td class="bg-gray funder">冻结余额</td>
-            <td class="funder">{{this.found.freezeBalance}}</td>
+            <td class="funder">{{funds.freezeBalance}}</td>
           </tr>
           <tr>
             <td class="bg-gray funder">总资产</td>
-            <td class="funder">{{this.found.totalFund}}</td>
+            <td class="funder">{{funds.totalFund}}</td>
             <td class="bg-gray funder">总盈亏</td>
-            <td class="funder">{{this.found.totalProfit}}</td>
+            <td class="funder">{{funds.totalProfit}}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <el-table :data="tableData" stripe style="width: 100%">
+    <el-table :data="stockList" stripe style="width: 100%">
       <el-table-column prop="stockCode" label="证券代码">
       </el-table-column>
       <el-table-column prop="stockName" label="证券名称">
@@ -51,46 +51,20 @@
   export default {
     data() {
       return {
-        tableData: [],
-        found:{}
       }
     },
     mounted() {
-      var token = localStorage.getItem('Authorization')
-      var share = JSON.stringify({
-        stockCode: token
-      })
-      this.$axios.post('/transaction/QUERY||SHARE.do', share, {
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8'
-        }
-      }).then((response) => {
-        this.found = response.data.data
-        console.log(this.found)
-      }).catch()
-
-      var capital_info = JSON.stringify({
-        userName: token
-      })
-      this.$axios.post('/user/QUERY||ORGANIZATION.do', capital_info, {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        }).then((response) => {
-          var capital = response.data.data
-          var capital_stock = JSON.stringify({
-            userId:capital.userId
-          })
-          this.$axios.post('/transaction/QUERY||FUND.do',capital_stock, {
-            headers: {
-              'Content-Type': 'application/json;charset=UTF-8'
-            }
-          }).then((response)=>{
-            var funds = response.data.data
-            this.tableData = funds
-          }).catch()
-        })
-        .catch()
+      
+    },
+    props:{
+      stockList:{
+        type:Array,
+        required:true
+      },
+      funds:{
+        type:Object,
+        required:true
+      }
     }
   }
 </script>

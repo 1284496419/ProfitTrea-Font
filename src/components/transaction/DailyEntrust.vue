@@ -1,6 +1,6 @@
 <template>
   <div class="dailyEntrust">
-    <el-table :data="tableData" stripe style="width: 100%">
+    <el-table :data="today_entrust" stripe style="width: 100%">
       <el-table-column prop="stockCode" label="证券代码">
       </el-table-column>
       <el-table-column prop="stockName" label="证券名称">
@@ -42,27 +42,13 @@
       }
     },
     mounted() {
-      var token = localStorage.getItem('Authorization')
-      var user_info = JSON.stringify({
-        userName:token
-      })
-      this.$axios.post('/user/QUERY||ORGANIZATION.do',user_info, {
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8'
-        }
-      }).then((response)=>{
-        var user = response.data.data
-        var entrust_info = JSON.stringify({
-          userId: user.userId
-        })
-        this.$axios.post('/transaction/QUERY||ENTRUST.do', entrust_info, {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        }).then((response) => {
-          this.tableData = response.data.data
-        }).catch()
-      }).catch()
+
+    },
+    props:{
+      today_entrust:{
+        type:Array,
+        required:true
+      }
     }
   }
 </script>

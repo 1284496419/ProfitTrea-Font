@@ -123,6 +123,16 @@
         确 定
       </el-button>
     </div>
+    <el-dialog title="委托确认" :visible.sync="dialogTableVisible" id="entrust_log">
+      <el-table :data="gridData" id="entrust_affirm">
+        <el-table-column property="title" label="" width="150"></el-table-column>
+        <el-table-column property="name" label="" width="150"></el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogTableVisible = false">取 消</el-button>
+        <el-button type="primary" @click="sendBuy">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -141,44 +151,76 @@
         },
         formLabelWidth: '80px',
         buyStyle: 'buy-list ifind-hide',
-        buyStock_list: []
+        buyStock_list: [],
+        gridData: [{
+          title: '股东账号',
+          name: '',
+        }, {
+          title: '证券代码',
+          name: '',
+        }, {
+          title: '委托方式',
+          name: '',
+        }, {
+          title: '委托数量',
+          name: '',
+        }],
+        dialogTableVisible: false,
       }
     },
     methods: {
       submitBuy() {
-
-        console.log('购买骨牌哦' + this.form.entrustType)
+        this.dialogTableVisible = true
+        this.gridData[0].name = 'username'
+        this.gridData[1].name = this.form.stockCode
+        this.gridData[2].name = '市价委托'
+        this.gridData[3].name = this.form.buyNumber
+      },
+      sendBuy(){
+        this.dialogTableVisible = false
         var token = localStorage.getItem('Authorization')
         var info = JSON.stringify({
-          userName:token
+          userName: token
         })
-        this.$axios.post('/user/QUERY||ORGANIZATION.do',info, {
+        this.$axios.post('/user/QUERY||ORGANIZATION.do', info, {
           headers: {
             'Content-Type': 'application/json;charset=UTF-8'
           }
-        }).then((response)=>{
-          var user = response.data.data
-          var stock_info = JSON.stringify({
-            stockCode: this.form.stockCode,
-            entrustType:this.form.entrustType,
-            buyPrice:this.form.buyPrice,
-            usefulFund:this.form.fund,
-            buyNumber:this.form.buyNumber,
-            maxBuyNumber:this.form.maxBuy,
-            organizationId: user.organization,
-            userId:user.userId,
-            stockName:this.form.stockName,
-            operation:'买入'
-          })
-          this.$axios.post('/transaction/STOCK||BUY.do',stock_info, {
-            headers: {
-              'Content-Type': 'application/json;charset=UTF-8'
-            }
-          }).then((response)=>{
-            console.log(response.data.msg)
-          }).catch()
-        }).catch()
-
+        }).then((response) => {
+          if (response.data.code != 100) {
+            this.$message.error(response.data.msg)
+            this.$router.push('login')
+          } else {
+            var user = response.data.data
+            var stock_info = JSON.stringify({
+              stockCode: this.form.stockCode,
+              entrustType: this.form.entrustType,
+              buyPrice: this.form.buyPrice,
+              usefulFund: this.form.fund,
+              buyNumber: this.form.buyNumber,
+              maxBuyNumber: this.form.maxBuy,
+              organizationId: user.organization,
+              userId: user.userId,
+              stockName: this.form.stockName,
+              operation: '买入'
+            })
+            this.$axios.post('/transaction/STOCK||BUY.do', stock_info, {
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+              }
+            }).then((response) => {
+              var code = response.data.code
+              if(code != 100){
+                this.$message.error(response.data.msg)
+              }else{
+                this.$message({
+                  message: response.data.msg,
+                  type: 'success'
+                });
+              }
+            }).catch()
+          }
+        })
       },
       cancelForm() {
         console.log('这是重置')
@@ -202,7 +244,7 @@
           }
         }).then((response) => {
           this.buyStock_list = response.data.data
-        }).catch((error)=>{
+        }).catch((error) => {
           console.log(error)
         })
       },
@@ -298,6 +340,18 @@
   }
 
   .all {
-    margin-left: 16px;
+    margin-left: 8px;
+  }
+
+  #entrust_affirm .el-table__header-wrapper {
+    display: none;
+  }
+
+  #entrust_log .el-dialog {
+    width: 25%;
+  }
+
+  #entrust_log .el-table__body {
+    margin: auto;
   }
 </style>

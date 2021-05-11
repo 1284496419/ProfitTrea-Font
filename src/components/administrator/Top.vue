@@ -51,7 +51,13 @@
         if(role === 14){
           this.$router.push('/')
         }else{
-          this.$router.push('/admin')
+          this.$router.push({
+            name:'admin',
+            params:{
+              role:this.role,
+              user:this.username
+            }
+          })
         }
 
       },
@@ -72,7 +78,8 @@
           this.$router.push({
             name:'info',
             params:{
-              role:this.role
+              role:this.role,
+              user:this.username
             }
           })
         }

@@ -7,11 +7,19 @@
       </el-table-column>
       <el-table-column prop="total_fund" label="总资产">
         <template slot-scope="scope">
-          <el-input v-model="scope.row.total_fund" placeholder="请输入资产"></el-input>
+          <el-input v-model="scope.row.total_fund" readonly></el-input>
+        </template>
+      </el-table-column>
+      <el-table-column prop="total_fund" label="发放资产">
+        <template slot-scope="scope">
+          <el-input v-model="sendFundNumber" placeholder="请输入发放资产金额"></el-input>
         </template>
       </el-table-column>
       <el-table-column prop="total_fund" label="操作" width="180">
-        <el-button type="primary" round @click="sendFund">发放资产</el-button>
+        <template slot-scope="scope">
+          <el-button type="primary" round @click="sendFund(scope.row)">发放资产</el-button>
+        </template>
+
       </el-table-column>
     </el-table>
   </div>
@@ -21,12 +29,42 @@
   export default {
     data() {
       return {
-        tableData: []
+        tableData: [],
+        sendFundNumber: '',
+        queryInfo: {},
+        userName:''
       }
     },
     methods: {
-      sendFund() {
-        console.log('下发资产')
+      sendFund(row) {
+        var send_fund = JSON.stringify({
+          userId: row.userName,
+          usefulFund: parseFloat(this.sendFundNumber)
+        })
+        this.$confirm('此操作将给该用户发放资产, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          if(this.sendFundNumber == ''){
+            this.$message({
+              type: 'info',
+              message: '取消发放资产'
+            });
+          }else{
+            this.$axios.post("/transaction/SEND||FUND.do", send_fund, {
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+              }
+            }).then((response) => {
+            })
+          }
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消发放资产'
+          });
+        });
       }
     },
     mounted() {
@@ -39,6 +77,7 @@
           'Content-Type': 'application/json;charset=UTF-8'
         }
       }).then((response) => {
+        this.queryInfo = response.data.data
         var fund_organize = response.data.data.organization
         var fund_info = JSON.stringify({
           organizationId: fund_organize
@@ -52,12 +91,12 @@
           var users = map.users
           var shares = map.share
 
-          for(var j = 0,len=users.length; j < len; j++) {
-             this.tableData.push({
-               userName:users[j].userName,
-               realName:users[j].realName,
-               total_fund:shares[j].totalFund
-             })
+          for (var j = 0, len = users.length; j < len; j++) {
+            this.tableData.push({
+              userName: users[j].userName,
+              realName: users[j].realName,
+              total_fund: shares[j].totalFund
+            })
           }
 
         })

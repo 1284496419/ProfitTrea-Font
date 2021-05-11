@@ -12,7 +12,7 @@
           </ul>
         </el-form-item>
         <el-form-item label="股票名称" :label-width="formLabelWidth">
-          <el-input v-model="form.stockName" autocomplete="off"></el-input>
+          <el-input v-model="form.stockName" autocomplete="off" readonly></el-input>
         </el-form-item>
         <el-form-item label="委托方式" :label-width="formLabelWidth">
           <el-select v-model="form.entrustType" placeholder="请选择委托方式">
@@ -24,10 +24,10 @@
           <el-input v-model="form.buyPrice" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="可用资金" :label-width="formLabelWidth">
-          <el-input v-model="form.fund" autocomplete="off"></el-input>
+          <el-input v-model="form.fund" autocomplete="off" readonly></el-input>
         </el-form-item>
         <el-form-item label="最大可买" :label-width="formLabelWidth" id="maxBuy">
-          <el-input v-model="form.maxBuy" autocomplete="off"></el-input>
+          <el-input v-model="form.maxBuy" autocomplete="off" readonly></el-input>
           <el-button type="danger" icon="el-icon-plus" class="all">全部</el-button>
           <el-radio-group v-model="form.buyNumber">
             <el-radio :label="form.maxBuy/2 - (form.maxBuy/2 % 100)">1/2</el-radio>
@@ -41,78 +41,78 @@
         </el-form-item>
       </el-form>
       <div class="buy-stock-info">
-        <div class="buy-stock-top">-</div>
+        <div class="buy-stock-top">{{fiveOrder.stockName}}</div>
         <table id="stockbuyinfo" border="0">
           <tr>
             <td>卖五</td>
-            <td class="font-red">-</td>
-            <td>-</td>
+            <td class="font-red">{{fiveOrder.fiveSale}}</td>
+            <td>{{fiveOrder.saleOne}}</td>
           </tr>
           <tr>
             <td>卖四</td>
-            <td class="font-red">-</td>
-            <td>-</td>
+            <td class="font-red">{{fiveOrder.fourSale}}</td>
+            <td>{{fiveOrder.saleTwo}}</td>
           </tr>
           <tr>
             <td>卖三</td>
-            <td class="font-red">-</td>
-            <td>-</td>
+            <td class="font-red">{{fiveOrder.threeSale}}</td>
+            <td>{{fiveOrder.saleThree}}</td>
           </tr>
           <tr>
             <td>卖二</td>
-            <td class="font-red">-</td>
-            <td>-</td>
+            <td class="font-red">{{fiveOrder.twoSale}}</td>
+            <td>{{fiveOrder.saleFour}}</td>
           </tr>
           <tr>
             <td>卖一</td>
-            <td class="font-red">-</td>
-            <td>-</td>
+            <td class="font-red">{{fiveOrder.oneSale}}</td>
+            <td>{{fiveOrder.saleFive}}</td>
           </tr>
           <tr class="buy-stock-middle">
             <td>
               <strong>最新：</strong>
-              <span id="newestPrice1">-</span>
+              <span id="newestPrice1">{{fiveOrder.nowNew}}</span>
             </td>
             <td></td>
             <td>
               <strong>涨幅：</strong>
-              <span class="font-red">-</span>
+              <span class="font-red">{{fiveOrder.rate}}</span>
             </td>
           </tr>
           <tr>
             <td>买一</td>
-            <td class="font-red">-</td>
-            <td>-</td>
+            <td class="font-red">{{fiveOrder.oneBuy}}</td>
+            <td>{{fiveOrder.buyOne}}</td>
           </tr>
           <tr>
             <td>买二</td>
-            <td class="font-red">-</td>
-            <td>-</td>
+            <td class="font-red">{{fiveOrder.twoBuy}}</td>
+            <td>{{fiveOrder.buyTwo}}</td>
           </tr>
           <tr>
             <td>买三</td>
-            <td class="font-red">-</td>
-            <td>-</td>
+            <td class="font-red">{{fiveOrder.threeBuy}}</td>
+            <td>{{fiveOrder.buyThree}}</td>
           </tr>
           <tr>
             <td>买四</td>
-            <td class="font-red">-</td>
-            <td>-</td>
+            <td class="font-red">{{fiveOrder.fourBuy}}</td>
+            <td>{{fiveOrder.buyFour}}</td>
           </tr>
           <tr>
             <td>买五</td>
-            <td class="font-red">-</td>
-            <td>-</td>
+            <td class="font-red">{{fiveOrder.fiveBuy}}</td>
+            <td>{{fiveOrder.buyFive}}</td>
           </tr>
         </table>
         <div class="buy-stock-bottom">
           <div class="col-left">
             <strong>涨停：</strong>
-            <span class="font-red">-</span>
+            <span class="font-red">{{fiveOrder.upStop}}</span>
           </div>
           <div class="col-right">
             <strong>跌停：</strong>
-            <span class="font-green">-</span>
+            <span class="font-green">{{fiveOrder.downStop}}</span>
           </div>
         </div>
       </div>
@@ -149,6 +149,7 @@
           maxBuy: '',
           buyNumber: ''
         },
+        userId:'',
         formLabelWidth: '80px',
         buyStyle: 'buy-list ifind-hide',
         buyStock_list: [],
@@ -166,17 +167,45 @@
           name: '',
         }],
         dialogTableVisible: false,
+        fiveOrder: {
+          stockName:'-',
+          oneBuy:'-',
+          twoBuy:'-',
+          threeBuy:'-',
+          fourBuy:'-',
+          fiveBuy:'-',
+          oneSale:'-',
+          twoSale:'-',
+          threeSale:'-',
+          fourSale:'-',
+          fiveSale:'-',
+          nowNew:'-',
+          rate:'-',
+          upStop:'-',
+          downStop:'-',
+          buyOne:'-',
+          buyTwo:'-',
+          buyThree:'-',
+          buyFour:'-',
+          buyFive:'-',
+          saleOne:'-',
+          saleTwo:'-',
+          saleThree:'-',
+          saleFour:'-',
+          saleFive:'-'
+        }
       }
     },
     methods: {
       submitBuy() {
         this.dialogTableVisible = true
-        this.gridData[0].name = 'username'
+        this.gridData[0].name = this.userId
         this.gridData[1].name = this.form.stockCode
-        this.gridData[2].name = '市价委托'
+        var type = this.entrust(this.form.entrustType)
+        this.gridData[2].name = type
         this.gridData[3].name = this.form.buyNumber
       },
-      sendBuy(){
+      sendBuy() {
         this.dialogTableVisible = false
         var token = localStorage.getItem('Authorization')
         var info = JSON.stringify({
@@ -210,9 +239,9 @@
               }
             }).then((response) => {
               var code = response.data.code
-              if(code != 100){
+              if (code != 100) {
                 this.$message.error(response.data.msg)
-              }else{
+              } else {
                 this.$message({
                   message: response.data.msg,
                   type: 'success'
@@ -248,6 +277,13 @@
           console.log(error)
         })
       },
+      entrust(entrust){
+        if(entrust == 'shijia'){
+          return "市价委托"
+        }else{
+          return "限价委托"
+        }
+      },
       closeBuyList() {
         this.buyStyle = 'buy-list ifind-hide'
       },
@@ -276,8 +312,44 @@
         this.form.stockCode = item.stockCode
         this.form.stockName = item.stockName
         this.form.buyPrice = item.newPrice
-        console.log(item)
+
+        //发送请求进行获取五档数据
+        var stock = JSON.stringify({
+          stockCode: item.stockCode,
+          stockName: item.stockName
+        })
+        this.$axios.post('/transaction/QUERY||FIVE.do', stock, {
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        }).then((response) => {
+          if (response.data.code != 100) {} else {
+            this.fiveOrder = response.data.data
+            console.log(this.fiveOrder)
+          }
+        }).catch()
+
       }
+    },
+    mounted(){
+      var token = localStorage.getItem('Authorization')
+      this.token = token
+      var info = JSON.stringify({
+        userName: this.token
+      })
+      this.$axios.post('/user/QUERY||ORGANIZATION.do', info, {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      }).then((response) => {
+        if (response.data.code != 100) {
+
+        } else {
+          this.userId = response.data.data.userId
+        }
+      }).catch((error) => {
+        this.$message.error("获取token状态异常")
+      })
     }
   }
 </script>
@@ -290,16 +362,34 @@
   }
 
   .buy-stock-info {
-    text-align: center;
-    border: 1px solid #dcdcdc;
+    margin: 25px 150px 0px 0px;
     float: right;
-    width: 49%;
-    height: 425px;
-    margin-top: 10px;
+    width: 380px;
+    max-width: 430px;
+    border: 1px solid #dcdcdc;
+  }
+
+  .buy-stock-top {
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    color: #333;
+    background: #f2f2f2;
   }
 
   table {
+    text-align: center;
     width: 100%;
+    background: 0 0;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border-spacing: 0;
+  }
+
+  .buy-stock-middle {
+    text-align: center;
+    height: 35px;
+    background: #f2f2f2;
   }
 
   .buyIn_footer {
@@ -353,5 +443,22 @@
 
   #entrust_log .el-table__body {
     margin: auto;
+  }
+
+  .buy-stock-bottom {
+    height: 35px;
+    line-height: 35px;
+    color: #333;
+    background: #f2f2f2;
+  }
+
+  .col-left {
+    float: left;
+    margin-left: 30px;
+  }
+
+  .col-right {
+    float: right;
+    margin-right: 30px;
   }
 </style>

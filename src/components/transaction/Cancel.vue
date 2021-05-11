@@ -11,7 +11,7 @@
         <SaleOut></SaleOut>
       </el-tab-pane>
       <el-tab-pane label="撤单" name="third">
-        <CancelOrder></CancelOrder>
+        <CancelOrder :cancel="cancel" @queryRevoke="queryRevoke"></CancelOrder>
       </el-tab-pane>
       <el-tab-pane label="资金股份" name="fourth">
         <Capital :funds="funds" :stockList="stockList"></Capital>
@@ -48,7 +48,8 @@
         today_deal: [],
         today_entrust: [],
         history_deal: [],
-        queryInfo: {}
+        queryInfo: {},
+        cancel:[]
       };
     },
     methods: {
@@ -58,7 +59,8 @@
         } else if (tab.label === '卖出') {
 
         } else if (tab.label === '撤单') {
-
+          //查询撤单
+          this.queryRevoke();
         } else if (tab.label === '资金股份') {
           //查询资金资产
           var share = JSON.stringify({
@@ -110,6 +112,22 @@
 
           }).catch()
         }
+      },
+      queryRevoke(){
+        this.cancel = [];
+        this.$axios.post('/transaction/QUERY||REVOKE.do', this.queryInfo, {
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        }).then((response) => {
+          if(response.data.code != 100){
+            this.$message.error(response.data.msg)
+          }else{
+            this.cancel = response.data.data
+          }
+        }).catch((error)=>{
+          this.$message.error(error)
+        })
       }
     },
     components: {
@@ -132,14 +150,14 @@
           'Content-Type': 'application/json;charset=UTF-8'
         }
       }).then((response) => {
-        if(response.data.code != 100){
+        if (response.data.code != 100) {
 
-        }else{
+        } else {
           this.queryInfo = JSON.stringify({
             userId: response.data.data.userId
           })
         }
-      }).catch((error)=>{
+      }).catch((error) => {
         this.$message.error("获取token状态异常")
       })
     }

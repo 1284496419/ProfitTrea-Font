@@ -1,12 +1,11 @@
 <template>
   <div class="cancelOrder">
-    <el-button size="mini" id="cancelOrder" type="warning" @click="handleEdit(scope.$index, scope.row)">撤单</el-button>
-    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%"
+    <el-button size="mini" id="cancelOrder" type="warning" @click="handleAll">撤单</el-button>
+    <el-table ref="multipleTable" :data="cancel" tooltip-effect="dark" style="width: 100%"
       @selection-change="handleSelectionChange" class="orderTable">
       <el-table-column type="selection" width="55">
       </el-table-column>
       <el-table-column prop="date" label="委托日期" width="120">
-        <!-- <template slot-scope="scope">{{ scope.row.date }}</template> -->
       </el-table-column>
       <el-table-column prop="stockCode" label="证券代码" width="120">
       </el-table-column>
@@ -39,8 +38,10 @@
   export default {
     data() {
       return {
-        tableData: [],
-        multipleSelection: []
+        multipleSelection: [],
+        oneRevoke:[],
+        queryInfo: {},
+        token: ''
       }
     },
 
@@ -56,30 +57,71 @@
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;
+      },
+      handleEdit(index, row) {
+        this.oneRevoke.push(row)
+        console.log("row", this.oneRevoke)
+        this.revokeList(this.oneRevoke)
+      },
+      handleAll() {
+        this.revokeList(this.multipleSelection)
+      },
+      revokeList(revokation){
+        var length = revokation.length
+        if (length > 0) {
+          //执行撤单操作
+          var revoke = JSON.stringify({
+            revoke: revokation
+          })
+          this.$axios.post('/transaction/STOCK||REVOKE.do', revoke, {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          }).then((response) => {
+            if (response.data.code != 100) {
+              this.$message.error(response.data.msg)
+            } else {
+              this.$message({
+                message: '撤单成功',
+                type: 'success'
+              });
+              this.$emit('queryRevoke');
+            }
+          }).catch((error) => {
+            this.$message.error(error)
+          })
+        } else {
+          this.$message.error('请选择需要撤单的委托')
+        }
       }
     },
     mounted() {
       var token = localStorage.getItem('Authorization')
-      var user_info = JSON.stringify({
-        userName:token
+      this.token = token
+      var info = JSON.stringify({
+        userName: this.token
       })
-      this.$axios.post('/user/QUERY||ORGANIZATION.do',user_info, {
+      this.$axios.post('/user/QUERY||ORGANIZATION.do', info, {
         headers: {
           'Content-Type': 'application/json;charset=UTF-8'
         }
-      }).then((response)=>{
-        var user = response.data.data
-        var revoke_info = JSON.stringify({
-          userId: user.userId
-        })
-        this.$axios.post('/transaction/QUERY||REVOKE.do', revoke_info, {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        }).then((response) => {
-          this.tableData = response.data.data
-        }).catch()
-      }).catch()
+      }).then((response) => {
+        if (response.data.code != 100) {
+
+        } else {
+          this.queryInfo = JSON.stringify({
+            userId: response.data.data.userId
+          })
+        }
+      }).catch((error) => {
+        this.$message.error("获取token状态异常")
+      })
+    },
+    props: {
+      cancel: {
+        type: Array,
+        required: true
+      }
     }
   }
 </script>
